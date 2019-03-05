@@ -9,7 +9,6 @@ public class ZiackaKnizka {
 
 		z[0] = new Ziak("Peter", "Striz");
 		z[1] = new Ziak("Marek", "Vajda");
-		// List<Ziak> moj = new ArrayList<Ziak>();
 
 		for (Ziak zi : z)
 			System.out.println(zi.vratMeno() + " " + zi.vratPriezvisko());
