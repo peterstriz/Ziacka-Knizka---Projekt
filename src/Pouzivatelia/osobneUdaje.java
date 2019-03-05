@@ -1,9 +1,10 @@
 package Pouzivatelia;
 
-public class osobneUdaje {
+public class OsobneUdaje {
 	private String meno;
 	private String priezvisko;
 	private int ID;
+	private int trieda;
 
 	public String vratMeno() {
 		return this.meno;

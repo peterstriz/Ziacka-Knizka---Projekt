@@ -1,5 +1,5 @@
 package Pouzivatelia;
 
-public class Ucitel extends osobneUdaje {
+public class Ucitel extends OsobneUdaje {
 
 }

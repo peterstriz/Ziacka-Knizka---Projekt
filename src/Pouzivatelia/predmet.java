@@ -1,13 +1,15 @@
 package Pouzivatelia;
 
-public class predmet{
+public class Predmet{
 	private int ID;
 	private String meno;
 	public int maxPocetZnamok;
-	public znamky znamka;  //tu pridat pole znamok
+	public Znamky[] znamka;
 	
-	public predmet(String meno) {
+	public Predmet(String meno, int maxPocetZnamok) {
 		this.meno = meno;
+		this.maxPocetZnamok = maxPocetZnamok;
+		this.znamka =  new Znamky[maxPocetZnamok];
 	}
 	
 }
