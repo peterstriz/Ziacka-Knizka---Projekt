@@ -1,10 +1,8 @@
 package Pouzivatelia;
 
-public class OsobneUdaje {
+public class OsobneUdaje extends UserLogin {
 	private String meno;
 	private String priezvisko;
-	private int ID;
-	private int trieda;
 
 	public String vratMeno() {
 		return this.meno;
