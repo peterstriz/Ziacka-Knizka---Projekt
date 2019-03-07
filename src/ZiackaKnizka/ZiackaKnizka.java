@@ -4,14 +4,18 @@ import Pouzivatelia.*;
 
 public class ZiackaKnizka {
 	public Trieda[] trieda = new Trieda[20];
+	public Ucitel[] ucitel = new Ucitel[20];
 
 	public void nacitaj() {
 		trieda[0] = new Trieda("2.B", 16);
 
-		trieda[0].ziak[0] = new Ziak("Peter", "Striz", 10);
+		trieda[0].ziak[0] = new Ziak("Peter", "Striz");
 		trieda[0].ziak[0].nastavLogin("striz98", "heslo");
-		trieda[0].ziak[1] = new Ziak("Marek", "Vajda", 10);
-		trieda[0].ziak[0].nastavLogin("vajda98", "abcdef");
+		trieda[0].ziak[1] = new Ziak("Marek", "Vajda");
+		trieda[0].ziak[1].nastavLogin("vajda98", "abcdef");
+		
+		ucitel[0] = new Ucitel("Lucia", "Simova");
+		ucitel[0].nastavLogin("simova", "heslo");
 	}
 
 	public String vypisZiakovTriedy(Trieda trieda) {
@@ -23,22 +27,21 @@ public class ZiackaKnizka {
 		return string;
 	}
 
-	public Pouzivatel vratPouzivatela() {
-		Pouzivatel pouzivatel = null;
-		
-		//for (Pouzivatel pouzi : )
-		
-		return pouzivatel;
+	public Pouzivatel overLogin(String username, String password, Pouzivatel... pouzivatel) {
+		for (Pouzivatel pouzivatelFor : pouzivatel)
+			if (pouzivatelFor != null && pouzivatelFor.overUserName(username) && pouzivatelFor.overPassword(password))
+				return (pouzivatelFor);
+
+		return null;
 	}
-	
+
 	public String vratCeleMeno(Pouzivatel pouzivatel) {
 		String string;
-		
+
 		if (pouzivatel != null) {
 			string = pouzivatel.vratMeno() + " " + pouzivatel.vratPriezvisko();
 			return string;
-		}
-		else
+		} else
 			return "-";
 	}
 
