@@ -42,7 +42,7 @@ public class ZiackaKnizkaGUI extends Application {
 
 		loginSubmit.setOnAction(e -> {
 			aktualnyPouzivatel = ziackaKnizka.overLogin(loginUsername.getText(), loginPassword.getText(),
-					ziackaKnizka.trieda[0].ziak);
+					ziackaKnizka.ucitel);
 			if (aktualnyPouzivatel != null)
 				vypis.appendText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel) + "\n");
 			else
