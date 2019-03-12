@@ -1,20 +1,16 @@
 package Pouzivatelia;
 
-public class Ziak extends Pouzivatel {
-	public int maxPocetPredmetov;
-	public Predmet[] predmet;
+import java.util.*;
 
+public class Ziak extends Pouzivatel {
+	public List<Predmet> predmet = new ArrayList<>();
+	
 	public Ziak(String meno, String priezvisko) {
 		super(meno, priezvisko);
 	}
 
-	public void vytvorPredmety(int maxPocetPredmetov) {
-		this.maxPocetPredmetov = maxPocetPredmetov;
-		this.predmet = new Predmet[maxPocetPredmetov];
-	}
-
-	public void pridajPredmet(String meno, int maxPocetZnamok) {
-		predmet[predmet.length] = new Predmet(meno, maxPocetZnamok);
+	public void pridajPredmet(String meno) {
+		predmet.add(new Predmet(meno));
 	}
 
 }

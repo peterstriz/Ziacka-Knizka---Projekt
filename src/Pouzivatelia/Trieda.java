@@ -3,21 +3,14 @@ package Pouzivatelia;
 import java.util.*;
 
 public class Trieda {
-	public Ziak[] ziak;
+	public List<Ziak> ziak = new ArrayList<>();
 	public String meno;
-	public int pocetZiakov = 0;
-	public int maxPocetZiakov;
-	
-	//private List<Ziak> ziak = new ArrayList<>();
 
-	public Trieda(String meno, int maxPocetZiakov) {
+	public Trieda(String meno) {
 		this.meno = meno;
-		this.maxPocetZiakov = maxPocetZiakov;
-		this.ziak = new Ziak[maxPocetZiakov];
 	}
-	
+
 	public void pridajZiaka(Ziak ziakPridaj) {
-		//ziak.add(ziakPridaj);
-		this.ziak[pocetZiakov++] = ziakPridaj;
+		ziak.add(ziakPridaj);
 	}
 }

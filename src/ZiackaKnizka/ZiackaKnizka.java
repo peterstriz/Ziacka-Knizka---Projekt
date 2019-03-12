@@ -1,23 +1,27 @@
 package ZiackaKnizka;
 
 import Pouzivatelia.*;
+import java.util.*;
 
 public class ZiackaKnizka {
-	public Ziak[] ziak = new Ziak[100];
-	public Trieda[] trieda = new Trieda[20];
-	public Ucitel[] ucitel = new Ucitel[20];
+	// public Ziak[] ziak = new Ziak[100];
+	// public Trieda[] trieda = new Trieda[20];
+	// public Ucitel[] ucitel = new Ucitel[20];
+	public List<Trieda> trieda = new ArrayList<>();
+	public List<Pouzivatel> pouzivatel = new ArrayList<>();
 
-	public void nacitaj() {
-		trieda[0] = new Trieda("2.B", 16);		
-		
-		trieda[0].pridajZiaka(ziak[0] = new Ziak("Peter", "Striz"));
-		trieda[0].ziak[0].nastavLogin("striz98", "heslo");
-		
-		trieda[0].pridajZiaka(ziak[1] = new Ziak("Marek", "Vajda"));
-		trieda[0].ziak[1].nastavLogin("vajda98", "abcdef");
-		
-		ucitel[0] = new Ucitel("Lucia", "Simova");
-		ucitel[0].nastavLogin("simova", "heslo");
+	public ZiackaKnizka() {
+		trieda.add(new Trieda("2.B"));
+
+		pouzivatel.add(new Ziak("Peter", "Striz"));
+		pouzivatel.get(0).nastavLogin("striz98", "heslo");
+
+		pouzivatel.add(new Ziak("Marek", "Vajda"));
+		pouzivatel.get(1).nastavLogin("vajda98", "abcdef");
+
+		pouzivatel.add(new Ucitel("Lucia", "Simova"));
+		pouzivatel.get(2).nastavLogin("simova", "heslo");
+
 	}
 
 	public String vypisZiakovTriedy(Trieda trieda) {
@@ -29,7 +33,7 @@ public class ZiackaKnizka {
 		return string;
 	}
 
-	public Pouzivatel overLogin(String username, String password, Pouzivatel... pouzivatel) {
+	public Pouzivatel overLogin(String username, String password, List<Pouzivatel> pouzivatel) {
 		for (Pouzivatel pouzivatelFor : pouzivatel)
 			if (pouzivatelFor != null && pouzivatelFor.overUserName(username) && pouzivatelFor.overPassword(password))
 				return (pouzivatelFor);

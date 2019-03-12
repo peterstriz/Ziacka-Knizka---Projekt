@@ -1,105 +1,160 @@
 package gui;
 
 import ZiackaKnizka.*;
+
+import java.awt.event.KeyEvent;
+
 import Pouzivatelia.*;
 
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.event.*;
+import javafx.scene.text.*;
 
 public class ZiackaKnizkaGUI extends Application {
-	// private Button spustiZiackuKnizku = new Button("Spusti");
-	// private TextField textovePole = new TextField();
-	public TextArea vypis = new TextArea();
-	private ScrollPane skrol = new ScrollPane();
+	private Text vypisMenoPouzivatela = new Text();
 	private TextField loginUsername = new TextField("");
-	private TextField loginPassword = new TextField("");
+	private PasswordField loginPassword = new PasswordField();
 	private Button loginSubmit = new Button("Login");
 	private Button logout = new Button("Logout");
+	private Text loginHlaska = new Text();
+	private TableView tabulka = new TableView();
+	private Scene loginScena;
+	private Scene hlavnaScena;
 
 	public Pouzivatel aktualnyPouzivatel = null;
 
-	public ZiackaKnizka ziackaKnizka = new ZiackaKnizka();
+	ZiackaKnizka ziackaKnizka = new ZiackaKnizka();
 
-	public void start(Stage hlavneOkno) {
+	StackPane loginPane = new StackPane();
+	StackPane hlavnyPane = new StackPane();
+
+	public void start(Stage hlavneOkno) throws Exception {
 		int width = 800;
 		int height = 600;
-		hlavneOkno.setTitle("ZiackaKnizka");
 
-		FlowPane pane = new FlowPane();
+		loginScena = new Scene(loginPane, width, height);
+		hlavnaScena = new Scene(hlavnyPane, width, height);
 
-		pane.getChildren().add(loginUsername);
-		pane.getChildren().add(loginPassword);
-		pane.getChildren().add(loginSubmit);
-		pane.getChildren().add(logout);
-		pane.getChildren().add(vypis);
-		skrol.setContent(pane);
-
-		ziackaKnizka.nacitaj();
-
+		nastavPane();
 		nastavLoginOkno();
-		loginOkno();
+		nastavTabulku();
 
 		loginSubmit.setOnAction(e -> {
-			aktualnyPouzivatel = ziackaKnizka.overLogin(loginUsername.getText(), loginPassword.getText(),
-					ziackaKnizka.ucitel);
-			if (aktualnyPouzivatel == null)
-				aktualnyPouzivatel = ziackaKnizka.overLogin(loginUsername.getText(), loginPassword.getText(),
-						ziackaKnizka.ziak);
-
-			if (aktualnyPouzivatel != null) {
-				vypis.appendText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel) + "\n");
-
-				mainOkno(aktualnyPouzivatel);
-			} else {
-				vypis.appendText("Nespravne prihlasovacie meno alebo heslo, skuste to znova.\n");
-
-				vypis.setVisible(true);
-			}
+			loginSubmit(hlavneOkno);
 		});
 
 		logout.setOnAction(e -> {
 			aktualnyPouzivatel = null;
-			loginOkno();
+			loginPassword.setText("");
+			loginHlaska.setVisible(false);
+			hlavneOkno.setScene(loginScena);
 		});
 
-		/*
-		 * spustiZiackuKnizku.setOnAction(e -> { vypis.appendText("klik.\n");
-		 * vypis.appendText(ziackaKnizka.vypisZiakovTriedy(ziackaKnizka.trieda[0]));
-		 * 
-		 * });
-		 */
+		loginUsername.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit(hlavneOkno);
+		});
 
-		hlavneOkno.setScene(new Scene(pane, width, height));
-		// hlavneOkno.setScene(new Scene(skrol, width, height));
+		loginPassword.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit(hlavneOkno);
+		});
+
+		loginSubmit.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit(hlavneOkno);
+		});
+
+		hlavneOkno.setScene(hlavnaScena);
+		hlavneOkno.setTitle("ZiackaKnizka");
 		hlavneOkno.show();
+	}
+
+	public void loginSubmit(Stage hlavneOkno) {
+		aktualnyPouzivatel = ziackaKnizka.overLogin(loginUsername.getText(), loginPassword.getText(),
+				ziackaKnizka.pouzivatel);
+
+		if (aktualnyPouzivatel != null) {
+			vypisMenoPouzivatela.setText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel));
+			hlavneOkno.setScene(hlavnaScena);
+		} else {
+			loginHlaska.setVisible(true);
+			loginHlaska.setText("Nespravne prihlasovacie meno alebo heslo, skuste to znova.\n");
+		}
+	}
+
+	public void nastavTabulku() {
+
+		TableColumn<String, Pouzivatel> column1 = new TableColumn<>("First Name");
+		column1.setCellValueFactory(new PropertyValueFactory<>("datum"));
+
+		TableColumn<String, Pouzivatel> column2 = new TableColumn<>("Last Name");
+		column2.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
+
+		TableColumn<String, Pouzivatel> column3 = new TableColumn<>("Last Name");
+		column3.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
+
+		
+		tabulka.getColumns().addAll(column1, column2, column3);
+
+		tabulka.getItems().add(new Ziak("John", "Doe"));
+		tabulka.getItems().add(new Ziak("Jane", "Deer"));
+
+		// tabulka.setMaxSize(hlavnyPane.getWidth(), 100);
+	}
+
+	public void nastavPane() {
+		loginPane.getChildren().add(loginUsername);
+		loginPane.getChildren().add(loginPassword);
+		loginPane.getChildren().add(loginSubmit);
+		loginPane.getChildren().add(loginHlaska);
+
+		hlavnyPane.getChildren().add(vypisMenoPouzivatela);
+		hlavnyPane.getChildren().add(tabulka);
+		hlavnyPane.getChildren().add(logout);
 	}
 
 	public void nastavLoginOkno() {
 		loginUsername.setPromptText("Username");
 		loginPassword.setPromptText("Password");
+
+		nastavPozicieVOkne();
 	}
 
-	public void loginOkno() {
-		loginUsername.setVisible(true);
-		loginPassword.setVisible(true);
-		loginPassword.setText("");
-		loginSubmit.setVisible(true);
-		vypis.setVisible(false);
-		logout.setVisible(false);
-	}
+	public void nastavPozicieVOkne() {
+		loginUsername.setTranslateY(-40);
+		loginUsername.setMaxSize(150, 30);
 
-	public void mainOkno(Pouzivatel pouzivatel) {
-		loginUsername.setVisible(false);
-		loginPassword.setVisible(false);
-		loginSubmit.setVisible(false);
-		vypis.setVisible(true);
-		logout.setVisible(true);
+		loginPassword.setTranslateY(0);
+		loginPassword.setMaxSize(150, 30);
 
-		vypis.appendText(ziackaKnizka.vypisZiakovTriedy(ziackaKnizka.trieda[0]));
+		loginSubmit.setTranslateY(40);
+		loginSubmit.setMaxSize(150, 30);
+
+		logout.setTranslateY(30 - (hlavnaScena.getHeight() / 2));
+		logout.setTranslateX(hlavnaScena.getWidth() / 2 - 50);
+
+		loginHlaska.setTranslateY(90);
+		loginHlaska.setFont(new Font(14));
+		loginHlaska.setWrappingWidth(200);
+		loginHlaska.setTextAlignment(TextAlignment.CENTER);
+		loginHlaska.setFill(Color.RED);
+		loginHlaska.setVisible(false);
+
+		tabulka.setMaxSize(hlavnaScena.getWidth() - 100, 200);
+		tabulka.setTranslateY(-hlavnaScena.getHeight() / 2 + 70);
+
+		vypisMenoPouzivatela.setWrappingWidth(200);
+		vypisMenoPouzivatela.setTextAlignment(TextAlignment.RIGHT);
+		vypisMenoPouzivatela.setTranslateY(70 - (hlavnaScena.getHeight() / 2));
+		vypisMenoPouzivatela.setTranslateX(hlavnaScena.getWidth() / 2 - 110);
 	}
 
 	public static void main(String[] args) {

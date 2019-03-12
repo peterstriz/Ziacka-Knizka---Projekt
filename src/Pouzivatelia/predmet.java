@@ -1,17 +1,16 @@
 package Pouzivatelia;
 
+import java.util.*;
+
 public class Predmet {
 	private String meno;
-	public int maxPocetZnamok;
-	public Znamky[] znamka;
+	public List<Znamky> znamka = new ArrayList<>();
 
-	public Predmet(String meno, int maxPocetZnamok) {
+	public Predmet(String meno) {
 		this.meno = meno;
-		this.maxPocetZnamok = maxPocetZnamok;
-		this.znamka = new Znamky[maxPocetZnamok];
 	}
 
-	public Znamky[] vratZnamky() {
+	public List<Znamky> vratZnamky() {
 		return znamka;
 	}
 
