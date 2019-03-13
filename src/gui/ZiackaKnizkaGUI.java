@@ -1,8 +1,11 @@
 package gui;
 
+//"composite" na ukladanie ziakov v triedach
+
 import ZiackaKnizka.*;
 
 import java.awt.event.KeyEvent;
+import java.util.Date;
 
 import Pouzivatelia.*;
 
@@ -24,7 +27,9 @@ public class ZiackaKnizkaGUI extends Application {
 	private Button loginSubmit = new Button("Login");
 	private Button logout = new Button("Logout");
 	private Text loginHlaska = new Text();
-	private TableView tabulka = new TableView();
+	private TableView<Znamka> tabulka = new TableView<>();
+	private Text nazov = new Text();
+
 	private Scene loginScena;
 	private Scene hlavnaScena;
 
@@ -72,7 +77,7 @@ public class ZiackaKnizkaGUI extends Application {
 				loginSubmit(hlavneOkno);
 		});
 
-		hlavneOkno.setScene(hlavnaScena);
+		hlavneOkno.setScene(loginScena);
 		hlavneOkno.setTitle("ZiackaKnizka");
 		hlavneOkno.show();
 	}
@@ -82,30 +87,37 @@ public class ZiackaKnizkaGUI extends Application {
 				ziackaKnizka.pouzivatel);
 
 		if (aktualnyPouzivatel != null) {
-			vypisMenoPouzivatela.setText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel));
+			vypisMenoPouzivatela
+					.setText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel) + aktualnyPouzivatel.vratMenoPredmetu(0)
+							+ aktualnyPouzivatel.vratZnamkyPredmetu(0).get(0).getHodnota());
+
+			tabulka.setItems(aktualnyPouzivatel.vratZnamkyPredmetu(0));
 			hlavneOkno.setScene(hlavnaScena);
 		} else {
 			loginHlaska.setVisible(true);
-			loginHlaska.setText("Nespravne prihlasovacie meno alebo heslo, skuste to znova.\n");
 		}
 	}
 
+	// @SuppressWarnings("unchecked")
 	public void nastavTabulku() {
-
-		TableColumn<String, Pouzivatel> column1 = new TableColumn<>("First Name");
+		TableColumn<Znamka, Date> column1 = new TableColumn<>("Datum pisomky");
+		column1.setMinWidth(100);
 		column1.setCellValueFactory(new PropertyValueFactory<>("datum"));
 
-		TableColumn<String, Pouzivatel> column2 = new TableColumn<>("Last Name");
-		column2.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
+		TableColumn<Znamka, Double> hodnotaColumn = new TableColumn<Znamka, Double>("Hodnota");
+		hodnotaColumn.setMinWidth(100);
+		hodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
 
-		TableColumn<String, Pouzivatel> column3 = new TableColumn<>("Last Name");
-		column3.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
+		TableColumn<Znamka, Double> maxHodnotaColumn = new TableColumn<Znamka, Double>("Max. Hodnota");
+		maxHodnotaColumn.setMinWidth(100);
+		maxHodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
 
-		
-		tabulka.getColumns().addAll(column1, column2, column3);
+		// tabulka.setItems(aktualnyPouzivatel.vratPredmet(0));
+		tabulka.setMaxWidth(300);
+		tabulka.getColumns().addAll(hodnotaColumn, maxHodnotaColumn);
 
-		tabulka.getItems().add(new Ziak("John", "Doe"));
-		tabulka.getItems().add(new Ziak("Jane", "Deer"));
+		// tabulka.setItems(ziackaKnizka.vratZnamku(aktualnyPouzivatel.));
+		// tabulka.getItems().add(new Ziak("Jane", "Deer"));
 
 		// tabulka.setMaxSize(hlavnyPane.getWidth(), 100);
 	}
@@ -115,6 +127,7 @@ public class ZiackaKnizkaGUI extends Application {
 		loginPane.getChildren().add(loginPassword);
 		loginPane.getChildren().add(loginSubmit);
 		loginPane.getChildren().add(loginHlaska);
+		loginPane.getChildren().add(nazov);
 
 		hlavnyPane.getChildren().add(vypisMenoPouzivatela);
 		hlavnyPane.getChildren().add(tabulka);
@@ -147,9 +160,18 @@ public class ZiackaKnizkaGUI extends Application {
 		loginHlaska.setTextAlignment(TextAlignment.CENTER);
 		loginHlaska.setFill(Color.RED);
 		loginHlaska.setVisible(false);
+		loginHlaska.setText("Nespravne prihlasovacie meno alebo heslo, skuste to znova.\n");
+
+		nazov.setTranslateY(-120);
+		nazov.setFont(new Font(26));
+		nazov.setWrappingWidth(200);
+		nazov.setTextAlignment(TextAlignment.CENTER);
+		nazov.setFill(Color.ORANGERED);
+		nazov.setVisible(true);
+		nazov.setText("AI(d)S");
 
 		tabulka.setMaxSize(hlavnaScena.getWidth() - 100, 200);
-		tabulka.setTranslateY(-hlavnaScena.getHeight() / 2 + 70);
+		tabulka.setTranslateY(-hlavnaScena.getHeight() / 4 + 100);
 
 		vypisMenoPouzivatela.setWrappingWidth(200);
 		vypisMenoPouzivatela.setTextAlignment(TextAlignment.RIGHT);
