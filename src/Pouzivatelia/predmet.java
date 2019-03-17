@@ -7,14 +7,14 @@ import javafx.collections.ObservableList;
 
 public class Predmet {
 	private String meno;
-	public List<Znamka> znamka = new ArrayList<>();
+	private List<Znamka> znamka = new ArrayList<>();
 
 	public Predmet(String meno) {
 		this.meno = meno;
 	}
 
 	public List<Znamka> vratZnamky() {
-		return znamka;
+		return this.znamka;
 	}
 
 	public String vratMeno() {

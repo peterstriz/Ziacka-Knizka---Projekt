@@ -1,29 +1,25 @@
 package Pouzivatelia;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Ucitel extends OsobneUdaje implements Pouzivatel {
-	public int test;
+	private ObservableList<Ziak> ziaciUcitela;
 
 	public Ucitel(String meno, String priezvisko) {
-		ulozMeno(meno);
-		ulozPriezvisko(priezvisko);
+		super(meno, priezvisko);
 	}
 
 	public void nastavLogin(String username, String password) {
-		nastavUserName(username);
-		nastavPassword(password);
+		super.nastavLogin(username, password);
 	}
 
-	public Boolean overUserName(String username) {
-		return super.overUserName(username);
-	}
-
-	public Boolean overPassword(String username) {
-		return super.overPassword(username);
+	public Boolean overLogin(String username, String password) {
+		return super.overLogin(username, password);
 	}
 
 	public String vratMeno() {
@@ -33,29 +29,56 @@ public class Ucitel extends OsobneUdaje implements Pouzivatel {
 	public String vratPriezvisko() {
 		return super.vratPriezvisko();
 	}
+	
+	public void nastavMeno(String meno) {
+		super.nastavMeno(meno);
+	}
 
-//	public ObservableList<Znamky> vratZnamku(List<Znamky> znamka) {
-//		return null;
-//	}
+	public void nastavPriezvisko(String priezvisko) {
+		super.nastavPriezvisko(priezvisko);
+	}
+
 	public ObservableList<Znamka> vratZnamkyPredmetu(int i) {
-		return null;
-		// return this.predmet.get(i);
+		return null;//ziak.vratPredmet(i).vratZnamku();
 	}
 
 	public void pridajPredmet(Predmet predmetNovy) {
 
 	}
 
-	public String vratMenoPredmetu(int i) {
-		return null;
+//	public String vratMenoPredmetu(int i) {
+//		return null;
+//	}
+
+	public void pridajZnamku(int cisloPredmetu, double hodnota, double maxHodnota, Date datum) {
+
 	}
 
-	public void pridajZnamku(int i, double hodnota, double maxHodnota, Date datum) {
-
-	}
-	
 	public Predmet vratPredmet(int i) {
 		return null;
+	}
+
+	public ObservableList<String> vratMenoPredmetov() {
+		return null;
+	}
+
+	public void pridajZiakov(ObservableList<Ziak> z) {
+		this.ziaciUcitela = z;
+	}
+
+	public void pridajZiaka(Ziak z) {
+		this.ziaciUcitela.add(z);
+	}
+	
+	public Ziak vratZiaka(int i) {
+		return ziaciUcitela.get(i);
+	}
+
+	public ObservableList<String> vratMenoZiakov() {
+		ObservableList<String> menoZiaka = FXCollections.observableArrayList();
+		for (Ziak z : this.ziaciUcitela)
+			menoZiaka.add(z.vratMeno() + " " + z.vratPriezvisko());
+		return menoZiaka;
 	}
 
 }

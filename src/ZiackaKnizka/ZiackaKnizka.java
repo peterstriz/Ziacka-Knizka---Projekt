@@ -1,12 +1,11 @@
 package ZiackaKnizka;
 
 import Pouzivatelia.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ZiackaKnizka {
+public class ZiackaKnizka implements Serializable {
 	public List<Trieda> trieda = new ArrayList<>();
 	public List<Pouzivatel> pouzivatel = new ArrayList<>();
 
@@ -25,33 +24,40 @@ public class ZiackaKnizka {
 		pouzivatel.add(new Ziak("Juraj", "Polak"));
 		pouzivatel.get(2).nastavLogin("polak98", "heslo");
 		trieda.get(1).pridajZiaka((Ziak) pouzivatel.get(2));
-		
+
 		pouzivatel.add(new Ucitel("Lucia", "Simova"));
 		pouzivatel.get(3).nastavLogin("simova", "heslo");
-		
 
 		trieda.get(0).pridajPredmet("Matematika");
 		trieda.get(0).pridajPredmet("Slovencina");
 		trieda.get(1).pridajPredmet("Anglictina");
-		
+
 		pouzivatel.get(0).pridajZnamku(0, 10, 20, null);
 		pouzivatel.get(0).pridajZnamku(0, 9, 20, null);
+		pouzivatel.get(0).pridajZnamku(1, 101, 40, null);
+		pouzivatel.get(0).pridajZnamku(1, 913, 40, null);
 		pouzivatel.get(1).pridajZnamku(0, 15, 30, null);
 		pouzivatel.get(2).pridajZnamku(0, 20, 30, null);
+		
+		Pouzivatel tempPouzi = pouzivatel.get(3);
+		
+		if (tempPouzi instanceof Ucitel) {
+			((Ucitel) tempPouzi).pridajZiakov(trieda.get(0).vratZiakovTriedy());
+		}
 	}
 
-	public String vypisZiakovTriedy(Trieda trieda) {
-		String string = "";
-
-		for (Ziak zi : trieda.ziak)
-			string += vratCeleMeno(zi) + "\n";
-
-		return string;
-	}
+//	public String vypisZiakovTriedy(Trieda trieda) {
+//		String string = "";
+//
+//		for (Ziak zi : trieda.vratZiakov())
+//			string += vratCeleMeno(zi) + "\n";
+//
+//		return string;
+//	}
 
 	public Pouzivatel overLogin(String username, String password, List<Pouzivatel> pouzivatel) {
 		for (Pouzivatel pouzivatelFor : pouzivatel)
-			if (pouzivatelFor != null && pouzivatelFor.overUserName(username) && pouzivatelFor.overPassword(password))
+			if (pouzivatelFor != null && pouzivatelFor.overLogin(username, password))
 				return (pouzivatelFor);
 
 		return null;

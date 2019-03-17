@@ -2,27 +2,43 @@ package Pouzivatelia;
 
 import java.util.*;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Trieda {
 	public List<Ziak> ziak = new ArrayList<>();
-	public List<Predmet> predmet = new ArrayList<>();
-	public String meno;
+//	private List<Predmet> predmet = new ArrayList<>();
+	private String meno;
 
 	public Trieda(String meno) {
-		this.meno = meno;
+		nastavMeno(meno);
 	}
 
 	public void pridajPredmet(String novyPredmet) {
 		for (Ziak z : ziak)
-			z.predmet.add(new Predmet(novyPredmet));
+			z.pridajPredmet(new Predmet(novyPredmet));
 	}
 
 	public void pridajZiaka(Ziak novyZiak) {
 		ziak.add(novyZiak);
 	}
 	
-	public void pridajPredmetyZiakom() {
-		for (Ziak z : ziak)
-			for (Predmet p : predmet)
-				z.pridajPredmet(p);
+	public ObservableList<Ziak> vratZiakovTriedy (){
+		ObservableList<Ziak> ziakObser = FXCollections.observableArrayList();
+		for (Ziak z : this.ziak)
+			ziakObser.add(z);
+		return ziakObser;
+	}
+
+	public String vratMeno() {
+		return meno;
+	}
+
+	public void nastavMeno(String meno) {
+		this.meno = meno;
+	}
+	
+	public List<Ziak> vratZiakov(){
+		return this.ziak;
 	}
 }

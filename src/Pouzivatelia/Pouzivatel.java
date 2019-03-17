@@ -4,16 +4,16 @@ import java.util.Date;
 
 import javafx.collections.ObservableList;
 
-public interface Pouzivatel {
+public interface Pouzivatel{
 	public void nastavLogin(String username, String password);
-	public Boolean overUserName(String username);
-	public Boolean overPassword(String username);
+	public Boolean overLogin(String username, String password);
 	public String vratMeno();
 	public String vratPriezvisko();
-//	public ObservableList<Znamky> vratZnamku(List<Znamky> znamka);
+	public void nastavMeno(String meno);
+	public void nastavPriezvisko(String priezvisko);
 	public void pridajPredmet(Predmet predmetNovy);
-	public String vratMenoPredmetu(int i);
-	public ObservableList<Znamka> vratZnamkyPredmetu(int i);
-	public void pridajZnamku(int i, double hodnota, double maxHodnota, Date datum);
 	public Predmet vratPredmet(int i);
+	public ObservableList<String> vratMenoPredmetov();
+	public ObservableList<Znamka> vratZnamkyPredmetu(int i);
+	public void pridajZnamku(int cisloPredmetu, double hodnota, double maxHodnota, Date datum);
 }

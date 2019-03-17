@@ -1,9 +1,14 @@
 package Pouzivatelia;
 
-public class OsobneUdaje extends UserLogin {
+public abstract class OsobneUdaje extends UserLogin {
 	private String meno;
 	private String priezvisko;
 
+	public OsobneUdaje(String meno, String priezvisko) {
+		nastavMeno(meno);
+		nastavPriezvisko(priezvisko);
+	}
+	
 	public String vratMeno() {
 		return this.meno;
 	}
@@ -12,11 +17,11 @@ public class OsobneUdaje extends UserLogin {
 		return this.priezvisko;
 	}
 
-	public void ulozMeno(String meno) {
+	public void nastavMeno(String meno) {
 		this.meno = meno;
 	}
 
-	public void ulozPriezvisko(String priezvisko) {
+	public void nastavPriezvisko(String priezvisko) {
 		this.priezvisko = priezvisko;
 	}
 
