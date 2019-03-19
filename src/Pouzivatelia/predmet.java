@@ -23,6 +23,7 @@ public class Predmet {
 
 	public void pridajNovuZnamku(String hodnota, String maxHodnota, String datum) {
 		znamka.add(new Znamka(hodnota, maxHodnota, datum));
+		utriedZnamky();
 	}
 
 	public List<Znamka> vratZnamky() {
@@ -36,4 +37,7 @@ public class Predmet {
 		return znamkaObser;
 	}
 
+	public void utriedZnamky() {
+		Collections.sort(znamka);
+	}
 }

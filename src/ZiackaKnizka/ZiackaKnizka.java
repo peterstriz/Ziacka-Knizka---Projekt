@@ -31,14 +31,16 @@ public class ZiackaKnizka /* implements Serializable */ {
 		trieda(0).pridajPredmet("Matematika", "Slovencina");
 		trieda(1).pridajPredmet("Anglictina");
 
-		ziak("striz98").pridajZnamku(0, "10", "20", null);
-		ziak("striz98").pridajZnamku(0, "9", "20", null);
-		ziak("striz98").pridajZnamku(1, "101", "40", null);
-		ziak("striz98").pridajZnamku(1, "913", "40", null);
-		ziak("vajda98").pridajZnamku(0, "15", "30", null);
-		ziak("polak98").pridajZnamku(0, "20", "30", null);
+		ziak("striz98").pridajZnamku(0, "10", "20", getRandomDate());
+		ziak("striz98").pridajZnamku(0, "9", "20", getRandomDate());
+		ziak("striz98").pridajZnamku(1, "101", "40", getRandomDate());
+		ziak("striz98").pridajZnamku(1, "913", "40", getRandomDate());
+		ziak("vajda98").pridajZnamku(0, "15", "30", getRandomDate());
+		ziak("polak98").pridajZnamku(0, "20", "30", getRandomDate());
 
-		ucitel("simova").pridajTriedu(trieda(0), trieda(1));
+		ucitel("simova").pridajTriedu(trieda("2.B"), trieda("Oktava"));
+
+		ziak("striz98").pridajZnamku(0, "10", "44", getRandomDate());
 
 	}
 
@@ -62,6 +64,14 @@ public class ZiackaKnizka /* implements Serializable */ {
 		return trieda.get(i);
 	}
 
+	public Trieda trieda(String meno) {
+		for (Trieda t : trieda) {
+			if (t.vratMeno().equals(meno))
+				return t;
+		}
+		return null;
+	}
+
 	public Pouzivatel pouzivatel(int i) {
 		return pouzivatel.get(i);
 	}
@@ -72,11 +82,24 @@ public class ZiackaKnizka /* implements Serializable */ {
 				return ((Ziak) pouzivatelFor);
 		return null;
 	}
-	
+
 	public Ucitel ucitel(String username) {
 		for (Pouzivatel pouzivatelFor : pouzivatel)
 			if (pouzivatelFor != null && pouzivatelFor.overUsername(username))
 				return ((Ucitel) pouzivatelFor);
 		return null;
+	}
+
+	public String getRandomDate() {
+		int rok = randBetween(2000, 2019);
+		int mesiac = randBetween(1, 12);
+		int den = randBetween(1, 28);
+		String date = ((den < 10 ? "0" : "") + den + "." + (mesiac < 10 ? "0" : "") + mesiac + "." + rok);
+
+		return date;
+	}
+
+	public static int randBetween(int start, int end) {
+		return start + (int) Math.round(Math.random() * (end - start));
 	}
 }

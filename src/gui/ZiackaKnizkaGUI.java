@@ -3,7 +3,9 @@ package gui;
 import ZiackaKnizka.*;
 import Pouzivatelia.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javafx.application.*;
 import javafx.beans.value.ChangeListener;
@@ -34,8 +36,13 @@ public class ZiackaKnizkaGUI extends Application {
 	private TableView<Znamka> tabulkaUcitel = new TableView<>();
 	private Button logoutUcitel = new Button("Logout");
 	private ChoiceBox<String> vyberPredmetovUcitel = new ChoiceBox<String>();
-	private ChoiceBox<String> vyberTriedUcitela = new ChoiceBox<String>();
+	private ChoiceBox<String> vyberTrieduUcitela = new ChoiceBox<String>();
 	private Text vypisMenoPouzivatelaUcitel = new Text();
+	private TextField novaHodnota = new TextField("");
+	private TextField novaMaxHodnota = new TextField("");
+	private TextField novyDatum = new TextField("");
+	private Button novaZnamkaSubmit = new Button("Pridaù");
+	private Text novaHlaska = new Text();
 
 	private Scene loginScena;
 	private Scene hlavnaScenaZiak;
@@ -71,10 +78,6 @@ public class ZiackaKnizkaGUI extends Application {
 		nastavHlavneUcitel();
 		nastavLogin();
 
-		loginSubmit.setOnAction(e -> {
-			loginSubmit(hlavneOkno);
-		});
-
 		logout.setOnAction(e -> {
 			logout(hlavneOkno);
 		});
@@ -98,9 +101,32 @@ public class ZiackaKnizkaGUI extends Application {
 				loginSubmit(hlavneOkno);
 		});
 
+		novaZnamkaSubmit.setOnAction(e -> {
+			novaZnamkaSubmit(hlavneOkno);
+		});
+
 		hlavneOkno.setScene(loginScena);
 		hlavneOkno.setTitle("ZiackaKnizka");
 		hlavneOkno.show();
+	}
+
+	public void novaZnamkaSubmit(Stage hlavneOkno) {
+		String novaHodnotaS = (String) novaHodnota.getText();
+		String novaMaxHodnotaS = (String) novaMaxHodnota.getText();
+		String novyDatumS = (String) novyDatum.getText();
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+			LocalDate.parse(novyDatumS, formatter);
+			Double.parseDouble(novaMaxHodnotaS);
+			Double.parseDouble(novaHodnotaS);
+			((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka).vratPredmet(cisloPredmetu)
+					.pridajNovuZnamku(novaHodnotaS, novaMaxHodnotaS, novyDatumS);
+			setTabulka();
+			novaHodnota.setText("");
+			novaMaxHodnota.setText("");
+		} catch (DateTimeParseException | NumberFormatException exc) {
+			novaHlaska.setVisible(true);
+		}
 	}
 
 	public void loginSubmit(Stage hlavneOkno) {
@@ -114,8 +140,8 @@ public class ZiackaKnizkaGUI extends Application {
 				vypisMenoPouzivatela.setText(aktualnyPouzivatel.vratCeleMeno());
 				hlavneOkno.setScene(hlavnaScenaZiak);
 			} else if (aktualnyPouzivatel instanceof Ucitel) {
-				vyberTriedUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoTried());
-				vyberTriedUcitela.getSelectionModel().selectFirst();
+				vyberTrieduUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoTried());
+				vyberTrieduUcitela.getSelectionModel().selectFirst();
 				// vyberZiakovUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoZiakov());
 				vyberZiakovUcitela.getSelectionModel().selectFirst();
 				vypisMenoPouzivatelaUcitel.setText(aktualnyPouzivatel.vratCeleMeno());
@@ -130,6 +156,7 @@ public class ZiackaKnizkaGUI extends Application {
 	public void logout(Stage hlavneOkno) {
 		loginPassword.setText("");
 		loginHlaska.setVisible(false);
+		novaHlaska.setVisible(false);
 		tabulkaZiak.setItems(null);
 		aktualnyPouzivatel = null;
 
@@ -173,24 +200,29 @@ public class ZiackaKnizkaGUI extends Application {
 
 	@SuppressWarnings("unchecked")
 	public void nastavHlavneZiak() {
+		int velkostTabulky = 150;
+		int stredTabulky = 0;
+		int velkostPolickaX = 100;
+		int velkostPolickaY = 30;
+
 		logout.setTranslateY(30 - (hlavnaScenaZiak.getHeight() / 2));
 		logout.setTranslateX(hlavnaScenaZiak.getWidth() / 2 - 50);
 
-		TableColumn<Znamka, Date> datumColumn = new TableColumn<>("Datum pisomky");
+		TableColumn<Znamka, String> datumColumn = new TableColumn<>("Datum pisomky");
 		datumColumn.setMinWidth(100);
-		datumColumn.setCellValueFactory(new PropertyValueFactory<>("datum"));
+		datumColumn.setCellValueFactory(new PropertyValueFactory<>("datumS"));
 
 		TableColumn<Znamka, Double> hodnotaColumn = new TableColumn<Znamka, Double>("Hodnota");
 		hodnotaColumn.setMinWidth(100);
-		hodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
+		hodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("hodnotaS"));
 
 		TableColumn<Znamka, Double> maxHodnotaColumn = new TableColumn<Znamka, Double>("Max. Hodnota");
 		maxHodnotaColumn.setMinWidth(100);
-		maxHodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
+		maxHodnotaColumn.setCellValueFactory(new PropertyValueFactory<>("maxHodnotaS"));
 
 		tabulkaZiak.getColumns().addAll(hodnotaColumn, maxHodnotaColumn, datumColumn);
-		tabulkaZiak.setMaxSize(301, 200);
-		tabulkaZiak.setTranslateY(-hlavnaScenaZiak.getHeight() / 4 + 100);
+		tabulkaZiak.setMaxSize(velkostPolickaX * 3 + 2, velkostTabulky * 2);
+		tabulkaZiak.setTranslateY(stredTabulky);
 		tabulkaZiak.setPlaceholder(new Label("Ziadne znamky."));
 
 		vypisMenoPouzivatela.setWrappingWidth(200);
@@ -202,7 +234,7 @@ public class ZiackaKnizkaGUI extends Application {
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
 					tabulkaZiak.setItems(((Ziak) aktualnyPouzivatel).vratZnamkyPredmetu((int) new_value));
 				});
-		vyberPredmetov.setTranslateY(-200);
+		vyberPredmetov.setTranslateY(-(velkostTabulky + velkostPolickaY));
 
 		hlavnyPaneZiak.getChildren().add(vypisMenoPouzivatela);
 		hlavnyPaneZiak.getChildren().add(tabulkaZiak);
@@ -212,31 +244,43 @@ public class ZiackaKnizkaGUI extends Application {
 
 	int cisloZiaka;
 	int cisloTriedy;
+	int cisloPredmetu;
+
+	public void setTabulka() {
+		tabulkaUcitel.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
+				.vratZnamkyPredmetu(cisloPredmetu));
+	}
 
 	@SuppressWarnings("unchecked")
 	public void nastavHlavneUcitel() {
+		int velkostTabulky = 150;
+		int stredTabulky = 0;
+		int velkostPolickaX = 100;
+		int velkostPolickaY = 30;
+		int medzera = 10;
 
 		logoutUcitel.setTranslateY(30 - (hlavnaScenaZiak.getHeight() / 2));
 		logoutUcitel.setTranslateX(hlavnaScenaZiak.getWidth() / 2 - 50);
 
 		TableColumn<Znamka, String> datumColumnUcitel = new TableColumn<>("Datum pisomky");
 		datumColumnUcitel.setMinWidth(100);
-		datumColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("datum"));
+		datumColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("datumS"));
 		datumColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
 		TableColumn<Znamka, String> hodnotaColumnUcitel = new TableColumn<Znamka, String>("Hodnota");
 		hodnotaColumnUcitel.setMinWidth(100);
-		hodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
+		hodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("hodnotaS"));
 		hodnotaColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
 		TableColumn<Znamka, String> maxHodnotaColumnUcitel = new TableColumn<Znamka, String>("Max. Hodnota");
 		maxHodnotaColumnUcitel.setMinWidth(100);
-		maxHodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
+		maxHodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("maxHodnotaS"));
 		maxHodnotaColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
 		tabulkaUcitel.getColumns().addAll(hodnotaColumnUcitel, maxHodnotaColumnUcitel, datumColumnUcitel);
-		tabulkaUcitel.setMaxSize(301, 200);
-		tabulkaUcitel.setTranslateY(-hlavnaScenaZiak.getHeight() / 4 + 100);
+		tabulkaUcitel.setMaxWidth(velkostPolickaX * 3 + 2);
+		tabulkaUcitel.setMaxHeight(2 * velkostTabulky);
+		tabulkaUcitel.setTranslateY(stredTabulky);
 		tabulkaUcitel.setPlaceholder(new Label("Ziadne znamky."));
 		tabulkaUcitel.setEditable(true);
 
@@ -259,7 +303,7 @@ public class ZiackaKnizkaGUI extends Application {
 			int row = pos.getRow();
 			Znamka znamka = event.getTableView().getItems().get(row);
 
-			znamka.setMaxHodnota(newHodnota);
+			znamka.setMaxHodnotaS(newHodnota);
 		});
 
 		maxHodnotaColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
@@ -270,7 +314,7 @@ public class ZiackaKnizkaGUI extends Application {
 			int row = pos.getRow();
 			Znamka znamka = event.getTableView().getItems().get(row);
 
-			znamka.setHodnota(newHodnota);
+			znamka.setHodnotaS(newHodnota);
 		});
 
 		vypisMenoPouzivatelaUcitel.setWrappingWidth(200);
@@ -280,10 +324,10 @@ public class ZiackaKnizkaGUI extends Application {
 
 		vyberPredmetovUcitel.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					tabulkaUcitel.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
-							.vratZnamkyPredmetu((int) new_value));
+					cisloPredmetu = (int) new_value;
+					setTabulka();
 				});
-		vyberPredmetovUcitel.setTranslateY(-180);
+		vyberPredmetovUcitel.setTranslateY(-(velkostTabulky + velkostPolickaY));
 
 		vyberZiakovUcitela.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
@@ -292,22 +336,60 @@ public class ZiackaKnizkaGUI extends Application {
 							.vratZiaka(cisloZiaka).vratMenoPredmetov());
 					vyberPredmetovUcitel.getSelectionModel().selectFirst();
 				});
-		vyberZiakovUcitela.setTranslateY(-220);
+		vyberZiakovUcitela.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
 
-		vyberTriedUcitela.getSelectionModel().selectedIndexProperty()
+		vyberTrieduUcitela.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
 					cisloTriedy = (int) new_value;
 					vyberZiakovUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratMenoZiakov());
 					vyberZiakovUcitela.getSelectionModel().selectFirst();
 				});
-		vyberTriedUcitela.setTranslateY(-260);
+		vyberTrieduUcitela.setTranslateY(-(velkostTabulky + velkostPolickaY * 3 + medzera * 2));
+
+		// tabulkaUcitel.
+
+		novaHodnota.setPromptText("Hodnota");
+		novaHodnota.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
+		novaHodnota.setTranslateX(stredTabulky - velkostPolickaX);
+		novaHodnota.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
+
+		novaMaxHodnota.setPromptText("Max. Hodnota");
+		novaMaxHodnota.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
+		novaMaxHodnota.setTranslateX(stredTabulky);
+		novaMaxHodnota.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		LocalDate localDate = LocalDate.now();
+		novyDatum.setText(dtf.format(localDate));
+		novyDatum.setPromptText("dd.MM.yyyy");
+		novyDatum.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
+		novyDatum.setTranslateX(stredTabulky + velkostPolickaX);
+		novyDatum.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
+
+		novaZnamkaSubmit.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
+		novaZnamkaSubmit.setTranslateX(stredTabulky + 2 * velkostPolickaX - medzera);
+		novaZnamkaSubmit.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
+
+		novaHlaska.setTranslateY(stredTabulky + velkostTabulky + 70);
+		novaHlaska.setFont(new Font(14));
+		novaHlaska.setWrappingWidth(velkostPolickaX * 3);
+		novaHlaska.setTextAlignment(TextAlignment.CENTER);
+		novaHlaska.setFill(Color.RED);
+		novaHlaska.setVisible(false);
+		novaHlaska.setText("Nepodarilo sa pridaù novÈ zn·mky, skontrolujte Ëi ste ˙daje zadali v spr·vnom tvare.\n");
 
 		hlavnyPaneUcitel.getChildren().add(vypisMenoPouzivatelaUcitel);
 		hlavnyPaneUcitel.getChildren().add(tabulkaUcitel);
 		hlavnyPaneUcitel.getChildren().add(vyberZiakovUcitela);
-		hlavnyPaneUcitel.getChildren().add(vyberTriedUcitela);
+		hlavnyPaneUcitel.getChildren().add(vyberTrieduUcitela);
 		hlavnyPaneUcitel.getChildren().add(logoutUcitel);
 		hlavnyPaneUcitel.getChildren().add(vyberPredmetovUcitel);
+		hlavnyPaneUcitel.getChildren().add(novaHodnota);
+		hlavnyPaneUcitel.getChildren().add(novaMaxHodnota);
+		hlavnyPaneUcitel.getChildren().add(novyDatum);
+		hlavnyPaneUcitel.getChildren().add(novaZnamkaSubmit);
+		hlavnyPaneUcitel.getChildren().add(novaHlaska);
+
 	}
 
 	public static void main(String[] args) {

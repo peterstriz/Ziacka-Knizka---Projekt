@@ -5,31 +5,31 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Znamka implements Comparable<Znamka> {
-	private String hodnota;
-	private String maxHodnota;
+	private String hodnotaS;
+	private String maxHodnotaS;
 	private String datumS;
 	private LocalDate datum;
 
-	public Znamka(String hodnota, String maxHodnota, String datumS) {
-		setHodnota(hodnota);
-		setMaxHodnota(maxHodnota);
+	public Znamka(String hodnotaS, String maxHodnotaS, String datumS) {
+		setHodnotaS(hodnotaS);
+		setMaxHodnotaS(maxHodnotaS);
 		setDatumS(datumS);
 	}
 
-	public String getHodnota() {
-		return hodnota;
+	public String getHodnotaS() {
+		return hodnotaS;
 	}
 
-	public void setHodnota(String hodnota) {
-		this.hodnota = hodnota;
+	public void setHodnotaS(String hodnotaS) {
+		this.hodnotaS = hodnotaS;
 	}
 
-	public String getMaxHodnota() {
-		return maxHodnota;
+	public String getMaxHodnotaS() {
+		return maxHodnotaS;
 	}
 
-	public void setMaxHodnota(String maxHodnota) {
-		this.maxHodnota = maxHodnota;
+	public void setMaxHodnotaS(String maxHodnotaS) {
+		this.maxHodnotaS = maxHodnotaS;
 	}
 
 	public String getDatumS() {
@@ -48,7 +48,6 @@ public class Znamka implements Comparable<Znamka> {
 	}
 
 	public void setDatum(LocalDate date) {
-		System.out.print(date);
 		this.datum = date;
 	}
 
@@ -62,8 +61,7 @@ public class Znamka implements Comparable<Znamka> {
 			LocalDate date = LocalDate.parse(datumS, formatter);
 			setDatum(date);
 		} catch (DateTimeParseException exc) {
-			System.out.printf("%s is not parsable!\n", datumS);
-			// throw exc;
+			System.out.printf("Error pri prevadzani String -> Date\n", datumS);
 		}
 	}
 
