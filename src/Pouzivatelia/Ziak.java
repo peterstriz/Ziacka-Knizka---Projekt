@@ -19,6 +19,9 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 	public Boolean overLogin(String username, String password) {
 		return super.overLogin(username, password);
 	}
+	public Boolean overUsername(String username) {
+		return super.overUsername(username);
+	}
 
 	public String vratMeno() {
 		return super.vratMeno();
@@ -28,9 +31,17 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 		return super.vratPriezvisko();
 	}
 
-//	public String vratMenoPredmetu(int i) {
-//		return vratPredmet(i).vratMeno();
-//	}
+	public String vratCeleMeno() {
+		return vratMeno() + " " + vratPriezvisko();
+	}
+
+	public void nastavMeno(String meno) {
+		super.nastavMeno(meno);
+	}
+
+	public void nastavPriezvisko(String priezvisko) {
+		super.nastavPriezvisko(priezvisko);
+	}
 
 	public Predmet vratPredmet(int i) {
 		return this.predmet.get(i);
@@ -51,16 +62,8 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 		predmet.add(predmetNovy);
 	}
 
-	public void pridajZnamku(int cisloPredmetu, double hodnota, double maxHodnota, Date datum) {
+	public void pridajZnamku(int cisloPredmetu, String hodnota, String maxHodnota, String datum) {
 		predmet.get(cisloPredmetu).pridajNovuZnamku(hodnota, maxHodnota, datum);
-	}
-
-	public void nastavMeno(String meno) {
-		super.nastavMeno(meno);
-	}
-
-	public void nastavPriezvisko(String priezvisko) {
-		super.nastavPriezvisko(priezvisko);
 	}
 
 }

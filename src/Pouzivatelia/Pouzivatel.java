@@ -1,19 +1,29 @@
 package Pouzivatelia;
 
-import java.util.Date;
-
-import javafx.collections.ObservableList;
-
-public interface Pouzivatel{
+public interface Pouzivatel {
 	public void nastavLogin(String username, String password);
+
 	public Boolean overLogin(String username, String password);
+
+	public Boolean overUsername(String username);
+
 	public String vratMeno();
+
 	public String vratPriezvisko();
+
+	public String vratCeleMeno();
+
 	public void nastavMeno(String meno);
+
 	public void nastavPriezvisko(String priezvisko);
-	public void pridajPredmet(Predmet predmetNovy);
-	public Predmet vratPredmet(int i);
-	public ObservableList<String> vratMenoPredmetov();
-	public ObservableList<Znamka> vratZnamkyPredmetu(int i);
-	public void pridajZnamku(int cisloPredmetu, double hodnota, double maxHodnota, Date datum);
+
+//	public void pridajPredmet(Predmet predmetNovy);
+//
+//	public Predmet vratPredmet(int i);
+//
+//	public ObservableList<String> vratMenoPredmetov();
+//
+//	public ObservableList<Znamka> vratZnamkyPredmetu(int i);
+//
+//	public void pridajZnamku(int cisloPredmetu, String hodnota, String maxHodnota, String datum);
 }

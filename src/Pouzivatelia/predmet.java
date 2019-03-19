@@ -10,19 +10,23 @@ public class Predmet {
 	private List<Znamka> znamka = new ArrayList<>();
 
 	public Predmet(String meno) {
-		this.meno = meno;
-	}
-
-	public List<Znamka> vratZnamky() {
-		return this.znamka;
+		nastavMeno(meno);
 	}
 
 	public String vratMeno() {
 		return this.meno;
 	}
 
-	public void pridajNovuZnamku(double hodnota, double maxHodnota, Date datum) {
+	public void nastavMeno(String meno) {
+		this.meno = meno;
+	}
+
+	public void pridajNovuZnamku(String hodnota, String maxHodnota, String datum) {
 		znamka.add(new Znamka(hodnota, maxHodnota, datum));
+	}
+
+	public List<Znamka> vratZnamky() {
+		return this.znamka;
 	}
 
 	public ObservableList<Znamka> vratZnamku() {

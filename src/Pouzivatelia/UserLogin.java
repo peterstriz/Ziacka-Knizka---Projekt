@@ -15,6 +15,13 @@ public abstract class UserLogin {
 		else
 			return false;
 	}
+	
+	public Boolean overUsername(String username) {
+		if (this.username.equals(username))
+			return true;
+		else
+			return false;
+	}
 
 	public void nastavUserName(String username) {
 		this.username = username;

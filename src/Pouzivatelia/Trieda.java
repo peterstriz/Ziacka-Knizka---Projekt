@@ -1,33 +1,16 @@
 package Pouzivatelia;
 
-import java.util.*;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Trieda {
-	public List<Ziak> ziak = new ArrayList<>();
-//	private List<Predmet> predmet = new ArrayList<>();
+	public ObservableList<Ziak> ziak = FXCollections.observableArrayList();
 	private String meno;
 
 	public Trieda(String meno) {
 		nastavMeno(meno);
-	}
-
-	public void pridajPredmet(String novyPredmet) {
-		for (Ziak z : ziak)
-			z.pridajPredmet(new Predmet(novyPredmet));
-	}
-
-	public void pridajZiaka(Ziak novyZiak) {
-		ziak.add(novyZiak);
-	}
-	
-	public ObservableList<Ziak> vratZiakovTriedy (){
-		ObservableList<Ziak> ziakObser = FXCollections.observableArrayList();
-		for (Ziak z : this.ziak)
-			ziakObser.add(z);
-		return ziakObser;
 	}
 
 	public String vratMeno() {
@@ -37,8 +20,28 @@ public class Trieda {
 	public void nastavMeno(String meno) {
 		this.meno = meno;
 	}
-	
-	public List<Ziak> vratZiakov(){
-		return this.ziak;
+
+	public void pridajZiaka(List<Pouzivatel> po, String... novyZiak) {
+		for (String username : novyZiak)
+			for (Pouzivatel p : po)
+				if (p != null && p.overUsername(username))
+					ziak.add((Ziak) p);
+	}
+
+	public Ziak vratZiaka(int i) {
+		return ziak.get(i);
+	}
+
+	public ObservableList<String> vratMenoZiakov() {
+		ObservableList<String> menoZiaka = FXCollections.observableArrayList();
+		for (Ziak z : this.ziak)
+			menoZiaka.add(z.vratMeno() + " " + z.vratPriezvisko());
+		return menoZiaka;
+	}
+
+	public void pridajPredmet(String... novyPredmet) {
+		for (String p : novyPredmet)
+			for (Ziak z : ziak)
+				z.pridajPredmet(new Predmet(p));
 	}
 }

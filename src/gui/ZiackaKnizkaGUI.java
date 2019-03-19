@@ -1,19 +1,17 @@
 package gui;
 
-//"composite" na ukladanie ziakov v triedach
-// 13.3. pridany zakladny choicebox na vyber predmetu v tabulke
-
 import ZiackaKnizka.*;
+import Pouzivatelia.*;
 
 import java.util.Date;
-
-import Pouzivatelia.*;
 
 import javafx.application.*;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -36,6 +34,7 @@ public class ZiackaKnizkaGUI extends Application {
 	private TableView<Znamka> tabulkaUcitel = new TableView<>();
 	private Button logoutUcitel = new Button("Logout");
 	private ChoiceBox<String> vyberPredmetovUcitel = new ChoiceBox<String>();
+	private ChoiceBox<String> vyberTriedUcitela = new ChoiceBox<String>();
 	private Text vypisMenoPouzivatelaUcitel = new Text();
 
 	private Scene loginScena;
@@ -105,24 +104,23 @@ public class ZiackaKnizkaGUI extends Application {
 	}
 
 	public void loginSubmit(Stage hlavneOkno) {
-		aktualnyPouzivatel = ziackaKnizka.overLogin(loginUsername.getText(), loginPassword.getText(),
+		aktualnyPouzivatel = ziackaKnizka.vratPouzivatela(loginUsername.getText(), loginPassword.getText(),
 				ziackaKnizka.pouzivatel);
 
 		if (aktualnyPouzivatel != null) {
-			vypisMenoPouzivatela.setText(ziackaKnizka.vratCeleMeno(aktualnyPouzivatel));
-
 			if (aktualnyPouzivatel instanceof Ziak) {
-				vyberPredmetov.setItems(aktualnyPouzivatel.vratMenoPredmetov());
+				vyberPredmetov.setItems(((Ziak) aktualnyPouzivatel).vratMenoPredmetov());
 				vyberPredmetov.getSelectionModel().selectFirst();
+				vypisMenoPouzivatela.setText(aktualnyPouzivatel.vratCeleMeno());
 				hlavneOkno.setScene(hlavnaScenaZiak);
 			} else if (aktualnyPouzivatel instanceof Ucitel) {
-				System.out.print("test");
-				vyberZiakovUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoZiakov());
+				vyberTriedUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoTried());
+				vyberTriedUcitela.getSelectionModel().selectFirst();
+				// vyberZiakovUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratMenoZiakov());
 				vyberZiakovUcitela.getSelectionModel().selectFirst();
-				// vyberPredmetov.setItems(aktualnyPouzivatel.vratMenoPredmetov());
+				vypisMenoPouzivatelaUcitel.setText(aktualnyPouzivatel.vratCeleMeno());
 				vyberPredmetovUcitel.getSelectionModel().selectFirst();
 				hlavneOkno.setScene(hlavnaScenaUcitel);
-				// System.out.print("test");
 			}
 		} else {
 			loginHlaska.setVisible(true);
@@ -193,17 +191,16 @@ public class ZiackaKnizkaGUI extends Application {
 		tabulkaZiak.getColumns().addAll(hodnotaColumn, maxHodnotaColumn, datumColumn);
 		tabulkaZiak.setMaxSize(301, 200);
 		tabulkaZiak.setTranslateY(-hlavnaScenaZiak.getHeight() / 4 + 100);
-		tabulkaZiak.setPlaceholder(new Label("Nie je zvoleny ziadny predmet."));
+		tabulkaZiak.setPlaceholder(new Label("Ziadne znamky."));
 
 		vypisMenoPouzivatela.setWrappingWidth(200);
 		vypisMenoPouzivatela.setTextAlignment(TextAlignment.RIGHT);
 		vypisMenoPouzivatela.setTranslateY(70 - (hlavnaScenaZiak.getHeight() / 2));
 		vypisMenoPouzivatela.setTranslateX(hlavnaScenaZiak.getWidth() / 2 - 110);
 
-		// https://www.geeksforgeeks.org/javafx-choicebox/
 		vyberPredmetov.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					tabulkaZiak.setItems(aktualnyPouzivatel.vratZnamkyPredmetu((int) new_value));
+					tabulkaZiak.setItems(((Ziak) aktualnyPouzivatel).vratZnamkyPredmetu((int) new_value));
 				});
 		vyberPredmetov.setTranslateY(-200);
 
@@ -214,6 +211,7 @@ public class ZiackaKnizkaGUI extends Application {
 	}
 
 	int cisloZiaka;
+	int cisloTriedy;
 
 	@SuppressWarnings("unchecked")
 	public void nastavHlavneUcitel() {
@@ -221,47 +219,93 @@ public class ZiackaKnizkaGUI extends Application {
 		logoutUcitel.setTranslateY(30 - (hlavnaScenaZiak.getHeight() / 2));
 		logoutUcitel.setTranslateX(hlavnaScenaZiak.getWidth() / 2 - 50);
 
-		TableColumn<Znamka, Date> datumColumnUcitel = new TableColumn<>("Datum pisomky");
+		TableColumn<Znamka, String> datumColumnUcitel = new TableColumn<>("Datum pisomky");
 		datumColumnUcitel.setMinWidth(100);
 		datumColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("datum"));
+		datumColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
-		TableColumn<Znamka, Double> hodnotaColumnUcitel = new TableColumn<Znamka, Double>("Hodnota");
+		TableColumn<Znamka, String> hodnotaColumnUcitel = new TableColumn<Znamka, String>("Hodnota");
 		hodnotaColumnUcitel.setMinWidth(100);
 		hodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("hodnota"));
+		hodnotaColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
-		TableColumn<Znamka, Double> maxHodnotaColumnUcitel = new TableColumn<Znamka, Double>("Max. Hodnota");
+		TableColumn<Znamka, String> maxHodnotaColumnUcitel = new TableColumn<Znamka, String>("Max. Hodnota");
 		maxHodnotaColumnUcitel.setMinWidth(100);
 		maxHodnotaColumnUcitel.setCellValueFactory(new PropertyValueFactory<>("maxHodnota"));
+		maxHodnotaColumnUcitel.setCellFactory(TextFieldTableCell.<Znamka>forTableColumn());
 
 		tabulkaUcitel.getColumns().addAll(hodnotaColumnUcitel, maxHodnotaColumnUcitel, datumColumnUcitel);
 		tabulkaUcitel.setMaxSize(301, 200);
 		tabulkaUcitel.setTranslateY(-hlavnaScenaZiak.getHeight() / 4 + 100);
-		tabulkaUcitel.setPlaceholder(new Label("Nie je zvoleny ziadny predmet."));
+		tabulkaUcitel.setPlaceholder(new Label("Ziadne znamky."));
+		tabulkaUcitel.setEditable(true);
+
+		datumColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
+			TablePosition<Znamka, String> pos = event.getTablePosition();
+
+			String newHodnota = event.getNewValue();
+
+			int row = pos.getRow();
+			Znamka znamka = event.getTableView().getItems().get(row);
+
+			znamka.setDatumS(newHodnota);
+		});
+
+		hodnotaColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
+			TablePosition<Znamka, String> pos = event.getTablePosition();
+
+			String newHodnota = event.getNewValue();
+
+			int row = pos.getRow();
+			Znamka znamka = event.getTableView().getItems().get(row);
+
+			znamka.setMaxHodnota(newHodnota);
+		});
+
+		maxHodnotaColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
+			TablePosition<Znamka, String> pos = event.getTablePosition();
+
+			String newHodnota = event.getNewValue();
+
+			int row = pos.getRow();
+			Znamka znamka = event.getTableView().getItems().get(row);
+
+			znamka.setHodnota(newHodnota);
+		});
 
 		vypisMenoPouzivatelaUcitel.setWrappingWidth(200);
 		vypisMenoPouzivatelaUcitel.setTextAlignment(TextAlignment.RIGHT);
 		vypisMenoPouzivatelaUcitel.setTranslateY(70 - (hlavnaScenaZiak.getHeight() / 2));
 		vypisMenoPouzivatelaUcitel.setTranslateX(hlavnaScenaZiak.getWidth() / 2 - 110);
 
-		// https://www.geeksforgeeks.org/javafx-choicebox/
 		vyberPredmetovUcitel.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					tabulkaUcitel.setItems(
-							((Ucitel) aktualnyPouzivatel).vratZiaka(cisloZiaka).vratZnamkyPredmetu((int) new_value));
+					tabulkaUcitel.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
+							.vratZnamkyPredmetu((int) new_value));
 				});
-		vyberPredmetovUcitel.setTranslateY(-200);
+		vyberPredmetovUcitel.setTranslateY(-180);
 
 		vyberZiakovUcitela.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
 					cisloZiaka = (int) new_value;
-					vyberPredmetovUcitel
-							.setItems(((Ucitel) aktualnyPouzivatel).vratZiaka(cisloZiaka).vratMenoPredmetov());
+					vyberPredmetovUcitel.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy)
+							.vratZiaka(cisloZiaka).vratMenoPredmetov());
+					vyberPredmetovUcitel.getSelectionModel().selectFirst();
 				});
-		vyberZiakovUcitela.setTranslateY(-250);
+		vyberZiakovUcitela.setTranslateY(-220);
+
+		vyberTriedUcitela.getSelectionModel().selectedIndexProperty()
+				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
+					cisloTriedy = (int) new_value;
+					vyberZiakovUcitela.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratMenoZiakov());
+					vyberZiakovUcitela.getSelectionModel().selectFirst();
+				});
+		vyberTriedUcitela.setTranslateY(-260);
 
 		hlavnyPaneUcitel.getChildren().add(vypisMenoPouzivatelaUcitel);
 		hlavnyPaneUcitel.getChildren().add(tabulkaUcitel);
 		hlavnyPaneUcitel.getChildren().add(vyberZiakovUcitela);
+		hlavnyPaneUcitel.getChildren().add(vyberTriedUcitela);
 		hlavnyPaneUcitel.getChildren().add(logoutUcitel);
 		hlavnyPaneUcitel.getChildren().add(vyberPredmetovUcitel);
 	}
