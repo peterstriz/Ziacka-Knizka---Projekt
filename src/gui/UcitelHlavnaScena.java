@@ -1,11 +1,7 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.ZiackaKnizka;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import ZiackaKnizka.HlavnyStage;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.*;
@@ -15,17 +11,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.*;
 import javafx.scene.text.*;
 
 public class UcitelHlavnaScena implements ScenaInterface {
 	private int width = 800;
 	private int height = 600;
 	private Pouzivatel aktualnyPouzivatel;
-	private ZiackaKnizka ziackaKnizka;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private Stage hlavneOkno;
+	private HlavnyStage singleton = HlavnyStage.getInstance();
+	private ManazerUcitelHlavnaScena mojManazer = new ManazerUcitelHlavnaScena();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
 	private TableView<Znamka> tabulka = new TableView<>();
@@ -39,14 +34,12 @@ public class UcitelHlavnaScena implements ScenaInterface {
 	private Button novaZnamkaSubmit = new Button("Pridaù");
 	private Text novaHlaska = new Text();
 
-	int cisloZiaka;
-	int cisloTriedy;
-	int cisloPredmetu;
+	private int cisloZiaka;
+	private int cisloTriedy;
+	private int cisloPredmetu;
 
-	public Scene nastavScene(Stage hlavneOkno, Pouzivatel aktualnyPouzivatel, ZiackaKnizka ziackaKnizka) {
-		this.hlavneOkno = hlavneOkno;
+	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		this.aktualnyPouzivatel = aktualnyPouzivatel;
-		this.ziackaKnizka = ziackaKnizka;
 		mojaScena = new Scene(mojPane, width, height);
 
 		nastav();
@@ -113,9 +106,7 @@ public class UcitelHlavnaScena implements ScenaInterface {
 	public void funkcie() {
 		vypisMenoPouzivatela.setText(aktualnyPouzivatel.vratCeleMeno());
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		LocalDate localDate = LocalDate.now();
-		novyDatum.setText(dtf.format(localDate));
+		novyDatum.setText(mojManazer.vratDnesnyDatum());
 
 		novaHlaska.setText("Nepodarilo sa pridaù novÈ zn·mky, skontrolujte Ëi ste ˙daje zadali v spr·vnom tvare.\n");
 
@@ -137,35 +128,32 @@ public class UcitelHlavnaScena implements ScenaInterface {
 
 		hodnotaColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
 			TablePosition<Znamka, String> pos = event.getTablePosition();
-
 			String newHodnotaS = event.getNewValue();
-
 			int row = pos.getRow();
 			Znamka znamka = event.getTableView().getItems().get(row);
 
-			znamka.setHodnotaS(newHodnotaS);
+			Boolean vipis = mojManazer.setHodnota(znamka, newHodnotaS);
+			novaHlaska.setVisible(vipis);
 		});
 
 		maxHodnotaColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
 			TablePosition<Znamka, String> pos = event.getTablePosition();
-
 			String newMaxHodnotaS = event.getNewValue();
-
 			int row = pos.getRow();
 			Znamka znamka = event.getTableView().getItems().get(row);
 
-			znamka.setMaxHodnotaS(newMaxHodnotaS);
+			Boolean vipis = mojManazer.setMaxHodnota(znamka, newMaxHodnotaS);
+			novaHlaska.setVisible(vipis);
 		});
 
 		datumColumnUcitel.setOnEditCommit((CellEditEvent<Znamka, String> event) -> {
 			TablePosition<Znamka, String> pos = event.getTablePosition();
-
 			String newDatumS = event.getNewValue();
-
 			int row = pos.getRow();
 			Znamka znamka = event.getTableView().getItems().get(row);
 
-			znamka.setDatumS(newDatumS);
+			Boolean vipis = mojManazer.setDatum(znamka, newDatumS);
+			novaHlaska.setVisible(vipis);
 		});
 
 		vyberPredmetov.getSelectionModel().selectedIndexProperty()
@@ -205,17 +193,8 @@ public class UcitelHlavnaScena implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().add(vypisMenoPouzivatela);
-		mojPane.getChildren().add(tabulka);
-		mojPane.getChildren().add(vyberZiaka);
-		mojPane.getChildren().add(vyberTriedu);
-		mojPane.getChildren().add(logoutUcitel);
-		mojPane.getChildren().add(vyberPredmetov);
-		mojPane.getChildren().add(novaHodnota);
-		mojPane.getChildren().add(novaMaxHodnota);
-		mojPane.getChildren().add(novyDatum);
-		mojPane.getChildren().add(novaZnamkaSubmit);
-		mojPane.getChildren().add(novaHlaska);
+		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logoutUcitel,
+				vyberPredmetov, novaHodnota, novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
 	public void updateTabulka() {
@@ -227,24 +206,16 @@ public class UcitelHlavnaScena implements ScenaInterface {
 		String novaHodnotaS = (String) novaHodnota.getText();
 		String novaMaxHodnotaS = (String) novaMaxHodnota.getText();
 		String novyDatumS = (String) novyDatum.getText();
-		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-			LocalDate.parse(novyDatumS, formatter);
-			Double.parseDouble(novaMaxHodnotaS);
-			Double.parseDouble(novaHodnotaS);
-			((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka).vratPredmet(cisloPredmetu)
-					.pridajNovuZnamku(novaHodnotaS, novaMaxHodnotaS, novyDatumS);
-			updateTabulka();
-			novaHodnota.setText("");
-			novaMaxHodnota.setText("");
-		} catch (DateTimeParseException | NumberFormatException exc) {
-			novaHlaska.setVisible(true);
-		}
+		Predmet predmet = ((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
+				.vratPredmet(cisloPredmetu);
+		Boolean vipis = mojManazer.novaZnamkaSubmit(predmet, novaHodnotaS, novaMaxHodnotaS, novyDatumS);
+		novaHlaska.setVisible(vipis);
+		updateTabulka();
 	}
 
 	public void logout() {
 		Scena scena = new Scena(new LoginScena());
-		hlavneOkno.setScene(scena.nastavScene(hlavneOkno, null, ziackaKnizka));
+		singleton.getStage().setScene(scena.nastavScene(null));
 	}
 
 }

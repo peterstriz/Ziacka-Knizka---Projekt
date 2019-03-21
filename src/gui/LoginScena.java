@@ -1,78 +1,52 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import Pouzivatelia.*;
-import ZiackaKnizka.*;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 public class LoginScena implements ScenaInterface {
 
 	private int width = 800;
 	private int height = 600;
-	private Pouzivatel aktualnyPouzivatel;
-	private ZiackaKnizka ziackaKnizka;
+	private ManagerLoginScena mojManazer = new ManagerLoginScena();
 
 	private TextField loginUsername = new TextField("");
 	private PasswordField loginPassword = new PasswordField();
 	private Button loginSubmit = new Button("Login");
 	private Text loginHlaska = new Text();
 	private Text nazov = new Text();
+	private MenuBar menuBar = new MenuBar();
 
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private Stage hlavneOkno;
 
-	public Scene nastavScene(Stage hlavneOkno, Pouzivatel aktualnyPouzivatel, ZiackaKnizka ziackaKnizka) {
-		this.hlavneOkno = hlavneOkno;
-		this.aktualnyPouzivatel = aktualnyPouzivatel;
-		this.ziackaKnizka = ziackaKnizka;
+	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
+		mojaScena = new Scene(mojPane, width, height);
 		nastav();
 		funkcie();
 		pridajPane();
-
-		mojaScena = new Scene(mojPane, width, height);
-
 		return mojaScena;
 	}
 
-	public void funkcie() {
-		loginUsername.setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.ENTER)
-				;// oginSubmit();
-		});
-
-		loginPassword.setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.ENTER)
-				loginSubmit();
-		});
-
-		loginSubmit.setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.ENTER)
-				; // loginSubmit(hlavneOkno);
-		});
-
-		loginHlaska.setText("Nesprávne prihlasovacie meno alebo heslo, skúste to znova.\n");
-	}
-
-	public void pridajPane() {
-		mojPane.getChildren().add(loginUsername);
-		mojPane.getChildren().add(loginPassword);
-		mojPane.getChildren().add(loginSubmit);
-		mojPane.getChildren().add(loginHlaska);
-		mojPane.getChildren().add(nazov);
-	}
-
 	public void nastav() {
+		menuBar.setTranslateY(-mojaScena.getHeight() / 2 + 29);
+
 		loginUsername.setPromptText("Username");
 		loginUsername.setTranslateY(-40);
 		loginUsername.setMaxSize(150, 30);
@@ -100,26 +74,62 @@ public class LoginScena implements ScenaInterface {
 		nazov.setText("Žiacka knižka");
 	}
 
-	public void loginSubmit() {
-		aktualnyPouzivatel = ziackaKnizka.vratPouzivatela(loginUsername.getText(), loginPassword.getText(),
-				ziackaKnizka.pouzivatel);
-//		System.out.print("["
-//				+ aktualnyPouzivatel + "]" + ziackaKnizka.vratPouzivatela(loginUsername.getText(),
-//						loginPassword.getText(), ziackaKnizka.pouzivatel)
-//				+ "]" + aktualnyPouzivatel.vratCeleMeno() + "\n");
-		if (aktualnyPouzivatel != null) {
-			if (aktualnyPouzivatel instanceof Ziak) {
-				Scena scena;
-				scena = new Scena(new ZiakHlavnaScena());
-				hlavneOkno.setScene(scena.nastavScene(hlavneOkno, aktualnyPouzivatel, ziackaKnizka));
-			} else if (aktualnyPouzivatel instanceof Ucitel) {
-				Scena scena;
-				scena = new Scena(new UcitelHlavnaScena());
-				hlavneOkno.setScene(scena.nastavScene(hlavneOkno, aktualnyPouzivatel, ziackaKnizka));
-			}
-		} else {
-			loginHlaska.setVisible(true);
+	public void funkcie() {
+		loginUsername.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit();
+		});
+
+		loginPassword.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit();
+		});
+
+		loginSubmit.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER)
+				loginSubmit();
+		});
+
+		loginSubmit.setOnAction(e -> {
+			loginSubmit();
+		});
+
+		loginHlaska.setText("Nesprávne prihlasovacie meno alebo heslo, skúste to znova.\n");
+
+		Menu menuLogout = new Menu();
+		Image image = null;
+		try {
+			image = new Image(new FileInputStream("obrazky/exit.png"));
+		} catch (FileNotFoundException e1) {
 		}
+		ImageView imageView = new ImageView(image);
+		imageView.setFitWidth(50);
+		imageView.setFitHeight(50);
+		menuLogout.setGraphic(imageView);
+
+		Menu menuExit = new Menu();
+		Image image1 = null;
+		try {
+			image1 = new Image(new FileInputStream("obrazky/power.png"));
+		} catch (FileNotFoundException e1) {
+		}
+		ImageView imageView1 = new ImageView(image1);
+		imageView1.setFitWidth(45);
+		imageView1.setFitHeight(45);
+		menuExit.setGraphic(imageView1);
+
+		menuBar.getMenus().addAll(menuLogout, menuExit);
+
+	}
+
+	public void pridajPane() {
+		mojPane.getChildren().addAll(loginUsername, loginPassword, loginSubmit, loginHlaska, nazov);
+//		mojPane.getChildren().add(menuBar);
+	}
+
+	public void loginSubmit() {
+		Boolean vipis = mojManazer.loginSubmit(loginUsername.getText(), loginPassword.getText());
+		loginHlaska.setVisible(vipis);
 	}
 
 }

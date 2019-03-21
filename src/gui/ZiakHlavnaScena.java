@@ -1,8 +1,7 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.ZiackaKnizka;
-//import ZiackaKnizka.ZiackaKnizka;
+import ZiackaKnizka.HlavnyStage;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,27 +13,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 public class ZiakHlavnaScena implements ScenaInterface {
 
 	private int width = 800;
 	private int height = 600;
 	private Pouzivatel aktualnyPouzivatel = null;
-	private ZiackaKnizka ziackaKnizka;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private Stage hlavneOkno;
+	private HlavnyStage singleton = HlavnyStage.getInstance();
 
 	private Button logout = new Button("Logout");
 	private TableView<Znamka> tabulkaZiak = new TableView<>();
 	private ChoiceBox<String> vyberPredmetov = new ChoiceBox<String>();
 	private Text vypisMenoPouzivatela = new Text();
 
-	public Scene nastavScene(Stage hlavneOkno, Pouzivatel aktualnyPouzivatel, ZiackaKnizka ziackaKnizka) {
-		this.hlavneOkno = hlavneOkno;
+	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		this.aktualnyPouzivatel = aktualnyPouzivatel;
-		this.ziackaKnizka = ziackaKnizka;
 		mojaScena = new Scene(mojPane, width, height);
 
 		nastav();
@@ -75,10 +70,7 @@ public class ZiakHlavnaScena implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().add(vypisMenoPouzivatela);
-		mojPane.getChildren().add(tabulkaZiak);
-		mojPane.getChildren().add(logout);
-		mojPane.getChildren().add(vyberPredmetov);
+		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulkaZiak, logout, vyberPredmetov);
 	}
 
 	public void nastav() {
@@ -104,13 +96,7 @@ public class ZiakHlavnaScena implements ScenaInterface {
 	}
 
 	public void logout() {
-//		loginPassword.setText("");
-//		loginHlaska.setVisible(false);
-//		novaHlaska.setVisible(false);
-//		tabulkaZiak.setItems(null);
-//		aktualnyPouzivatel = null;
-		Scena scena;
-		scena = new Scena(new LoginScena());
-		hlavneOkno.setScene(scena.nastavScene(hlavneOkno, null, ziackaKnizka));
+		Scena scena = new Scena(new LoginScena());
+		singleton.getStage().setScene(scena.nastavScene(null));
 	}
 }

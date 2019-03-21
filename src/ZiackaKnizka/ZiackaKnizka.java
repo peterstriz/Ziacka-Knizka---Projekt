@@ -6,8 +6,8 @@ import Pouzivatelia.*;
 import java.util.*;
 
 public class ZiackaKnizka /* implements Serializable */ {
-	public List<Trieda> trieda = new ArrayList<>();
-	public List<Pouzivatel> pouzivatel = new ArrayList<>();
+	private List<Trieda> trieda = new ArrayList<>();
+	private List<Pouzivatel> pouzivatel = new ArrayList<>();
 
 	public ZiackaKnizka() {
 		trieda.add(new Trieda("2.B"));
@@ -25,8 +25,8 @@ public class ZiackaKnizka /* implements Serializable */ {
 		pouzivatel.add(new Ucitel("Lucia", "Simova"));
 		pouzivatel(3).nastavLogin("simova", "heslo");
 
-		trieda(0).pridajZiaka(pouzivatel, "striz98", "vajda98");
-		trieda(1).pridajZiaka(pouzivatel, "polak98");
+		trieda(0).pridajZiaka(vratPouzivatelov(), "striz98", "vajda98");
+		trieda(1).pridajZiaka(vratPouzivatelov(), "polak98");
 
 		trieda(0).pridajPredmet("Matematika", "Slovencina");
 		trieda(1).pridajPredmet("Anglictina");
@@ -44,16 +44,16 @@ public class ZiackaKnizka /* implements Serializable */ {
 
 	}
 
-	public Pouzivatel vratPouzivatela(String username, String password, List<Pouzivatel> pouzivatel) {
-		for (Pouzivatel pouzivatelFor : pouzivatel)
+	public Pouzivatel vratPouzivatela(String username, String password) {
+		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overLogin(username, password))
 				return (pouzivatelFor);
 
 		return null;
 	}
 
-	public Pouzivatel vratPouzivatela(String username, List<Pouzivatel> pouzivatel) {
-		for (Pouzivatel pouzivatelFor : pouzivatel)
+	public Pouzivatel vratPouzivatela(String username) {
+		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overUsername(username))
 				return (pouzivatelFor);
 
@@ -73,18 +73,18 @@ public class ZiackaKnizka /* implements Serializable */ {
 	}
 
 	public Pouzivatel pouzivatel(int i) {
-		return pouzivatel.get(i);
+		return vratPouzivatelov().get(i);
 	}
 
 	public Ziak ziak(String username) {
-		for (Pouzivatel pouzivatelFor : pouzivatel)
+		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overUsername(username))
 				return ((Ziak) pouzivatelFor);
 		return null;
 	}
 
 	public Ucitel ucitel(String username) {
-		for (Pouzivatel pouzivatelFor : pouzivatel)
+		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overUsername(username))
 				return ((Ucitel) pouzivatelFor);
 		return null;
@@ -101,5 +101,9 @@ public class ZiackaKnizka /* implements Serializable */ {
 
 	public static int randBetween(int start, int end) {
 		return start + (int) Math.round(Math.random() * (end - start));
+	}
+
+	public List<Pouzivatel> vratPouzivatelov() {
+		return this.pouzivatel;
 	}
 }
