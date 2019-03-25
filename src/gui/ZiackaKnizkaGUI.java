@@ -1,7 +1,6 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,7 +10,7 @@ public class ZiackaKnizkaGUI extends Application {
 	private HlavnyStage hlavnyStage = HlavnyStage.getInstance();
 
 	public void start(Stage hlavneOkno) {
-		Scena scena = new Scena(new LoginScena());
+		Scena scena = new Scena(new ScenaLogin());
 
 		hlavnyStage.setStage(hlavneOkno);
 

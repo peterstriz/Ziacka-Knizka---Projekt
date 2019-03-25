@@ -9,11 +9,11 @@ public abstract class OsobneUdaje extends UserLogin {
 		nastavPriezvisko(priezvisko);
 	}
 	
-	public String vratMeno() {
+	public String getMeno() {
 		return this.meno;
 	}
 
-	public String vratPriezvisko() {
+	public String getPriezvisko() {
 		return this.priezvisko;
 	}
 

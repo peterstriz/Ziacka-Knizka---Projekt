@@ -20,11 +20,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class LoginScena implements ScenaInterface {
+public class ScenaLogin implements ScenaInterface {
 
 	private int width = 800;
 	private int height = 600;
-	private ManagerLoginScena mojManazer = new ManagerLoginScena();
+	private ManagerLogin mojManazer = new ManagerLogin();
 
 	private TextField loginUsername = new TextField("");
 	private PasswordField loginPassword = new PasswordField();

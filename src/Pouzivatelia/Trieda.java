@@ -28,14 +28,23 @@ public class Trieda {
 					ziak.add((Ziak) p);
 	}
 
+	public void pridajZiaka(Pouzivatel... novyZiak) {
+		for (Pouzivatel z : novyZiak)
+			ziak.add((Ziak) z);
+	}
+
 	public Ziak vratZiaka(int i) {
 		return ziak.get(i);
+	}
+
+	public ObservableList<Ziak> vratZiakov() {
+		return ziak;
 	}
 
 	public ObservableList<String> vratMenoZiakov() {
 		ObservableList<String> menoZiaka = FXCollections.observableArrayList();
 		for (Ziak z : this.ziak)
-			menoZiaka.add(z.vratMeno() + " " + z.vratPriezvisko());
+			menoZiaka.add(z.getMeno() + " " + z.getPriezvisko());
 		return menoZiaka;
 	}
 

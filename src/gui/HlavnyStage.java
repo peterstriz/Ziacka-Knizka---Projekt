@@ -1,4 +1,4 @@
-package ZiackaKnizka;
+package gui;
 
 import javafx.stage.Stage;
 

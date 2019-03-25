@@ -23,16 +23,16 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 		return super.overUsername(username);
 	}
 
-	public String vratMeno() {
-		return super.vratMeno();
+	public String getMeno() {
+		return super.getMeno();
 	}
 
-	public String vratPriezvisko() {
-		return super.vratPriezvisko();
+	public String getPriezvisko() {
+		return super.getPriezvisko();
 	}
 
 	public String vratCeleMeno() {
-		return vratMeno() + " " + vratPriezvisko();
+		return getMeno() + " " + getPriezvisko();
 	}
 
 	public void nastavMeno(String meno) {

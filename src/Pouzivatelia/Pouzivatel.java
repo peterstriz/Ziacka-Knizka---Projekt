@@ -7,23 +7,13 @@ public interface Pouzivatel {
 
 	public Boolean overUsername(String username);
 
-	public String vratMeno();
+	public String getMeno();
 
-	public String vratPriezvisko();
+	public String getPriezvisko();
 
 	public String vratCeleMeno();
 
 	public void nastavMeno(String meno);
 
 	public void nastavPriezvisko(String priezvisko);
-
-//	public void pridajPredmet(Predmet predmetNovy);
-//
-//	public Predmet vratPredmet(int i);
-//
-//	public ObservableList<String> vratMenoPredmetov();
-//
-//	public ObservableList<Znamka> vratZnamkyPredmetu(int i);
-//
-//	public void pridajZnamku(int cisloPredmetu, String hodnota, String maxHodnota, String datum);
 }

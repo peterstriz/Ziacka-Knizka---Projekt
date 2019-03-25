@@ -1,6 +1,8 @@
 package ZiackaKnizka;
 
 import Pouzivatelia.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 //import java.io.Serializable;
 import java.util.*;
@@ -13,23 +15,27 @@ public class ZiackaKnizka /* implements Serializable */ {
 		trieda.add(new Trieda("2.B"));
 		trieda.add(new Trieda("Oktava"));
 
-		pouzivatel.add(new Ziak("Peter", "Striz"));
+		//pouzivatel.add(new Ziak("Peter", "Striz"));
+		pridajPouzivatela(new Ziak("Peter", "Striz"));
 		pouzivatel(0).nastavLogin("striz98", "heslo");
 
-		pouzivatel.add(new Ziak("Marek", "Vajda"));
+		pridajPouzivatela(new Ziak("Marek", "Vajda"));
 		pouzivatel(1).nastavLogin("vajda98", "abcdef");
 
-		pouzivatel.add(new Ziak("Juraj", "Polak"));
+		pridajPouzivatela(new Ziak("Juraj", "Polak"));
 		pouzivatel(2).nastavLogin("polak98", "heslo");
 
-		pouzivatel.add(new Ucitel("Lucia", "Simova"));
+		pridajPouzivatela(new Ucitel("Lucia", "Simova"));
 		pouzivatel(3).nastavLogin("simova", "heslo");
 
-		trieda(0).pridajZiaka(vratPouzivatelov(), "striz98", "vajda98");
-		trieda(1).pridajZiaka(vratPouzivatelov(), "polak98");
+		pridajPouzivatela(new Riaditel("Peter", "Pistek"));
+		pouzivatel(4).nastavLogin("pistek", "heslo");
 
-		trieda(0).pridajPredmet("Matematika", "Slovencina");
-		trieda(1).pridajPredmet("Anglictina");
+		vratTriedu(0).pridajZiaka(vratPouzivatelov(), "striz98", "vajda98");
+		vratTriedu(1).pridajZiaka(vratPouzivatelov(), "polak98");
+
+		vratTriedu(0).pridajPredmet("Matematika", "Slovencina");
+		vratTriedu(1).pridajPredmet("Anglictina");
 
 		ziak("striz98").pridajZnamku(0, "10", "20", getRandomDate());
 		ziak("striz98").pridajZnamku(0, "9", "20", getRandomDate());
@@ -44,6 +50,10 @@ public class ZiackaKnizka /* implements Serializable */ {
 
 	}
 
+	public void pridajPouzivatela(Pouzivatel p) {
+		pouzivatel.add(p);
+	}
+	
 	public Pouzivatel vratPouzivatela(String username, String password) {
 		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overLogin(username, password))
@@ -60,7 +70,7 @@ public class ZiackaKnizka /* implements Serializable */ {
 		return null;
 	}
 
-	public Trieda trieda(int i) {
+	public Trieda vratTriedu(int i) {
 		return trieda.get(i);
 	}
 
@@ -105,5 +115,31 @@ public class ZiackaKnizka /* implements Serializable */ {
 
 	public List<Pouzivatel> vratPouzivatelov() {
 		return this.pouzivatel;
+	}
+
+	public ObservableList<Ucitel> vratUcitelov() {
+		ObservableList<Ucitel> ucitelObser = FXCollections.observableArrayList();
+		for (Pouzivatel p : vratPouzivatelov()) {
+			if (p instanceof Ucitel)
+				ucitelObser.add((Ucitel) p);
+		}
+		return ucitelObser;
+	}
+
+	public ObservableList<String> vratMenoTried() {
+		ObservableList<String> ucitelObser = FXCollections.observableArrayList();
+		for (Trieda t : trieda)
+			ucitelObser.add(t.vratMeno());
+
+		return ucitelObser;
+
+	}
+	
+	public Pouzivatel vratPouzivatelaPodlaMena(String meno, String priezvisko) {
+		for (Pouzivatel p  : pouzivatel)
+			if (p instanceof Ziak && meno.equals(p.getMeno()) && priezvisko.equals(p.getPriezvisko()))
+				return p;
+		
+		return null;
 	}
 }

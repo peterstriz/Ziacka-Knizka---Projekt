@@ -1,8 +1,6 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.HlavnyStage;
-
 import javafx.beans.value.ChangeListener;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -13,18 +11,18 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
-public class UcitelHlavnaScena implements ScenaInterface {
+public class ScenaUcitelHlavna implements ScenaInterface {
 	private int width = 800;
 	private int height = 600;
 	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
 	private HlavnyStage singleton = HlavnyStage.getInstance();
-	private ManazerUcitelHlavnaScena mojManazer = new ManazerUcitelHlavnaScena();
+	private ManazerUcitel mojManazer = new ManazerUcitel();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
 	private TableView<Znamka> tabulka = new TableView<>();
-	private Button logoutUcitel = new Button("Logout");
+	private Button logout = new Button("Logout");
 	private ChoiceBox<String> vyberPredmetov = new ChoiceBox<String>();
 	private ChoiceBox<String> vyberTriedu = new ChoiceBox<String>();
 	private Text vypisMenoPouzivatela = new Text();
@@ -34,9 +32,9 @@ public class UcitelHlavnaScena implements ScenaInterface {
 	private Button novaZnamkaSubmit = new Button("Pridaù");
 	private Text novaHlaska = new Text();
 
-	private int cisloZiaka;
-	private int cisloTriedy;
-	private int cisloPredmetu;
+	private Trieda trieda;
+	private Ziak ziak;
+	private Predmet predmet;
 
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		this.aktualnyPouzivatel = aktualnyPouzivatel;
@@ -56,13 +54,13 @@ public class UcitelHlavnaScena implements ScenaInterface {
 		int velkostPolickaY = 30;
 		int medzera = 10;
 
-		logoutUcitel.setTranslateY(30 - (mojaScena.getHeight() / 2));
-		logoutUcitel.setTranslateX(mojaScena.getWidth() / 2 - 50);
+		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
+		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
 
 		tabulka.setMaxWidth(velkostPolickaX * 3 + 2);
 		tabulka.setMaxHeight(2 * velkostTabulky);
 		tabulka.setTranslateY(stredTabulky);
-		tabulka.setPlaceholder(new Label("Ziadne znamky."));
+		tabulka.setPlaceholder(new Label("éiadne zn·mky."));
 		tabulka.setEditable(true);
 
 		vypisMenoPouzivatela.setWrappingWidth(200);
@@ -158,26 +156,25 @@ public class UcitelHlavnaScena implements ScenaInterface {
 
 		vyberPredmetov.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					cisloPredmetu = (int) new_value;
+					predmet = ziak.vratPredmet((int) new_value);
 					updateTabulka();
 				});
 
 		vyberZiaka.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					cisloZiaka = (int) new_value;
-					vyberPredmetov.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
-							.vratMenoPredmetov());
+					ziak = trieda.vratZiaka((int) new_value);
+					vyberPredmetov.setItems(ziak.vratMenoPredmetov());
 					vyberPredmetov.getSelectionModel().selectFirst();
 				});
 
 		vyberTriedu.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					cisloTriedy = (int) new_value;
-					vyberZiaka.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratMenoZiakov());
+					trieda = ((Ucitel) aktualnyPouzivatel).vratTriedu((int) new_value);
+					vyberZiaka.setItems(trieda.vratMenoZiakov());
 					vyberZiaka.getSelectionModel().selectFirst();
 				});
 
-		logoutUcitel.setOnAction(e -> {
+		logout.setOnAction(e -> {
 			logout();
 		});
 
@@ -193,28 +190,25 @@ public class UcitelHlavnaScena implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logoutUcitel,
+		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logout,
 				vyberPredmetov, novaHodnota, novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
 	public void updateTabulka() {
-		tabulka.setItems(((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
-				.vratZnamkyPredmetu(cisloPredmetu));
+		tabulka.setItems(predmet.vratZnamku());
 	}
 
 	public void novaZnamkaSubmit() {
 		String novaHodnotaS = (String) novaHodnota.getText();
 		String novaMaxHodnotaS = (String) novaMaxHodnota.getText();
 		String novyDatumS = (String) novyDatum.getText();
-		Predmet predmet = ((Ucitel) aktualnyPouzivatel).vratTriedu(cisloTriedy).vratZiaka(cisloZiaka)
-				.vratPredmet(cisloPredmetu);
 		Boolean vipis = mojManazer.novaZnamkaSubmit(predmet, novaHodnotaS, novaMaxHodnotaS, novyDatumS);
 		novaHlaska.setVisible(vipis);
 		updateTabulka();
 	}
 
 	public void logout() {
-		Scena scena = new Scena(new LoginScena());
+		Scena scena = new Scena(new ScenaLogin());
 		singleton.getStage().setScene(scena.nastavScene(null));
 	}
 

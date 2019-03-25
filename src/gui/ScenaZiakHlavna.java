@@ -1,7 +1,6 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.HlavnyStage;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,7 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class ZiakHlavnaScena implements ScenaInterface {
+public class ScenaZiakHlavna implements ScenaInterface {
 
 	private int width = 800;
 	private int height = 600;
@@ -96,7 +95,7 @@ public class ZiakHlavnaScena implements ScenaInterface {
 	}
 
 	public void logout() {
-		Scena scena = new Scena(new LoginScena());
+		Scena scena = new Scena(new ScenaLogin());
 		singleton.getStage().setScene(scena.nastavScene(null));
 	}
 }

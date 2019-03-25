@@ -1,12 +1,7 @@
 package Pouzivatelia;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-public class Ucitel extends OsobneUdaje implements Pouzivatel {
-	private ObservableList<Trieda> trieda = FXCollections.observableArrayList();;
-
-	public Ucitel(String meno, String priezvisko) {
+public class Riaditel extends OsobneUdaje implements Pouzivatel {
+	public Riaditel(String meno, String priezvisko) {
 		super(meno, priezvisko);
 	}
 
@@ -40,21 +35,6 @@ public class Ucitel extends OsobneUdaje implements Pouzivatel {
 
 	public void nastavPriezvisko(String priezvisko) {
 		super.nastavPriezvisko(priezvisko);
-	}
-
-	public void pridajTriedu(Trieda... tr) {
-		this.trieda.addAll(tr);
-	}
-
-	public Trieda vratTriedu(int i) {
-		return trieda.get(i);
-	}
-
-	public ObservableList<String> vratMenoTried() {
-		ObservableList<String> menoTriedy = FXCollections.observableArrayList();
-		for (Trieda t : this.trieda)
-			menoTriedy.add(t.vratMeno());
-		return menoTriedy;
 	}
 
 }

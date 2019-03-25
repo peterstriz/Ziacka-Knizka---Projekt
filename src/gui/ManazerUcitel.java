@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 import Pouzivatelia.Predmet;
 import Pouzivatelia.Znamka;
 
-public class ManazerUcitelHlavnaScena {
+public class ManazerUcitel {
 	public Boolean novaZnamkaSubmit(Predmet predmet, String novaHodnotaS, String novaMaxHodnotaS, String novyDatumS) {
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
