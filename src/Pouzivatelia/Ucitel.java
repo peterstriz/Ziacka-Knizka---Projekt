@@ -53,7 +53,7 @@ public class Ucitel extends OsobneUdaje implements Pouzivatel {
 	public ObservableList<String> vratMenoTried() {
 		ObservableList<String> menoTriedy = FXCollections.observableArrayList();
 		for (Trieda t : this.trieda)
-			menoTriedy.add(t.vratMeno());
+			menoTriedy.add(t.getMeno());
 		return menoTriedy;
 	}
 

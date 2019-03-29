@@ -2,6 +2,7 @@ package gui;
 
 import Pouzivatelia.Pouzivatel;
 import Pouzivatelia.Trieda;
+import Pouzivatelia.Ucitel;
 import Pouzivatelia.Ziak;
 import ZiackaKnizka.ZiackaKnizkaSingleton;
 import javafx.beans.value.ChangeListener;
@@ -19,9 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class ScenaRiaditelHlavna implements ScenaInterface {
-	private int width = 800;
-	private int height = 600;
+public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
@@ -29,17 +28,21 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private ManazerRiaditel mojManazer = new ManazerRiaditel();
 
-	private Button logout = new Button("Logout");
 	private Text vypisMenoPouzivatela = new Text();
-	private TableView<Ziak> tabulka = new TableView<>();
-	private ChoiceBox<String> vyberTriedu = new ChoiceBox<String>();
+	private Text vypisMenoUcitela = new Text();
+	private Text hlaska = new Text();
 	private TextField noveMeno = new TextField("");
 	private TextField novePriezvisko = new TextField("");
 	private Button novyZiakSubmit = new Button("Pridaù");
 	private Button novyPouzivatel = new Button("Nov˝ pouûÌvateæ");
-	private Text hlaska = new Text();
+	private Button novyUcitel = new Button("Zmeniù");
+	private Button logout = new Button("Logout");
+	private ChoiceBox<String> vyberUcitela = new ChoiceBox<String>();
+	private ChoiceBox<String> vyberTriedu = new ChoiceBox<String>();
+	private TableView<Ziak> tabulka = new TableView<>();
 
 	private Trieda trieda = null;
+	private Ucitel ucitel = null;
 
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		this.aktualnyPouzivatel = aktualnyPouzivatel;
@@ -53,12 +56,6 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 	}
 
 	public void nastav() {
-		int velkostTabulky = 150;
-		int stredTabulky = 0;
-		int velkostPolickaX = 100;
-		int velkostPolickaY = 30;
-		int medzera = 10;
-
 		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
 		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
 
@@ -70,7 +67,16 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 		vypisMenoPouzivatela.setTranslateY(70 - (mojaScena.getHeight() / 2));
 		vypisMenoPouzivatela.setTranslateX(mojaScena.getWidth() / 2 - 110);
 
-		vyberTriedu.setTranslateY(-(velkostTabulky + velkostPolickaY));
+		vypisMenoUcitela.setWrappingWidth(200);
+		vypisMenoUcitela.setTextAlignment(TextAlignment.CENTER);
+		vypisMenoUcitela.setTranslateY(-(velkostTabulky + velkostPolickaY));
+		vypisMenoUcitela.setTranslateX(stredTabulky);
+
+		vyberTriedu.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
+
+		vyberUcitela.setTranslateY(-(velkostTabulky + velkostPolickaY));
+		vyberUcitela.setTranslateX(stredTabulky + velkostPolickaX * 5 / 2 - 2 * medzera);
+		vyberUcitela.setMaxWidth(velkostPolickaX);
 
 		tabulka.setMaxSize(velkostPolickaX * 2 + 2, velkostTabulky * 2);
 		tabulka.setTranslateY(stredTabulky);
@@ -89,6 +95,10 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 		novyZiakSubmit.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
 		novyZiakSubmit.setTranslateX(stredTabulky + velkostPolickaX * 3 / 2 - medzera);
 		novyZiakSubmit.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
+
+		novyUcitel.setTranslateY(-(velkostTabulky + velkostPolickaY));
+		novyUcitel.setTranslateX(stredTabulky + velkostPolickaX * 3 / 2 - medzera);
+		novyUcitel.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
 
 		hlaska.setTranslateY(stredTabulky + velkostTabulky + velkostPolickaY * 3);
 		hlaska.setFont(new Font(14));
@@ -122,15 +132,16 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 		vyberTriedu.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
 					trieda = ziackaKnizka.getZiackaKnizka().vratTriedu((int) new_value);
-					tabulka.setItems(trieda.vratZiakov());
-
+					vyberUcitela.setVisible(false);
+					novyUcitel.setVisible(false);
+					update();
 				});
 		vyberTriedu.getSelectionModel().selectFirst();
 
 		novyPouzivatel.setOnAction(e -> {
 			mojManazer.pridajNovehoPouzivatela();
 		});
-		
+
 		novyZiakSubmit.setOnAction(e -> {
 			String meno = noveMeno.getText();
 			String priezvisko = novePriezvisko.getText();
@@ -138,11 +149,43 @@ public class ScenaRiaditelHlavna implements ScenaInterface {
 			hlaska.setVisible(pridane);
 
 		});
+
+		novyUcitel.setVisible(true);
+		novyUcitel.setOnAction(e -> {
+			vyberUcitela.setItems(ziackaKnizka.getZiackaKnizka().vratMenoUcitelov());
+			vyberUcitela.setVisible(true);
+		});
+
+		vyberUcitela.setVisible(false);
+		vyberUcitela.setItems(ziackaKnizka.getZiackaKnizka().vratMenoUcitelov());
+		vyberUcitela.getSelectionModel().selectedIndexProperty()
+				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
+					try {
+						ziackaKnizka.getZiackaKnizka().vratUcitelov().get((int) new_value).pridajTriedu(trieda);
+					} catch (Exception e) {
+					}
+					vyberUcitela.setVisible(false);
+					novyUcitel.setVisible(false);
+					update();
+				});
 	}
 
 	public void pridajPane() {
 		mojPane.getChildren().addAll(vypisMenoPouzivatela, logout, tabulka, vyberTriedu, noveMeno, novePriezvisko,
-				novyZiakSubmit, hlaska, novyPouzivatel);
+				novyZiakSubmit, hlaska, novyPouzivatel, vypisMenoUcitela, novyUcitel, vyberUcitela);
+	}
+
+	public void update() {
+		tabulka.setItems(trieda.getZiak());
+		ucitel = ziackaKnizka.getZiackaKnizka().vratUcitelaPodlaTriedy(trieda);
+
+		try {
+			vypisMenoUcitela.setText("UËiteæ: " + ucitel.vratCeleMeno());
+		} catch (NullPointerException e) {
+			vypisMenoUcitela.setText("éiadny uËiteæ.");
+			novyUcitel.setVisible(true);
+		}
+
 	}
 
 	public void logout() {

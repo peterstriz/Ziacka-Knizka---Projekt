@@ -11,9 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
-public class ScenaUcitelHlavna implements ScenaInterface {
-	private int width = 800;
-	private int height = 600;
+public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
@@ -48,12 +46,6 @@ public class ScenaUcitelHlavna implements ScenaInterface {
 	}
 
 	public void nastav() {
-		int velkostTabulky = 150;
-		int stredTabulky = 0;
-		int velkostPolickaX = 100;
-		int velkostPolickaY = 30;
-		int medzera = 10;
-
 		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
 		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
 
@@ -156,21 +148,33 @@ public class ScenaUcitelHlavna implements ScenaInterface {
 
 		vyberPredmetov.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					predmet = ziak.vratPredmet((int) new_value);
+					try {
+						predmet = ziak.vratPredmet((int) new_value);
+					} catch (Exception e) {
+
+					}
 					updateTabulka();
 				});
 
 		vyberZiaka.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					ziak = trieda.vratZiaka((int) new_value);
+					try {
+						ziak = trieda.getZiak((int) new_value);
+					} catch (Exception e) {
+
+					}
 					vyberPredmetov.setItems(ziak.vratMenoPredmetov());
 					vyberPredmetov.getSelectionModel().selectFirst();
 				});
 
 		vyberTriedu.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					trieda = ((Ucitel) aktualnyPouzivatel).vratTriedu((int) new_value);
-					vyberZiaka.setItems(trieda.vratMenoZiakov());
+					try {
+						trieda = ((Ucitel) aktualnyPouzivatel).vratTriedu((int) new_value);
+					} catch (Exception e) {
+
+					}
+					vyberZiaka.setItems(trieda.getMenoZiakov());
 					vyberZiaka.getSelectionModel().selectFirst();
 				});
 
@@ -190,8 +194,8 @@ public class ScenaUcitelHlavna implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logout,
-				vyberPredmetov, novaHodnota, novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
+		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logout, vyberPredmetov,
+				novaHodnota, novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
 	public void updateTabulka() {

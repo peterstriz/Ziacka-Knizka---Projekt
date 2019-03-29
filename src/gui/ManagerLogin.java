@@ -9,7 +9,7 @@ public class ManagerLogin {
 
 	public Boolean loginSubmit(String username, String password) {
 		Pouzivatel aktualnyPouzivatel;
-		aktualnyPouzivatel = ziackaKnizka.getZiackaKnizka().vratPouzivatela(username, password);
+		aktualnyPouzivatel = ziackaKnizka.getZiackaKnizka().vratPouzivatelaLogin(username, password);
 		if (aktualnyPouzivatel != null) {
 			Scena scena = null;
 			if (aktualnyPouzivatel instanceof Ziak) {

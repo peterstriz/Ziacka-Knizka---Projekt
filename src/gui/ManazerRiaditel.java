@@ -13,7 +13,7 @@ public class ManazerRiaditel {
 		if (novyZiak == null || !(novyZiak instanceof Ziak)) {
 			return true;
 		} else {
-			trieda.pridajZiaka(novyZiak);
+			trieda.addZiak(novyZiak);
 			return false;
 		}
 	}
@@ -22,9 +22,10 @@ public class ManazerRiaditel {
 		new ScenaRiaditelPridaj();
 	}
 
-	public Boolean pridajNovehoPouzivatela(String typ, String meno, String priezvisko, String username, String password) {
-		Pouzivatel p = null;
+	public Boolean pridajNovehoPouzivatela(String typ, String meno, String priezvisko, String username,
+			String password) {
 		try {
+			Pouzivatel p;
 			Class<?> cls = Class.forName("Pouzivatelia." + typ);
 			p = (Pouzivatel) cls.getDeclaredConstructor(String.class, String.class).newInstance(meno, priezvisko);
 			p.nastavLogin(username, password);
@@ -34,6 +35,6 @@ public class ManazerRiaditel {
 			System.out.println(e);
 			return false;
 		}
-		
+
 	}
 }

@@ -20,10 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class ScenaLogin implements ScenaInterface {
-
-	private int width = 800;
-	private int height = 600;
+public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 	private ManagerLogin mojManazer = new ManagerLogin();
 
 	private TextField loginUsername = new TextField("");
@@ -48,26 +45,26 @@ public class ScenaLogin implements ScenaInterface {
 		menuBar.setTranslateY(-mojaScena.getHeight() / 2 + 29);
 
 		loginUsername.setPromptText("Username");
-		loginUsername.setTranslateY(-40);
-		loginUsername.setMaxSize(150, 30);
+		loginUsername.setTranslateY(-(velkostPolickaY + medzera));
+		loginUsername.setMaxSize(velkostPolickaX * 3 / 2, velkostPolickaY);
 
 		loginPassword.setPromptText("Password");
-		loginPassword.setTranslateY(0);
-		loginPassword.setMaxSize(150, 30);
+		loginPassword.setTranslateY(stredTabulky);
+		loginPassword.setMaxSize(velkostPolickaX * 3 / 2, velkostPolickaY);
 
-		loginSubmit.setTranslateY(40);
-		loginSubmit.setMaxSize(150, 30);
+		loginSubmit.setTranslateY(velkostPolickaY + medzera);
+		loginSubmit.setMaxSize(velkostPolickaX * 3 / 2, velkostPolickaY);
 
-		loginHlaska.setTranslateY(90);
+		loginHlaska.setTranslateY(velkostPolickaY * 3);
 		loginHlaska.setFont(new Font(14));
-		loginHlaska.setWrappingWidth(200);
+		loginHlaska.setWrappingWidth(velkostPolickaX * 2);
 		loginHlaska.setTextAlignment(TextAlignment.CENTER);
 		loginHlaska.setFill(Color.RED);
 		loginHlaska.setVisible(false);
 
-		nazov.setTranslateY(-120);
+		nazov.setTranslateY(-velkostPolickaY * 4);
 		nazov.setFont(new Font(26));
-		nazov.setWrappingWidth(200);
+		nazov.setWrappingWidth(velkostPolickaX * 2);
 		nazov.setTextAlignment(TextAlignment.CENTER);
 		nazov.setFill(Color.ORANGE);
 		nazov.setVisible(true);

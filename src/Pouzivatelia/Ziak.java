@@ -19,6 +19,7 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 	public Boolean overLogin(String username, String password) {
 		return super.overLogin(username, password);
 	}
+
 	public Boolean overUsername(String username) {
 		return super.overUsername(username);
 	}
@@ -58,12 +59,24 @@ public class Ziak extends OsobneUdaje implements Pouzivatel {
 		return predmetObser;
 	}
 
-	public void pridajPredmet(Predmet predmetNovy) {
-		predmet.add(predmetNovy);
+	public void pridajPredmet(String predmetNovy) {
+		if (!overPredmet(predmetNovy))
+			predmet.add(new Predmet(predmetNovy));
 	}
 
 	public void pridajZnamku(int cisloPredmetu, String hodnota, String maxHodnota, String datum) {
 		predmet.get(cisloPredmetu).pridajNovuZnamku(hodnota, maxHodnota, datum);
+	}
+
+	public List<Predmet> getPredmet() {
+		return this.predmet;
+	}
+
+	private Boolean overPredmet(String meno) {
+		for (Predmet p : this.predmet)
+			if (meno.equals(p.vratMeno()))
+				return true;
+		return false;
 	}
 
 }

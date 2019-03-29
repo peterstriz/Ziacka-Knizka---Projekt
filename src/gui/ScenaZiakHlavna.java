@@ -13,10 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class ScenaZiakHlavna implements ScenaInterface {
-
-	private int width = 800;
-	private int height = 600;
+public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Pouzivatel aktualnyPouzivatel = null;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
@@ -73,10 +70,6 @@ public class ScenaZiakHlavna implements ScenaInterface {
 	}
 
 	public void nastav() {
-		int velkostTabulky = 150;
-		int stredTabulky = 0;
-		int velkostPolickaX = 100;
-		int velkostPolickaY = 30;
 
 		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
 		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);

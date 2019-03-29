@@ -15,7 +15,6 @@ public class ZiackaKnizka /* implements Serializable */ {
 		trieda.add(new Trieda("2.B"));
 		trieda.add(new Trieda("Oktava"));
 
-		//pouzivatel.add(new Ziak("Peter", "Striz"));
 		pridajPouzivatela(new Ziak("Peter", "Striz"));
 		pouzivatel(0).nastavLogin("striz98", "heslo");
 
@@ -31,11 +30,11 @@ public class ZiackaKnizka /* implements Serializable */ {
 		pridajPouzivatela(new Riaditel("Peter", "Pistek"));
 		pouzivatel(4).nastavLogin("pistek", "heslo");
 
-		vratTriedu(0).pridajZiaka(vratPouzivatelov(), "striz98", "vajda98");
-		vratTriedu(1).pridajZiaka(vratPouzivatelov(), "polak98");
+		vratTriedu(0).addZiak(vratPouzivatelov(), "striz98", "vajda98");
+		vratTriedu(1).addZiak(vratPouzivatelov(), "polak98");
 
-		vratTriedu(0).pridajPredmet("Matematika", "Slovencina");
-		vratTriedu(1).pridajPredmet("Anglictina");
+		vratTriedu(0).addPredmet("Matematika", "Slovencina");
+		vratTriedu(1).addPredmet("Anglictina");
 
 		ziak("striz98").pridajZnamku(0, "10", "20", getRandomDate());
 		ziak("striz98").pridajZnamku(0, "9", "20", getRandomDate());
@@ -53,8 +52,8 @@ public class ZiackaKnizka /* implements Serializable */ {
 	public void pridajPouzivatela(Pouzivatel p) {
 		pouzivatel.add(p);
 	}
-	
-	public Pouzivatel vratPouzivatela(String username, String password) {
+
+	public Pouzivatel vratPouzivatelaLogin(String username, String password) {
 		for (Pouzivatel pouzivatelFor : vratPouzivatelov())
 			if (pouzivatelFor != null && pouzivatelFor.overLogin(username, password))
 				return (pouzivatelFor);
@@ -76,7 +75,7 @@ public class ZiackaKnizka /* implements Serializable */ {
 
 	public Trieda trieda(String meno) {
 		for (Trieda t : trieda) {
-			if (t.vratMeno().equals(meno))
+			if (t.getMeno().equals(meno))
 				return t;
 		}
 		return null;
@@ -100,7 +99,7 @@ public class ZiackaKnizka /* implements Serializable */ {
 		return null;
 	}
 
-	public String getRandomDate() {
+	private String getRandomDate() {
 		int rok = randBetween(2000, 2019);
 		int mesiac = randBetween(1, 12);
 		int den = randBetween(1, 28);
@@ -109,7 +108,7 @@ public class ZiackaKnizka /* implements Serializable */ {
 		return date;
 	}
 
-	public static int randBetween(int start, int end) {
+	private int randBetween(int start, int end) {
 		return start + (int) Math.round(Math.random() * (end - start));
 	}
 
@@ -125,21 +124,39 @@ public class ZiackaKnizka /* implements Serializable */ {
 		}
 		return ucitelObser;
 	}
+	
+	public ObservableList<String> vratMenoUcitelov() {
+		ObservableList<String> ucitelObser = FXCollections.observableArrayList();
+		for (Pouzivatel p : vratPouzivatelov()) {
+			if (p instanceof Ucitel)
+				ucitelObser.add(p.vratCeleMeno());
+		}
+		return ucitelObser;
+	}
 
 	public ObservableList<String> vratMenoTried() {
 		ObservableList<String> ucitelObser = FXCollections.observableArrayList();
 		for (Trieda t : trieda)
-			ucitelObser.add(t.vratMeno());
+			ucitelObser.add(t.getMeno());
 
 		return ucitelObser;
 
 	}
-	
-	public Pouzivatel vratPouzivatelaPodlaMena(String meno, String priezvisko) {
-		for (Pouzivatel p  : pouzivatel)
-			if (p instanceof Ziak && meno.equals(p.getMeno()) && priezvisko.equals(p.getPriezvisko()))
-				return p;
-		
+
+	public Ucitel vratUcitelaPodlaTriedy(Trieda trieda) {
+		String menoTriedy = trieda.getMeno();
+		for (Ucitel u : vratUcitelov())
+			for (String s : u.vratMenoTried())
+				if (menoTriedy.equals(s))
+					return u;
 		return null;
 	}
+
+	public Pouzivatel vratPouzivatelaPodlaMena(String meno, String priezvisko) {
+		for (Pouzivatel p : pouzivatel)
+			if (p instanceof Ziak && meno.equals(p.getMeno()) && priezvisko.equals(p.getPriezvisko()))
+				return p;
+
+		return null;
+	}	
 }
