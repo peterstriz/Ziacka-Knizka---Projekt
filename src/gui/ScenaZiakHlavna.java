@@ -17,7 +17,6 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Pouzivatel aktualnyPouzivatel = null;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private HlavnyStage singleton = HlavnyStage.getInstance();
 
 	private Button logout = new Button("Logout");
 	private TableView<Znamka> tabulkaZiak = new TableView<>();
@@ -85,10 +84,5 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 
 		vyberPredmetov.setTranslateY(-(velkostTabulky + velkostPolickaY));
 
-	}
-
-	public void logout() {
-		Scena scena = new Scena(new ScenaLogin());
-		singleton.getStage().setScene(scena.nastavScene(null));
 	}
 }

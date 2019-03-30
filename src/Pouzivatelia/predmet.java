@@ -1,11 +1,14 @@
 package Pouzivatelia;
 
+import java.io.Serializable;
 import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Predmet {
+public class Predmet implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String meno;
 	private List<Znamka> znamka = new ArrayList<>();
 

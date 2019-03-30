@@ -1,6 +1,10 @@
 package Pouzivatelia;
 
-public abstract class OsobneUdaje extends UserLogin {
+import java.io.Serializable;
+
+public abstract class OsobneUdaje extends UserLogin implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String meno;
 	private String priezvisko;
 

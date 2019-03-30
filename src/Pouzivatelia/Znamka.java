@@ -1,10 +1,13 @@
 package Pouzivatelia;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Znamka implements Comparable<Znamka> {
+public class Znamka implements Serializable, Comparable<Znamka> {
+	private static final long serialVersionUID = 1L;
+
 	private String hodnotaS;
 	private String maxHodnotaS;
 	private String datumS;

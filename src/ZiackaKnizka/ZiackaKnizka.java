@@ -4,10 +4,12 @@ import Pouzivatelia.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-//import java.io.Serializable;
+import java.io.Serializable;
 import java.util.*;
 
-public class ZiackaKnizka /* implements Serializable */ {
+public class ZiackaKnizka implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private List<Trieda> trieda = new ArrayList<>();
 	private List<Pouzivatel> pouzivatel = new ArrayList<>();
 
@@ -124,7 +126,7 @@ public class ZiackaKnizka /* implements Serializable */ {
 		}
 		return ucitelObser;
 	}
-	
+
 	public ObservableList<String> vratMenoUcitelov() {
 		ObservableList<String> ucitelObser = FXCollections.observableArrayList();
 		for (Pouzivatel p : vratPouzivatelov()) {
@@ -158,5 +160,5 @@ public class ZiackaKnizka /* implements Serializable */ {
 				return p;
 
 		return null;
-	}	
+	}
 }

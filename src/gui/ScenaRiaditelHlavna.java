@@ -24,7 +24,6 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private HlavnyStage singleton = HlavnyStage.getInstance();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private ManazerRiaditel mojManazer = new ManazerRiaditel();
 
@@ -187,10 +186,4 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		}
 
 	}
-
-	public void logout() {
-		Scena scena = new Scena(new ScenaLogin());
-		singleton.getStage().setScene(scena.nastavScene(null));
-	}
-
 }

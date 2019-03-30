@@ -1,13 +1,18 @@
 package Pouzivatelia;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Trieda {
-	public ObservableList<Ziak> ziak = FXCollections.observableArrayList();
-	public ObservableList<String> predmet = FXCollections.observableArrayList();
+public class Trieda implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private List<Ziak> ziak = new ArrayList<>();
+	private List<String> predmet = new ArrayList<>();
+
 	private String meno;
 
 	public Trieda(String meno) {
@@ -40,7 +45,9 @@ public class Trieda {
 	}
 
 	public ObservableList<Ziak> getZiak() {
-		return ziak;
+		ObservableList<Ziak> ziakObser = FXCollections.observableArrayList();
+		ziakObser.addAll(ziak);
+		return ziakObser;
 	}
 
 	public ObservableList<String> getMenoZiakov() {
@@ -51,14 +58,15 @@ public class Trieda {
 	}
 
 	public void addPredmet(String... novyPredmet) {
-		this.predmet.addAll(novyPredmet);
+		for (String s : novyPredmet)
+			predmet.add(s);
 		updatePredmety();
 	}
 
 	private void updatePredmety() {
-		for (String pr : this.predmet)
+		for (String p : predmet)
 			for (Ziak z : ziak)
-				z.pridajPredmet(pr);
+				z.pridajPredmet(p);
 
 	}
 }

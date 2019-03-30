@@ -15,7 +15,6 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private HlavnyStage singleton = HlavnyStage.getInstance();
 	private ManazerUcitel mojManazer = new ManazerUcitel();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
@@ -210,10 +209,4 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 		novaHlaska.setVisible(vipis);
 		updateTabulka();
 	}
-
-	public void logout() {
-		Scena scena = new Scena(new ScenaLogin());
-		singleton.getStage().setScene(scena.nastavScene(null));
-	}
-
 }

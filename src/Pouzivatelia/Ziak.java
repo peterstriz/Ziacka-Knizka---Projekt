@@ -1,11 +1,14 @@
 package Pouzivatelia;
 
+import java.io.Serializable;
 import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Ziak extends OsobneUdaje implements Pouzivatel {
+public class Ziak extends OsobneUdaje implements Serializable, Pouzivatel {
+	private static final long serialVersionUID = 1L;
+
 	private List<Predmet> predmet = new ArrayList<>();
 
 	public Ziak(String meno, String priezvisko) {

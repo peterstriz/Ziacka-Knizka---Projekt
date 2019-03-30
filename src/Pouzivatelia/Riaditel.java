@@ -1,6 +1,10 @@
 package Pouzivatelia;
 
-public class Riaditel extends OsobneUdaje implements Pouzivatel {
+import java.io.Serializable;
+
+public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
+	private static final long serialVersionUID = 1L;
+
 	public Riaditel(String meno, String priezvisko) {
 		super(meno, priezvisko);
 	}

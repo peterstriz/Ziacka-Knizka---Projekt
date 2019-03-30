@@ -1,10 +1,16 @@
 package Pouzivatelia;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Ucitel extends OsobneUdaje implements Pouzivatel {
-	private ObservableList<Trieda> trieda = FXCollections.observableArrayList();;
+public class Ucitel extends OsobneUdaje implements Serializable, Pouzivatel {
+	private static final long serialVersionUID = 1L;
+
+	private List<Trieda> trieda = new ArrayList<>();
 
 	public Ucitel(String meno, String priezvisko) {
 		super(meno, priezvisko);
@@ -42,8 +48,9 @@ public class Ucitel extends OsobneUdaje implements Pouzivatel {
 		super.nastavPriezvisko(priezvisko);
 	}
 
-	public void pridajTriedu(Trieda... tr) {
-		this.trieda.addAll(tr);
+	public void pridajTriedu(Trieda... novaTrieda) {
+		for (Trieda t : novaTrieda)
+			trieda.add(t);
 	}
 
 	public Trieda vratTriedu(int i) {
