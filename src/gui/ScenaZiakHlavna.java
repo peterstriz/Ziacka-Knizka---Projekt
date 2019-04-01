@@ -65,7 +65,7 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulkaZiak, logout, vyberPredmetov);
+		mojPane.getChildren().addAll(vypisMenoPouzivatela, vyberPredmetov, tabulkaZiak, logout);
 	}
 
 	public void nastav() {

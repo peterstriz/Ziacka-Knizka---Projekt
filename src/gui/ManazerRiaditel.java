@@ -21,6 +21,14 @@ public class ManazerRiaditel {
 	public void pridajNovehoPouzivatela() {
 		new ScenaRiaditelPridaj();
 	}
+	
+	public void pridajNovuTriedu(String meno) {
+		ziackaKnizka.getZiackaKnizka().pridajTriedu(meno);
+	}
+	
+	public void pridajNovuPredmet(Trieda t, String meno) {
+		t.addPredmet(meno);
+	}
 
 	public Boolean pridajNovehoPouzivatela(String typ, String meno, String priezvisko, String username,
 			String password) {

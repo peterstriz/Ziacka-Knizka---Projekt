@@ -9,7 +9,7 @@ import java.util.*;
 
 public class ZiackaKnizka implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Trieda> trieda = new ArrayList<>();
 	private List<Pouzivatel> pouzivatel = new ArrayList<>();
 
@@ -53,6 +53,10 @@ public class ZiackaKnizka implements Serializable {
 
 	public void pridajPouzivatela(Pouzivatel p) {
 		pouzivatel.add(p);
+	}
+
+	public void pridajTriedu(String s) {
+		trieda.add(new Trieda(s));
 	}
 
 	public Pouzivatel vratPouzivatelaLogin(String username, String password) {

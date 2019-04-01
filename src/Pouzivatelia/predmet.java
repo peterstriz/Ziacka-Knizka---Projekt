@@ -16,7 +16,7 @@ public class Predmet implements Serializable {
 		nastavMeno(meno);
 	}
 
-	public String vratMeno() {
+	public String getMeno() {
 		return this.meno;
 	}
 

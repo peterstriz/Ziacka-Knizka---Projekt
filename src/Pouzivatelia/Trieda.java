@@ -69,4 +69,9 @@ public class Trieda implements Serializable {
 				z.pridajPredmet(p);
 
 	}
+	
+	public ObservableList<String> getMenoPredmetov() {
+		ObservableList<String> list = FXCollections.observableArrayList(predmet);
+		return list;
+	}
 }

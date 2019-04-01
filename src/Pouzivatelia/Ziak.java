@@ -58,7 +58,7 @@ public class Ziak extends OsobneUdaje implements Serializable, Pouzivatel {
 	public ObservableList<String> vratMenoPredmetov() {
 		ObservableList<String> predmetObser = FXCollections.observableArrayList();
 		for (Predmet p : this.predmet)
-			predmetObser.add(p.vratMeno());
+			predmetObser.add(p.getMeno());
 		return predmetObser;
 	}
 
@@ -77,7 +77,7 @@ public class Ziak extends OsobneUdaje implements Serializable, Pouzivatel {
 
 	private Boolean overPredmet(String meno) {
 		for (Predmet p : this.predmet)
-			if (meno.equals(p.vratMeno()))
+			if (meno.equals(p.getMeno()))
 				return true;
 		return false;
 	}
