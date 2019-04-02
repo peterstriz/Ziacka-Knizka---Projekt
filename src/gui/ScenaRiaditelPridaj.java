@@ -30,12 +30,11 @@ public class ScenaRiaditelPridaj {
 	private ChoiceBox<String> typ = new ChoiceBox<String>();
 	private Text hlaska = new Text();
 
-	private ObservableList<String> typyPouzivatelov = FXCollections.observableArrayList();
-	private String[] typPouzivatela = { Ziak.class.getSimpleName(), Ucitel.class.getSimpleName() };
+	private ObservableList<String> typPouzivatela = FXCollections.observableArrayList();
 	private String typNovehoPouzivatela;
 
 	public ScenaRiaditelPridaj() {
-		typyPouzivatelov.addAll(typPouzivatela);
+		typPouzivatela.addAll(Ziak.class.getSimpleName(), Ucitel.class.getSimpleName());
 
 		meno.setPromptText("Meno");
 		priezvisko.setPromptText("Priezvisko");
@@ -56,9 +55,9 @@ public class ScenaRiaditelPridaj {
 		hlaska.setVisible(false);
 		hlaska.setText("PouûÌvateæ uspeöne pridan˝, mÙûete zavrieù okno.");
 
-		typ.setItems(typyPouzivatelov);
+		typ.setItems(typPouzivatela);
 		typ.getSelectionModel().selectedIndexProperty().addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-			setTypNovehoPouzivatela(typPouzivatela[(int) new_value]);
+			setTypNovehoPouzivatela(typPouzivatela.get((int) new_value));
 		});
 		typ.getSelectionModel().selectFirst();
 
@@ -82,11 +81,11 @@ public class ScenaRiaditelPridaj {
 		subStage.show();
 	}
 
-	public String getTypNovehoPouzivatela() {
+	private String getTypNovehoPouzivatela() {
 		return typNovehoPouzivatela;
 	}
 
-	public void setTypNovehoPouzivatela(String typNovehoPouzivatela) {
+	private void setTypNovehoPouzivatela(String typNovehoPouzivatela) {
 		this.typNovehoPouzivatela = typNovehoPouzivatela;
 	}
 }

@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
-	private ManagerLogin mojManazer = new ManagerLogin();
+	private ManazerLogin mojManazer = new ManazerLogin();
 
 	private TextField loginUsername = new TextField("");
 	private PasswordField loginPassword = new PasswordField();

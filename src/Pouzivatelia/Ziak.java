@@ -1,5 +1,6 @@
 package Pouzivatelia;
 
+import gui.ManazerLogin;
 import java.io.Serializable;
 import java.util.*;
 
@@ -80,6 +81,10 @@ public class Ziak extends OsobneUdaje implements Serializable, Pouzivatel {
 			if (meno.equals(p.getMeno()))
 				return true;
 		return false;
+	}
+
+	public void login(ManazerLogin m) {
+		m.login(this);
 	}
 
 }

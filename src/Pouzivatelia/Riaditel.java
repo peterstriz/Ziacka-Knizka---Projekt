@@ -2,6 +2,8 @@ package Pouzivatelia;
 
 import java.io.Serializable;
 
+import gui.ManazerLogin;
+
 public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
 	private static final long serialVersionUID = 1L;
 
@@ -39,6 +41,10 @@ public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
 
 	public void nastavPriezvisko(String priezvisko) {
 		super.nastavPriezvisko(priezvisko);
+	}
+
+	public void login(ManazerLogin m) {
+		m.login(this);
 	}
 
 }

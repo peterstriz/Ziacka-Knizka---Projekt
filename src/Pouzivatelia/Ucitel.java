@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.ManazerLogin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -62,6 +63,10 @@ public class Ucitel extends OsobneUdaje implements Serializable, Pouzivatel {
 		for (Trieda t : this.trieda)
 			menoTriedy.add(t.getMeno());
 		return menoTriedy;
+	}
+
+	public void login(ManazerLogin m) {
+		m.login(this);
 	}
 
 }
