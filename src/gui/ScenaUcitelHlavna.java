@@ -2,27 +2,25 @@ package gui;
 
 import Pouzivatelia.*;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
 public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface {
-	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
-	private StackPane mojPane = new StackPane();
+	private VBox mojPane = new VBox();
 	private ManazerUcitel mojManazer = new ManazerUcitel();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
 	private TableView<Znamka> tabulka = new TableView<>();
-	private Button logout = new Button("Logout");
 	private ChoiceBox<String> vyberPredmetov = new ChoiceBox<String>();
 	private ChoiceBox<String> vyberTriedu = new ChoiceBox<String>();
-	private Text vypisMenoPouzivatela = new Text();
 	private TextField novaHodnota = new TextField("");
 	private TextField novaMaxHodnota = new TextField("");
 	private TextField novyDatum = new TextField("");
@@ -34,67 +32,44 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	private Predmet predmet;
 
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
-		this.aktualnyPouzivatel = aktualnyPouzivatel;
-		mojaScena = new Scene(mojPane, width, height);
+		super.aktualnyPouzivatel = aktualnyPouzivatel;
 
+		menu();
 		nastav();
 		funkcie();
 		pridajPane();
-
+		mojaScena = new Scene(mojPane, width, height);
 		return mojaScena;
 	}
 
 	public void nastav() {
-		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
-		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
-
 		tabulka.setMaxWidth(velkostPolickaX * 3 + 2);
 		tabulka.setMaxHeight(2 * velkostTabulky);
-		tabulka.setTranslateY(stredTabulky);
 		tabulka.setPlaceholder(new Label("Žiadne známky."));
 		tabulka.setEditable(true);
 
-		vypisMenoPouzivatela.setWrappingWidth(200);
-		vypisMenoPouzivatela.setTextAlignment(TextAlignment.RIGHT);
-		vypisMenoPouzivatela.setTranslateY(70 - (mojaScena.getHeight() / 2));
-		vypisMenoPouzivatela.setTranslateX(mojaScena.getWidth() / 2 - 110);
-
-		vyberPredmetov.setTranslateY(-(velkostTabulky + velkostPolickaY));
-		vyberZiaka.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
-		vyberTriedu.setTranslateY(-(velkostTabulky + velkostPolickaY * 3 + medzera * 2));
-
 		novaHodnota.setPromptText("Hodnota");
-		novaHodnota.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
-		novaHodnota.setTranslateX(stredTabulky - velkostPolickaX);
 		novaHodnota.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
 
 		novaMaxHodnota.setPromptText("Max. Hodnota");
-		novaMaxHodnota.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
-		novaMaxHodnota.setTranslateX(stredTabulky);
 		novaMaxHodnota.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
 
 		novyDatum.setPromptText("dd.MM.yyyy");
-		novyDatum.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
-		novyDatum.setTranslateX(stredTabulky + velkostPolickaX);
 		novyDatum.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
 
-		novaZnamkaSubmit.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
-		novaZnamkaSubmit.setTranslateX(stredTabulky + 2 * velkostPolickaX - medzera);
-		novaZnamkaSubmit.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
+		novaZnamkaSubmit.setMaxSize(velkostPolickaX - 1, velkostPolickaY);
 
-		novaHlaska.setTranslateY(stredTabulky + velkostTabulky + 70);
 		novaHlaska.setFont(new Font(14));
 		novaHlaska.setWrappingWidth(velkostPolickaX * 3);
 		novaHlaska.setTextAlignment(TextAlignment.CENTER);
 		novaHlaska.setFill(Color.RED);
 		novaHlaska.setVisible(false);
 
+		mojPane.setAlignment(Pos.CENTER);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void funkcie() {
-		vypisMenoPouzivatela.setText(aktualnyPouzivatel.vratCeleMeno());
-
 		novyDatum.setText(mojManazer.vratDnesnyDatum());
 
 		novaHlaska.setText("Nepodarilo sa prida nové známky, skontrolujte èi ste údaje zadali v správnom tvare.\n");
@@ -177,10 +152,6 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 					vyberZiaka.getSelectionModel().selectFirst();
 				});
 
-		logout.setOnAction(e -> {
-			logout();
-		});
-
 		vyberTriedu.setItems(((Ucitel) aktualnyPouzivatel).vratMenoTried());
 		vyberTriedu.getSelectionModel().selectFirst();
 		vyberZiaka.getSelectionModel().selectFirst();
@@ -193,8 +164,8 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().addAll(vypisMenoPouzivatela, tabulka, vyberZiaka, vyberTriedu, logout, vyberPredmetov,
-				novaHodnota, novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
+		mojPane.getChildren().addAll(menuBar, vyberPredmetov, vyberTriedu, vyberZiaka, tabulka, novaHodnota,
+				novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
 	public void updateTabulka() {

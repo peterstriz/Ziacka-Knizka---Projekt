@@ -65,7 +65,7 @@ public class ZiackaKnizkaSingleton implements Serializable {
 			System.out.println("Big problem");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
