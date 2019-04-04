@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -24,6 +25,7 @@ import javafx.scene.text.TextAlignment;
 public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
+	private BorderPane borderPane = new BorderPane();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private ManazerRiaditel mojManazer = new ManazerRiaditel();
 
@@ -57,13 +59,15 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		nastav();
 		funkcie();
 		pridajPane();
-		mojaScena = new Scene(mojPane, width, height);
+		borderPane.setTop(menuBar);
+		borderPane.setCenter(mojPane);
+		mojaScena = new Scene(borderPane, width, height);
 		return mojaScena;
 	}
 
 	public void nastav() {
-//		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
-//		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
+		informacia.setTranslateY(menuBar.getTranslateY() + 70);
+		informacia.setTranslateX(-width / 4);
 
 		novyPouzivatel.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
 		novyPouzivatel.setTranslateX(stredTabulky + velkostPolickaX * 2 + medzera);
@@ -76,6 +80,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		novaTriedaText.setTranslateY(stredTabulky + velkostTabulky + medzera * 8 / 2 + 3 * velkostPolickaY);
 		novaTriedaText.setMaxWidth(velkostPolickaX * 2);
 		novaTriedaText.setVisible(false);
+		novaTriedaText.setPromptText("Nová trieda...");
 
 		novaTriedaSubmit.setTranslateY(stredTabulky + velkostTabulky + medzera * 8 / 2 + 3 * velkostPolickaY);
 		novaTriedaSubmit.setTranslateX(stredTabulky + velkostPolickaX * 3 / 2 - medzera);
@@ -99,12 +104,12 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		novyPredmetText.setTranslateY(stredTabulky + velkostTabulky + medzera * 2);
 		novyPredmetText.setTranslateX(stredTabulky + velkostPolickaX * 2 + medzera);
 		novyPredmetText.setMaxWidth(velkostPolickaX * 3 / 2);
-		novyPredmetText.setPromptText("Nový predmet");
+		novyPredmetText.setPromptText("Nový predmet...");
 
 		vyberTriedu.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
 
 		vyberUcitela.setTranslateY(-(velkostTabulky + velkostPolickaY));
-		vyberUcitela.setTranslateX(stredTabulky + velkostPolickaX * 5 / 2 - 2 * medzera);
+		vyberUcitela.setTranslateX(-(stredTabulky + velkostPolickaX * 5 / 2 - 2 * medzera));
 		vyberUcitela.setMaxWidth(velkostPolickaX);
 
 		tabulka.setMaxSize(velkostPolickaX * 2 + 2, velkostTabulky * 2);
@@ -126,7 +131,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		novyZiakSubmit.setMaxSize(velkostPolickaX * 2, velkostPolickaY);
 
 		novyUcitel.setTranslateY(-(velkostTabulky + velkostPolickaY));
-		novyUcitel.setTranslateX(stredTabulky + velkostPolickaX * 3 / 2 - medzera);
+		novyUcitel.setTranslateX(-(stredTabulky + velkostPolickaX * 3 / 2 - medzera));
 		novyUcitel.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
 
 		hlaska.setTranslateY(stredTabulky + velkostTabulky + velkostPolickaY * 3 + medzera * 2);
@@ -136,8 +141,8 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		hlaska.setFill(Color.RED);
 		hlaska.setVisible(false);
 
-		menuBar.setTranslateY(-(height / 2) + 20);
-		menuBar.setMaxHeight(40);
+//		menuBar.setTranslateY(-(height / 2) + 20);
+//		menuBar.setMaxHeight(40);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -179,6 +184,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		vyberTriedu.getSelectionModel().selectFirst();
 
 		novyPouzivatel.setOnAction(e -> {
+			hlaska.setVisible(false);
 			mojManazer.pridajNovehoPouzivatela();
 		});
 
@@ -187,7 +193,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 			String priezvisko = novePriezvisko.getText();
 			Boolean pridane = mojManazer.pridajNovehoZiaka(trieda, meno, priezvisko);
 			hlaska.setVisible(pridane);
-
+			update();
 		});
 
 		novyUcitel.setVisible(false);
@@ -235,8 +241,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 	public void pridajPane() {
 		mojPane.getChildren().addAll(vypisMenoPouzivatela, logout, tabulka, vyberTriedu, noveMeno, novePriezvisko,
 				novyZiakSubmit, hlaska, novyPouzivatel, vypisMenoUcitela, novyUcitel, vyberUcitela, novaTrieda,
-				novaTriedaText, novaTriedaSubmit, tabulkaPredmetov, novyPredmetSubmit, novyPredmetText, menuBar,
-				informacia);
+				novaTriedaText, novaTriedaSubmit, tabulkaPredmetov, novyPredmetSubmit, novyPredmetText, informacia);
 	}
 
 	public void update() {

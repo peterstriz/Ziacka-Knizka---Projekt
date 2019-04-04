@@ -2,6 +2,14 @@ package Pouzivatelia;
 
 import gui.ManazerLogin;
 
+/**
+ * Pouzivatel je interface z ktoreho su odvodeni vsetci pouzivatelia.
+ * 
+ * @author Peter Striz
+ * @see Ziak
+ * @see Ucitel
+ * @see Riaditel
+ */
 public interface Pouzivatel {
 	public void nastavLogin(String username, String password);
 
@@ -15,13 +23,13 @@ public interface Pouzivatel {
 
 	public String vratCeleMeno();
 
-	public void nastavMeno(String meno);
+	public void setMeno(String meno);
 
-	public void nastavPriezvisko(String priezvisko);
-
-	public void login(ManazerLogin m);
+	public void setPriezvisko(String priezvisko);
 
 	public String getEmail();
 
 	public void setEmail(String email);
+
+	public void login(ManazerLogin m);
 }

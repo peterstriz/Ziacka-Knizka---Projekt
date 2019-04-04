@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -15,6 +16,7 @@ import javafx.scene.text.*;
 public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface {
 	private Scene mojaScena;
 	private VBox mojPane = new VBox();
+	private BorderPane borderPane = new BorderPane();
 	private ManazerUcitel mojManazer = new ManazerUcitel();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
@@ -38,7 +40,9 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 		nastav();
 		funkcie();
 		pridajPane();
-		mojaScena = new Scene(mojPane, width, height);
+		borderPane.setTop(menuBar);
+		borderPane.setCenter(mojPane);
+		mojaScena = new Scene(borderPane, width, height);
 		return mojaScena;
 	}
 
@@ -164,8 +168,8 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	}
 
 	public void pridajPane() {
-		mojPane.getChildren().addAll(menuBar, vyberPredmetov, vyberTriedu, vyberZiaka, tabulka, novaHodnota,
-				novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska, informacia);
+		mojPane.getChildren().addAll(informacia, vyberPredmetov, vyberTriedu, vyberZiaka, tabulka, novaHodnota,
+				novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
 	public void updateTabulka() {

@@ -94,12 +94,15 @@ public abstract class DefaultHodnoty {
 
 		MenuBar leftBar = new MenuBar();
 		leftBar.setMinHeight(40);
+		leftBar.setMaxHeight(40);
 		leftBar.getMenus().addAll(menuAktualnyPouzivatel, vyhladavanie);
 		MenuBar rightBar = new MenuBar();
 		rightBar.getMenus().addAll(menuLogout);
 		rightBar.setMinHeight(40);
+		rightBar.setMaxHeight(40);
 		Region spacer = new Region();
 		spacer.getStyleClass().add("menu-bar");
+		rightBar.setMinHeight(40);
 		HBox.setHgrow(spacer, Priority.SOMETIMES);
 		menuBar = new HBox(leftBar, spacer, rightBar);
 
@@ -152,8 +155,6 @@ public abstract class DefaultHodnoty {
 			else {
 				meno.setText(pouzivatel.vratCeleMeno());
 				email.setText(pouzivatel.getEmail());
-				informacia.setTranslateY(menuBar.getTranslateY() + 70);
-				informacia.setTranslateX(-width / 4);
 
 				informacia.setVisible(true);
 			}

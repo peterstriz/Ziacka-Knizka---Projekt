@@ -8,56 +8,44 @@ import gui.ManazerLogin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Ucitel je trieda v ktorej su ulozene jednotlive triedy ucitela a jeho osobne
+ * udaje.
+ * 
+ * @author Peter Striz
+ * @see OsobneUdaje
+ * @see Pouzivatel
+ */
 public class Ucitel extends OsobneUdaje implements Serializable, Pouzivatel {
 	private static final long serialVersionUID = 1L;
-
+	/** Pole vsetkych tried ktore ucitel vyucuje. */
 	private List<Trieda> trieda = new ArrayList<>();
 
 	public Ucitel(String meno, String priezvisko) {
 		super(meno, priezvisko);
 	}
 
-	public void nastavLogin(String username, String password) {
-		super.nastavLogin(username, password);
-	}
-
-	public Boolean overLogin(String username, String password) {
-		return super.overLogin(username, password);
-	}
-
-	public Boolean overUsername(String username) {
-		return super.overUsername(username);
-	}
-
-	public String getMeno() {
-		return super.getMeno();
-	}
-
-	public String getPriezvisko() {
-		return super.getPriezvisko();
-	}
-
-	public String vratCeleMeno() {
-		return getMeno() + " " + getPriezvisko();
-	}
-
-	public void nastavMeno(String meno) {
-		super.nastavMeno(meno);
-	}
-
-	public void nastavPriezvisko(String priezvisko) {
-		super.nastavPriezvisko(priezvisko);
-	}
-
+	/**
+	 * Pridavanie tried ucitelovy.
+	 * 
+	 * @param novaTrieda Pole novych tried ktore budu priradene k ucitelovi.
+	 */
 	public void pridajTriedu(Trieda... novaTrieda) {
 		for (Trieda t : novaTrieda)
 			trieda.add(t);
 	}
 
+	/**
+	 * @param i Cislo triedy.
+	 * @return Vrati i-tu triedu ucitela.
+	 */
 	public Trieda vratTriedu(int i) {
 		return trieda.get(i);
 	}
 
+	/**
+	 * @return Vrati mena vsetkych tried ucitela.
+	 */
 	public ObservableList<String> vratMenoTried() {
 		ObservableList<String> menoTriedy = FXCollections.observableArrayList();
 		for (Trieda t : this.trieda)
@@ -65,6 +53,11 @@ public class Ucitel extends OsobneUdaje implements Serializable, Pouzivatel {
 		return menoTriedy;
 	}
 
+	/**
+	 * Prihlasovanie pouzivatela v ManazerLogin pomocou navrhoveho vzoru Visitor.
+	 * 
+	 * @see ManazerLogin
+	 */
 	public void login(ManazerLogin m) {
 		m.login(this);
 	}

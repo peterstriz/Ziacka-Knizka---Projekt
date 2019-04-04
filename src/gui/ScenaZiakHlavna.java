@@ -9,12 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 
 	private Scene mojaScena;
 	private VBox mojPane = new VBox();
+	private BorderPane borderPane = new BorderPane();
 
 	private TableView<Znamka> tabulkaZiak = new TableView<>();
 	private ChoiceBox<String> vyberPredmetov = new ChoiceBox<String>();
@@ -25,7 +27,9 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 		nastav();
 		funkcie();
 		pridajPane();
-		mojaScena = new Scene(mojPane, width, height);
+		borderPane.setTop(menuBar);
+		borderPane.setCenter(mojPane);
+		mojaScena = new Scene(borderPane, width, height);
 		return mojaScena;
 	}
 
@@ -56,12 +60,9 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 	}
 
 	public void pridajPane() {
-//		mojPane.getColumnConstraints().add(new ColumnConstraints(velkostPolickaX));
-//		mojPane.setHgap(5);
-//		mojPane.setVgap(5);
 		mojPane.setAlignment(Pos.CENTER);
 
-		mojPane.getChildren().addAll(menuBar, vyberPredmetov, tabulkaZiak, informacia);
+		mojPane.getChildren().addAll(informacia, vyberPredmetov, tabulkaZiak);
 	}
 
 	public void nastav() {

@@ -4,6 +4,13 @@ import java.io.Serializable;
 
 import gui.ManazerLogin;
 
+/**
+ * Riaditel je trieda v ktorej su ulozene osobne udaje riaditela.
+ * 
+ * @author Peter Striz
+ * @see Pouzivatel
+ * @see OsobneUdaje
+ */
 public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
 	private static final long serialVersionUID = 1L;
 
@@ -11,38 +18,11 @@ public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
 		super(meno, priezvisko);
 	}
 
-	public void nastavLogin(String username, String password) {
-		super.nastavLogin(username, password);
-	}
-
-	public Boolean overLogin(String username, String password) {
-		return super.overLogin(username, password);
-	}
-
-	public Boolean overUsername(String username) {
-		return super.overUsername(username);
-	}
-
-	public String getMeno() {
-		return super.getMeno();
-	}
-
-	public String getPriezvisko() {
-		return super.getPriezvisko();
-	}
-
-	public String vratCeleMeno() {
-		return getMeno() + " " + getPriezvisko();
-	}
-
-	public void nastavMeno(String meno) {
-		super.nastavMeno(meno);
-	}
-
-	public void nastavPriezvisko(String priezvisko) {
-		super.nastavPriezvisko(priezvisko);
-	}
-
+	/**
+	 * Prihlasovanie pouzivatela v ManazerLogin pomocou navrhoveho vzoru Visitor.
+	 * 
+	 * @see ManazerLogin
+	 */
 	public void login(ManazerLogin m) {
 		m.login(this);
 	}

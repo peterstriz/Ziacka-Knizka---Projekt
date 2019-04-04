@@ -7,17 +7,27 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * ZiackaKnizkaSingleton je trieda v ktorej je ulozena ZiackaKnizka, s pomocou
+ * navrhoveho vzoru singleton.
+ * 
+ * @author Peter Striz
+ * @see ZiackaKnizka
+ */
 public class ZiackaKnizkaSingleton implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	/** Jedina instancia ktoru bude mozne vytvorit. */
 	private static ZiackaKnizkaSingleton single_instance = null;
-
+	/** V tomto objekte su ulozene vsetky udaje. */
 	private ZiackaKnizka ziackaKnizka;
 
 	private ZiackaKnizkaSingleton() {
 		setZiackaKnizka(new ZiackaKnizka());
 	}
 
+	/**
+	 * @return Vrati instanciu singletona.
+	 */
 	public static ZiackaKnizkaSingleton getInstance() {
 		if (single_instance == null)
 //			single_instance = new ZiackaKnizkaSingleton();
@@ -33,6 +43,9 @@ public class ZiackaKnizkaSingleton implements Serializable {
 		this.ziackaKnizka = ziackaKnizka;
 	}
 
+	/**
+	 * Serializacia udajov do 'udaje.out'.
+	 */
 	public void serializuj() {
 		try {
 			FileOutputStream fileOut = new FileOutputStream("udaje.out");
@@ -46,6 +59,9 @@ public class ZiackaKnizkaSingleton implements Serializable {
 		}
 	}
 
+	/**
+	 * Deserializacia udajov z 'udaje.out'.
+	 */
 	public static void deSerializuj() {
 		try {
 			FileInputStream fileIn = new FileInputStream("udaje.out");
