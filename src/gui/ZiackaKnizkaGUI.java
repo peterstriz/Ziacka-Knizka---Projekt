@@ -1,7 +1,7 @@
 package gui;
 
 import Pouzivatelia.*;
-import ZiackaKnizka.ZiackaKnizkaSingleton;
+//import ZiackaKnizka.ZiackaKnizkaSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

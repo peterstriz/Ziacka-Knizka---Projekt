@@ -18,6 +18,10 @@ public interface Pouzivatel {
 	public void nastavMeno(String meno);
 
 	public void nastavPriezvisko(String priezvisko);
-	
+
 	public void login(ManazerLogin m);
+
+	public String getEmail();
+
+	public void setEmail(String email);
 }

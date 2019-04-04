@@ -9,7 +9,7 @@ public class ManazerRiaditel {
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 
 	public Boolean pridajNovehoZiaka(Trieda trieda, String meno, String priezvisko) {
-		Ziak novyZiak = (Ziak) ziackaKnizka.getZiackaKnizka().vratPouzivatelaPodlaMena(meno, priezvisko);
+		Ziak novyZiak = (Ziak) ziackaKnizka.getZiackaKnizka().vratZiakaPodlaMena(meno, priezvisko);
 		if (novyZiak == null || !(novyZiak instanceof Ziak)) {
 			return true;
 		} else {

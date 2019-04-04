@@ -158,9 +158,17 @@ public class ZiackaKnizka implements Serializable {
 		return null;
 	}
 
-	public Pouzivatel vratPouzivatelaPodlaMena(String meno, String priezvisko) {
+	public Pouzivatel vratZiakaPodlaMena(String meno, String priezvisko) {
 		for (Pouzivatel p : pouzivatel)
 			if (p instanceof Ziak && meno.equals(p.getMeno()) && priezvisko.equals(p.getPriezvisko()))
+				return p;
+
+		return null;
+	}
+	
+	public Pouzivatel vratPouzivatelaPodlaMena(String meno, String priezvisko) {
+		for (Pouzivatel p : pouzivatel)
+			if (meno.equals(p.getMeno()) && priezvisko.equals(p.getPriezvisko()))
 				return p;
 
 		return null;

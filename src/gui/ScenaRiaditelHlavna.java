@@ -22,7 +22,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterface {
-	private Pouzivatel aktualnyPouzivatel;
 	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
@@ -52,19 +51,19 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 	private Boolean novaTriedaToggle = false;
 
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
-		this.aktualnyPouzivatel = aktualnyPouzivatel;
-		mojaScena = new Scene(mojPane, width, height);
+		super.aktualnyPouzivatel = aktualnyPouzivatel;
 
+		menu();
 		nastav();
 		funkcie();
 		pridajPane();
-
+		mojaScena = new Scene(mojPane, width, height);
 		return mojaScena;
 	}
 
 	public void nastav() {
-		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
-		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
+//		logout.setTranslateY(30 - (mojaScena.getHeight() / 2));
+//		logout.setTranslateX(mojaScena.getWidth() / 2 - 50);
 
 		novyPouzivatel.setTranslateY(-(velkostTabulky + velkostPolickaY * 2 + medzera));
 		novyPouzivatel.setTranslateX(stredTabulky + velkostPolickaX * 2 + medzera);
@@ -82,11 +81,6 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		novaTriedaSubmit.setTranslateX(stredTabulky + velkostPolickaX * 3 / 2 - medzera);
 		novaTriedaSubmit.setMaxSize(velkostPolickaX - 31, velkostPolickaY);
 		novaTriedaSubmit.setVisible(false);
-
-		vypisMenoPouzivatela.setWrappingWidth(200);
-		vypisMenoPouzivatela.setTextAlignment(TextAlignment.RIGHT);
-		vypisMenoPouzivatela.setTranslateY(70 - (mojaScena.getHeight() / 2));
-		vypisMenoPouzivatela.setTranslateX(mojaScena.getWidth() / 2 - 110);
 
 		vypisMenoUcitela.setWrappingWidth(200);
 		vypisMenoUcitela.setTextAlignment(TextAlignment.CENTER);
@@ -141,6 +135,9 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		hlaska.setTextAlignment(TextAlignment.CENTER);
 		hlaska.setFill(Color.RED);
 		hlaska.setVisible(false);
+
+		menuBar.setTranslateY(-(height / 2) + 20);
+		menuBar.setMaxHeight(40);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -238,7 +235,8 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 	public void pridajPane() {
 		mojPane.getChildren().addAll(vypisMenoPouzivatela, logout, tabulka, vyberTriedu, noveMeno, novePriezvisko,
 				novyZiakSubmit, hlaska, novyPouzivatel, vypisMenoUcitela, novyUcitel, vyberUcitela, novaTrieda,
-				novaTriedaText, novaTriedaSubmit, tabulkaPredmetov, novyPredmetSubmit, novyPredmetText);
+				novaTriedaText, novaTriedaSubmit, tabulkaPredmetov, novyPredmetSubmit, novyPredmetText, menuBar,
+				informacia);
 	}
 
 	public void update() {

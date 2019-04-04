@@ -61,7 +61,7 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 //		mojPane.setVgap(5);
 		mojPane.setAlignment(Pos.CENTER);
 
-		mojPane.getChildren().addAll(menuBar, vyberPredmetov, tabulkaZiak);
+		mojPane.getChildren().addAll(menuBar, vyberPredmetov, tabulkaZiak, informacia);
 	}
 
 	public void nastav() {
