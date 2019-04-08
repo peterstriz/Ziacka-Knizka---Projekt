@@ -1,4 +1,4 @@
-package gui;
+package guiAplikacnaLogika;
 
 import javafx.stage.Stage;
 

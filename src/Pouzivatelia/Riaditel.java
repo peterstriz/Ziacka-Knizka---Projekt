@@ -1,8 +1,8 @@
-package Pouzivatelia;
+package pouzivatelia;
 
 import java.io.Serializable;
 
-import gui.ManazerLogin;
+import guiAplikacnaLogika.ManazerLogin;
 
 /**
  * Riaditel je trieda v ktorej su ulozene osobne udaje riaditela.

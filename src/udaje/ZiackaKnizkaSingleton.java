@@ -1,4 +1,4 @@
-package ZiackaKnizka;
+package udaje;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,16 +47,22 @@ public class ZiackaKnizkaSingleton implements Serializable {
 	 * Serializacia udajov do 'udaje.out'.
 	 */
 	public void serializuj() {
-		try {
-			FileOutputStream fileOut = new FileOutputStream("udaje.out");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(single_instance);
-			out.close();
-			fileOut.close();
-			System.out.printf("Serializovanie udajov do udaje.out");
-		} catch (IOException i) {
-			i.printStackTrace();
+		class Nit extends Thread {
+			public void run() {
+				try {
+					FileOutputStream fileOut = new FileOutputStream("udaje.out");
+					ObjectOutputStream out = new ObjectOutputStream(fileOut);
+					out.writeObject(single_instance);
+					out.close();
+					fileOut.close();
+					System.out.printf("Serializovanie udajov do 'udaje.out'\n");
+				} catch (IOException i) {
+					i.printStackTrace();
+				}
+			}
 		}
+
+		(new Nit()).start();
 	}
 
 	/**
@@ -81,7 +87,6 @@ public class ZiackaKnizkaSingleton implements Serializable {
 			System.out.println("Big problem");
 			e.printStackTrace();
 		}
-
 	}
 
 }

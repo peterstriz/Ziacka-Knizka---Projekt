@@ -1,10 +1,17 @@
-package gui;
+package guiAplikacnaLogika;
 
-import Pouzivatelia.*;
+import gui.ScenaLogin;
 //import ZiackaKnizka.ZiackaKnizkaSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import pouzivatelia.*;
 
+/**
+ * Trieda na spustanie celeho GUI.
+ * 
+ * @author Peter Striz
+ *
+ */
 public class ZiackaKnizkaGUI extends Application {
 //	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private Pouzivatel aktualnyPouzivatel; // = ziackaKnizka.getZiackaKnizka().vratPouzivatela("simova");

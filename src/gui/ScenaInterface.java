@@ -1,7 +1,7 @@
 package gui;
 
-import Pouzivatelia.Pouzivatel;
 import javafx.scene.Scene;
+import pouzivatelia.Pouzivatel;
 
 public interface ScenaInterface {
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel);

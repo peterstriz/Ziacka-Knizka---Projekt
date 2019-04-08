@@ -1,10 +1,7 @@
 package gui;
 
-import Pouzivatelia.Ucitel;
-import Pouzivatelia.Ziak;
+import guiAplikacnaLogika.ManazerRiaditel;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +14,12 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * Trieda na pridavanie Pouzivatelov Riaditelov.
+ * 
+ * @author Peter Striz
+ * @see ManazerRiaditel
+ */
 public class ScenaRiaditelPridaj {
 	private ManazerRiaditel mojManazer = new ManazerRiaditel();
 	private Stage subStage = new Stage();
@@ -30,11 +33,7 @@ public class ScenaRiaditelPridaj {
 	private ChoiceBox<String> typ = new ChoiceBox<String>();
 	private Text hlaska = new Text();
 
-	private ObservableList<String> typPouzivatela = FXCollections.observableArrayList();
-	private String typNovehoPouzivatela;
-
 	public ScenaRiaditelPridaj() {
-		typPouzivatela.addAll(Ziak.class.getSimpleName(), Ucitel.class.getSimpleName());
 
 		meno.setPromptText("Meno");
 		priezvisko.setPromptText("Priezvisko");
@@ -55,9 +54,9 @@ public class ScenaRiaditelPridaj {
 		hlaska.setVisible(false);
 		hlaska.setText("PouûÌvateæ uspeöne pridan˝, mÙûete zavrieù okno.");
 
-		typ.setItems(typPouzivatela);
+		typ.setItems(mojManazer.getTypPouzivatela());
 		typ.getSelectionModel().selectedIndexProperty().addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-			setTypNovehoPouzivatela(typPouzivatela.get((int) new_value));
+			mojManazer.setTypNovehoPouzivatela((int) new_value);
 		});
 		typ.getSelectionModel().selectFirst();
 
@@ -66,8 +65,7 @@ public class ScenaRiaditelPridaj {
 			String priezvisko = this.priezvisko.getText();
 			String username = this.username.getText();
 			String password = this.password.getText();
-			Boolean vidno = mojManazer.pridajNovehoPouzivatela(getTypNovehoPouzivatela(), meno, priezvisko, username,
-					password);
+			Boolean vidno = mojManazer.pridajNovehoPouzivatela(meno, priezvisko, username, password);
 			hlaska.setVisible(vidno);
 		});
 
@@ -81,11 +79,4 @@ public class ScenaRiaditelPridaj {
 		subStage.show();
 	}
 
-	private String getTypNovehoPouzivatela() {
-		return typNovehoPouzivatela;
-	}
-
-	private void setTypNovehoPouzivatela(String typNovehoPouzivatela) {
-		this.typNovehoPouzivatela = typNovehoPouzivatela;
-	}
 }

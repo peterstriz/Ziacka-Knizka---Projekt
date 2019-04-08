@@ -3,8 +3,7 @@ package gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import Pouzivatelia.Pouzivatel;
-import ZiackaKnizka.ZiackaKnizkaSingleton;
+import guiAplikacnaLogika.ManazerDefaultHodnoty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,10 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import pouzivatelia.Pouzivatel;
 
 public abstract class DefaultHodnoty {
-	private HlavnyStage singleton = HlavnyStage.getInstance();
-	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
+	private ManazerDefaultHodnoty mojManazer = new ManazerDefaultHodnoty();
 
 	protected int width = 800;
 	protected int height = 600;
@@ -110,9 +109,7 @@ public abstract class DefaultHodnoty {
 	}
 
 	protected void logout() {
-		Scena scena = new Scena(new ScenaLogin());
-		singleton.getStage().setScene(scena.nastavScene(null));
-		ziackaKnizka.serializuj();
+		mojManazer.logout();
 	}
 
 	private void vytvorInformaciu() {
@@ -142,24 +139,16 @@ public abstract class DefaultHodnoty {
 	}
 
 	private void otvorInformaciu(String menoInput) {
-		String m = null, p = null;
-		try {
-			m = menoInput.split(" (?!.* )")[0];
-			p = menoInput.split(" (?!.* )")[1];
+		Pouzivatel pouzivatel = mojManazer.vratPouzivatelaPodlaMena(menoInput);
 
-			ZiackaKnizkaSingleton z = ZiackaKnizkaSingleton.getInstance();
-			Pouzivatel pouzivatel = z.getZiackaKnizka().vratPouzivatelaPodlaMena(m, p);
+		if (pouzivatel == null)
+			;
+		else {
+			meno.setText(pouzivatel.vratCeleMeno());
+			email.setText(pouzivatel.getEmail());
 
-			if (pouzivatel == null)
-				;
-			else {
-				meno.setText(pouzivatel.vratCeleMeno());
-				email.setText(pouzivatel.getEmail());
-
-				informacia.setVisible(true);
-			}
-		} catch (Exception e) {
-
+			informacia.setVisible(true);
 		}
+
 	}
 }

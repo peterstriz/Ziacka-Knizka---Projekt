@@ -1,6 +1,6 @@
 package gui;
 
-import Pouzivatelia.*;
+import guiAplikacnaLogika.ManazerUcitel;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.*;
@@ -12,11 +12,20 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import pouzivatelia.*;
+import udaje.Znamka;
 
+/**
+ * Trieda na scenu pre Ucitela.
+ * 
+ * @author Peter Striz
+ * @see ScenaInterface
+ * @see DefaultHodnoty
+ * @see ManazerUcitel
+ */
 public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface {
-	private Scene mojaScena;
 	private VBox mojPane = new VBox();
-	private BorderPane borderPane = new BorderPane();
+	private BorderPane hlavnyPane = new BorderPane();
 	private ManazerUcitel mojManazer = new ManazerUcitel();
 
 	private ChoiceBox<String> vyberZiaka = new ChoiceBox<String>();
@@ -29,10 +38,14 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	private Button novaZnamkaSubmit = new Button("Pridaù");
 	private Text novaHlaska = new Text();
 
-	private Trieda trieda;
-	private Ziak ziak;
-	private Predmet predmet;
+//	private Trieda trieda;
+//	private Ziak ziak;
+//	private Predmet predmet;
 
+	/**
+	 * @return Vrati aktualnu scenu na zobrazenie, v ktorej bude pouzivatel
+	 *         prihlaseny.
+	 */
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		super.aktualnyPouzivatel = aktualnyPouzivatel;
 
@@ -40,12 +53,15 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 		nastav();
 		funkcie();
 		pridajPane();
-		borderPane.setTop(menuBar);
-		borderPane.setCenter(mojPane);
-		mojaScena = new Scene(borderPane, width, height);
+		hlavnyPane.setTop(menuBar);
+		hlavnyPane.setCenter(mojPane);
+		Scene mojaScena = new Scene(hlavnyPane, width, height);
 		return mojaScena;
 	}
 
+	/**
+	 * Nastavi pozicie elementov v pane.
+	 */
 	public void nastav() {
 		tabulka.setMaxWidth(velkostPolickaX * 3 + 2);
 		tabulka.setMaxHeight(2 * velkostTabulky);
@@ -72,6 +88,9 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 		mojPane.setAlignment(Pos.CENTER);
 	}
 
+	/**
+	 * Nastavi funkcie jednotlivych elementov.
+	 */
 	@SuppressWarnings("unchecked")
 	public void funkcie() {
 		novyDatum.setText(mojManazer.vratDnesnyDatum());
@@ -126,37 +145,28 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 
 		vyberPredmetov.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					try {
-						predmet = ziak.vratPredmet((int) new_value);
-					} catch (Exception e) {
+					mojManazer.setPredmet((int) new_value);
 
-					}
 					updateTabulka();
 				});
 
 		vyberZiaka.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					try {
-						ziak = trieda.getZiak((int) new_value);
-					} catch (Exception e) {
+					mojManazer.setZiak((int) new_value);
 
-					}
-					vyberPredmetov.setItems(ziak.vratMenoPredmetov());
+					vyberPredmetov.setItems(mojManazer.vratMenoPredmetov());
 					vyberPredmetov.getSelectionModel().selectFirst();
 				});
 
 		vyberTriedu.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ov, value, new_value) -> {
-					try {
-						trieda = ((Ucitel) aktualnyPouzivatel).vratTriedu((int) new_value);
-					} catch (Exception e) {
+					mojManazer.setTrieda(aktualnyPouzivatel, (int) new_value);
 
-					}
-					vyberZiaka.setItems(trieda.getMenoZiakov());
+					vyberZiaka.setItems(mojManazer.getMenoZiakov());
 					vyberZiaka.getSelectionModel().selectFirst();
 				});
 
-		vyberTriedu.setItems(((Ucitel) aktualnyPouzivatel).vratMenoTried());
+		vyberTriedu.setItems(mojManazer.vratMenoTried(aktualnyPouzivatel));
 		vyberTriedu.getSelectionModel().selectFirst();
 		vyberZiaka.getSelectionModel().selectFirst();
 		vyberPredmetov.getSelectionModel().selectFirst();
@@ -167,20 +177,29 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 
 	}
 
+	/**
+	 * Prida elementy do pane-u.
+	 */
 	public void pridajPane() {
 		mojPane.getChildren().addAll(informacia, vyberPredmetov, vyberTriedu, vyberZiaka, tabulka, novaHodnota,
 				novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
+	/**
+	 * Updatne tabulku znamok.
+	 */
 	public void updateTabulka() {
-		tabulka.setItems(predmet.vratZnamku());
+		tabulka.setItems(mojManazer.vratZnamku());
 	}
 
+	/**
+	 * Prida novu znamku ziakovi.
+	 */
 	public void novaZnamkaSubmit() {
 		String novaHodnotaS = (String) novaHodnota.getText();
 		String novaMaxHodnotaS = (String) novaMaxHodnota.getText();
 		String novyDatumS = (String) novyDatum.getText();
-		Boolean vipis = mojManazer.novaZnamkaSubmit(predmet, novaHodnotaS, novaMaxHodnotaS, novyDatumS);
+		Boolean vipis = mojManazer.novaZnamkaSubmit(novaHodnotaS, novaMaxHodnotaS, novyDatumS);
 		novaHlaska.setVisible(vipis);
 		updateTabulka();
 	}

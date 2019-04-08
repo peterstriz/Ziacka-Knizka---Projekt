@@ -1,12 +1,19 @@
-package gui;
+package guiAplikacnaLogika;
 
-import Pouzivatelia.Pouzivatel;
-import Pouzivatelia.Trieda;
-import Pouzivatelia.Ziak;
-import ZiackaKnizka.ZiackaKnizkaSingleton;
+import gui.ScenaRiaditelPridaj;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import pouzivatelia.Pouzivatel;
+import pouzivatelia.Ucitel;
+import pouzivatelia.Ziak;
+import udaje.Trieda;
+import udaje.ZiackaKnizkaSingleton;
 
 public class ManazerRiaditel {
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
+	private ObservableList<String> typPouzivatela = FXCollections.observableArrayList(Ziak.class.getSimpleName(),
+			Ucitel.class.getSimpleName());
+	private String typNovehoPouzivatela;
 
 	public Boolean pridajNovehoZiaka(Trieda trieda, String meno, String priezvisko) {
 		Ziak novyZiak = (Ziak) ziackaKnizka.getZiackaKnizka().vratPouzivatelaPodlaMena(meno, priezvisko);
@@ -26,16 +33,16 @@ public class ManazerRiaditel {
 		ziackaKnizka.getZiackaKnizka().pridajTriedu(meno);
 	}
 
-	public void pridajNovuPredmet(Trieda t, String meno) {
+	public void pridajNovyPredmet(Trieda t, String meno) {
 		t.addPredmet(meno);
 	}
 
-	public Boolean pridajNovehoPouzivatela(String typ, String meno, String priezvisko, String username,
+	public Boolean pridajNovehoPouzivatela(String meno, String priezvisko, String username,
 			String password) {
 		// pouzitie RTTI
 		try {
 			Pouzivatel p;
-			Class<?> cls = Class.forName("Pouzivatelia." + typ);
+			Class<?> cls = Class.forName("Pouzivatelia." + typNovehoPouzivatela);
 			p = (Pouzivatel) cls.getDeclaredConstructor(String.class, String.class).newInstance(meno, priezvisko);
 			p.nastavLogin(username, password);
 			ziackaKnizka.getZiackaKnizka().pridajPouzivatela(p);
@@ -45,5 +52,17 @@ public class ManazerRiaditel {
 			return false;
 		}
 
+	}
+
+	public ObservableList<String> getTypPouzivatela() {
+		return typPouzivatela;
+	}
+
+	public String getTypNovehoPouzivatela() {
+		return typNovehoPouzivatela;
+	}
+
+	public void setTypNovehoPouzivatela(int i) {
+		this.typNovehoPouzivatela = typPouzivatela.get(i);
 	}
 }

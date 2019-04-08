@@ -1,7 +1,10 @@
-package gui;
+package guiAplikacnaLogika;
 
-import Pouzivatelia.*;
-import ZiackaKnizka.ZiackaKnizkaSingleton;
+import gui.ScenaRiaditelHlavna;
+import gui.ScenaUcitelHlavna;
+import gui.ScenaZiakHlavna;
+import pouzivatelia.*;
+import udaje.ZiackaKnizkaSingleton;
 
 public class ManazerLogin {
 	private HlavnyStage hlavnyStage = HlavnyStage.getInstance();

@@ -1,6 +1,5 @@
 package gui;
 
-import Pouzivatelia.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,32 +10,45 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import pouzivatelia.*;
+import udaje.Znamka;
 
+/**
+ * Trieda na scenu pre Ziaka.
+ * 
+ * @author Peter Striz
+ * @see ScenaInterface
+ * @see DefaultHodnoty
+ */
 public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
-
-	private Scene mojaScena;
 	private VBox mojPane = new VBox();
-	private BorderPane borderPane = new BorderPane();
+	private BorderPane hlavnyPane = new BorderPane();
 
 	private TableView<Znamka> tabulkaZiak = new TableView<>();
 	private ChoiceBox<String> vyberPredmetov = new ChoiceBox<String>();
 
+	/**
+	 * @return Vrati aktualnu scenu na zobrazenie, v ktorej bude pouzivatel
+	 *         prihlaseny.
+	 */
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		super.aktualnyPouzivatel = aktualnyPouzivatel;
 
+		menu();
 		nastav();
 		funkcie();
 		pridajPane();
-		borderPane.setTop(menuBar);
-		borderPane.setCenter(mojPane);
-		mojaScena = new Scene(borderPane, width, height);
+		hlavnyPane.setTop(menuBar);
+		hlavnyPane.setCenter(mojPane);
+		Scene mojaScena = new Scene(hlavnyPane, width, height);
 		return mojaScena;
 	}
 
+	/**
+	 * Nastavi funkcie jednotlivych elementov.
+	 */
 	@SuppressWarnings("unchecked")
 	public void funkcie() {
-		menu();
-
 		TableColumn<Znamka, String> datumColumn = new TableColumn<>("Datum pisomky");
 		datumColumn.setMinWidth(velkostPolickaX - 1);
 		datumColumn.setCellValueFactory(new PropertyValueFactory<>("datumS"));
@@ -59,12 +71,18 @@ public class ScenaZiakHlavna extends DefaultHodnoty implements ScenaInterface {
 		vyberPredmetov.getSelectionModel().selectFirst();
 	}
 
+	/**
+	 * Prida elementy do pane-u.
+	 */
 	public void pridajPane() {
 		mojPane.setAlignment(Pos.CENTER);
 
 		mojPane.getChildren().addAll(informacia, vyberPredmetov, tabulkaZiak);
 	}
 
+	/**
+	 * Nastavi pozicie elementov v pane.
+	 */
 	public void nastav() {
 		tabulkaZiak.setMaxWidth(velkostPolickaX * 3 + 2);
 		tabulkaZiak.setPlaceholder(new Label("Žiadne známky."));

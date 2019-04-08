@@ -1,11 +1,13 @@
-package Pouzivatelia;
+package pouzivatelia;
 
-import gui.ManazerLogin;
 import java.io.Serializable;
 import java.util.*;
 
+import guiAplikacnaLogika.ManazerLogin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import udaje.Predmet;
+import udaje.Znamka;
 
 /**
  * Ziak je trieda v ktorej su ulozene jednotlive predmety ziaka a jeho osobne

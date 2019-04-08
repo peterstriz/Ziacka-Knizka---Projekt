@@ -1,6 +1,6 @@
-package Pouzivatelia;
+package pouzivatelia;
 
-import gui.ManazerLogin;
+import guiAplikacnaLogika.ManazerLogin;
 
 /**
  * Pouzivatel je interface z ktoreho su odvodeni vsetci pouzivatelia.

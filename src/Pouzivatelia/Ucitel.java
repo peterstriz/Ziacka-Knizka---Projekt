@@ -1,12 +1,13 @@
-package Pouzivatelia;
+package pouzivatelia;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.ManazerLogin;
+import guiAplikacnaLogika.ManazerLogin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import udaje.Trieda;
 
 /**
  * Ucitel je trieda v ktorej su ulozene jednotlive triedy ucitela a jeho osobne

@@ -1,4 +1,4 @@
-package Pouzivatelia;
+package pouzivatelia;
 
 import java.io.Serializable;
 

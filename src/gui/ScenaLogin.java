@@ -1,6 +1,6 @@
 package gui;
 
-import Pouzivatelia.*;
+import guiAplikacnaLogika.ManazerLogin;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import pouzivatelia.Pouzivatel;
 
 public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 	private ManazerLogin mojManazer = new ManazerLogin();
@@ -91,7 +92,6 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 		mojPane.add(loginPassword, 0, 2, 1, 1);
 		mojPane.add(loginSubmit, 0, 3, 1, 1);
 		mojPane.add(loginHlaska, 0, 4, 1, 1);
-		// mojPane.getChildren().add(menuBar);
 	}
 
 	public void loginSubmit() {

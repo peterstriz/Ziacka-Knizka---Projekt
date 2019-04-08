@@ -1,10 +1,6 @@
 package gui;
 
-import Pouzivatelia.Pouzivatel;
-import Pouzivatelia.Trieda;
-import Pouzivatelia.Ucitel;
-import Pouzivatelia.Ziak;
-import ZiackaKnizka.ZiackaKnizkaSingleton;
+import guiAplikacnaLogika.ManazerRiaditel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
@@ -21,11 +17,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import pouzivatelia.Pouzivatel;
+import pouzivatelia.Ucitel;
+import pouzivatelia.Ziak;
+import udaje.Trieda;
+import udaje.ZiackaKnizkaSingleton;
 
+/**
+ * Trieda na scenu pre Riaditela.
+ * 
+ * @author Peter Striz
+ * @see ScenaInterface
+ * @see DefaultHodnoty
+ * @see ManazerRiaditel
+ */
 public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterface {
-	private Scene mojaScena;
 	private StackPane mojPane = new StackPane();
-	private BorderPane borderPane = new BorderPane();
+	private BorderPane hlavnyPane = new BorderPane();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private ManazerRiaditel mojManazer = new ManazerRiaditel();
 
@@ -52,6 +60,10 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 	private Ucitel ucitel = null;
 	private Boolean novaTriedaToggle = false;
 
+	/**
+	 * @return Vrati aktualnu scenu na zobrazenie, v ktorej bude pouzivatel
+	 *         prihlaseny.
+	 */
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		super.aktualnyPouzivatel = aktualnyPouzivatel;
 
@@ -59,12 +71,15 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		nastav();
 		funkcie();
 		pridajPane();
-		borderPane.setTop(menuBar);
-		borderPane.setCenter(mojPane);
-		mojaScena = new Scene(borderPane, width, height);
+		hlavnyPane.setTop(menuBar);
+		hlavnyPane.setCenter(mojPane);
+		Scene mojaScena = new Scene(hlavnyPane, width, height);
 		return mojaScena;
 	}
 
+	/**
+	 * Nastavi pozicie elementov v pane.
+	 */
 	public void nastav() {
 		informacia.setTranslateY(menuBar.getTranslateY() + 70);
 		informacia.setTranslateX(-width / 4);
@@ -140,11 +155,11 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 		hlaska.setTextAlignment(TextAlignment.CENTER);
 		hlaska.setFill(Color.RED);
 		hlaska.setVisible(false);
-
-//		menuBar.setTranslateY(-(height / 2) + 20);
-//		menuBar.setMaxHeight(40);
 	}
 
+	/**
+	 * Nastavi funkcie jednotlivych elementov.
+	 */
 	@SuppressWarnings("unchecked")
 	public void funkcie() {
 		hlaska.setText("Daný žiak nieje v databáze, ak ho chcete prida musíte ho najprv vytvori.");
@@ -220,7 +235,7 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 
 		novyPredmetSubmit.setOnAction(e -> {
 			String meno = novyPredmetText.getText();
-			mojManazer.pridajNovuPredmet(trieda, meno);
+			mojManazer.pridajNovyPredmet(trieda, meno);
 			update();
 		});
 
@@ -238,6 +253,9 @@ public class ScenaRiaditelHlavna extends DefaultHodnoty implements ScenaInterfac
 				});
 	}
 
+	/**
+	 * Prida elementy do pane-u.
+	 */
 	public void pridajPane() {
 		mojPane.getChildren().addAll(vypisMenoPouzivatela, logout, tabulka, vyberTriedu, noveMeno, novePriezvisko,
 				novyZiakSubmit, hlaska, novyPouzivatel, vypisMenoUcitela, novyUcitel, vyberUcitela, novaTrieda,

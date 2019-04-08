@@ -1,7 +1,8 @@
-package gui;
+package guiAplikacnaLogika;
 
-import Pouzivatelia.Pouzivatel;
+import gui.ScenaInterface;
 import javafx.scene.Scene;
+import pouzivatelia.Pouzivatel;
 
 public class Scena {
 	private ScenaInterface strategy;

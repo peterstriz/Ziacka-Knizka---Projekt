@@ -1,4 +1,4 @@
-package Pouzivatelia;
+package udaje;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import pouzivatelia.Pouzivatel;
+import pouzivatelia.Ziak;
 
 /**
  * Trieda je trieda v korej su ulozene predmety a jednotlivi ziaci.
