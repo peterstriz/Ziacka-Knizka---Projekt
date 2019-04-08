@@ -42,7 +42,7 @@ public class ManazerRiaditel {
 		// pouzitie RTTI
 		try {
 			Pouzivatel p;
-			Class<?> cls = Class.forName("Pouzivatelia." + typNovehoPouzivatela);
+			Class<?> cls = Class.forName("pouzivatelia." + typNovehoPouzivatela);
 			p = (Pouzivatel) cls.getDeclaredConstructor(String.class, String.class).newInstance(meno, priezvisko);
 			p.nastavLogin(username, password);
 			ziackaKnizka.getZiackaKnizka().pridajPouzivatela(p);
