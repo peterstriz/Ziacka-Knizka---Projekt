@@ -27,3 +27,8 @@
 * **Zámer projektu**
 * **Javadoc**
 * **Diagram tried**
+
+##Ukážkové prihlásenie
+* **Ziak:** striz98 heslo
+* **Ucitel:** simova heslo
+* **Riaditel:** pistek heslo

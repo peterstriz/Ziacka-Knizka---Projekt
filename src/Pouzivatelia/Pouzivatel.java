@@ -17,6 +17,10 @@ public interface Pouzivatel {
 
 	public Boolean overUsername(String username);
 
+	public Boolean overPassword(String password);
+
+	public void setPassword(String password);
+
 	public String getMeno();
 
 	public String getPriezvisko();

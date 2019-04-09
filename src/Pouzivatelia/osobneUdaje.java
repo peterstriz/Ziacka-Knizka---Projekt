@@ -102,13 +102,26 @@ public abstract class OsobneUdaje implements Serializable {
 	}
 
 	/**
-	 * Zisti ci sa pouzivatelske meno zoduje.
+	 * Zisti ci sa pouzivatelske meno zhoduje.
 	 * 
 	 * @param username Pouzivatelske meno, ktore bude overovane.
 	 * @return <b>true</b> Udaje sa zhoduju. <b>false</b> Udaje sa nezhoduju.
 	 */
 	public Boolean overUsername(String username) {
 		if (this.username.equals(username))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Zisti ci sa pouzivatelske heslo zhoduje.
+	 * 
+	 * @param username Heslo, ktore bude overovane.
+	 * @return <b>true</b> Udaje sa zhoduju. <b>false</b> Udaje sa nezhoduju.
+	 */
+	public Boolean overPassword(String password) {
+		if (this.password.equals(password))
 			return true;
 		else
 			return false;

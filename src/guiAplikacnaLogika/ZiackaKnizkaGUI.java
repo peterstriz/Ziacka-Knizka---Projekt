@@ -1,10 +1,11 @@
 package guiAplikacnaLogika;
 
 import gui.ScenaLogin;
-//import ZiackaKnizka.ZiackaKnizkaSingleton;
+//import gui.ScenaUcitelHlavna;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import pouzivatelia.*;
+//import udaje.ZiackaKnizkaSingleton;
 
 /**
  * Trieda na spustanie celeho GUI.
@@ -14,7 +15,7 @@ import pouzivatelia.*;
  */
 public class ZiackaKnizkaGUI extends Application {
 //	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
-	private Pouzivatel aktualnyPouzivatel; // = ziackaKnizka.getZiackaKnizka().vratPouzivatela("simova");
+	private Pouzivatel aktualnyPouzivatel;// = ziackaKnizka.getZiackaKnizka().vratPouzivatela("simova");
 	private HlavnyStage hlavnyStage = HlavnyStage.getInstance();
 
 	public void start(Stage hlavneOkno) {

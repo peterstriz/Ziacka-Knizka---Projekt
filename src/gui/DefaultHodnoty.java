@@ -41,6 +41,7 @@ public abstract class DefaultHodnoty {
 	private Menu menuLogout = new Menu();
 	private Menu menuAktualnyPouzivatel = new Menu();
 	private Menu vyhladavanie = new Menu();
+	private Menu menuSetting = new Menu();
 	protected HBox menuBar;
 
 	protected VBox informacia = new VBox();
@@ -49,15 +50,61 @@ public abstract class DefaultHodnoty {
 	private Text email = new Text("");
 
 	protected void menu() {
-		Image image = null;
+		Image imageLogout = null;
 		try {
-			image = new Image(new FileInputStream("obrazky/exit.png"));
+			imageLogout = new Image(new FileInputStream("obrazky/exit.png"));
 		} catch (FileNotFoundException e1) {
 		}
 
-		ImageView imageView = new ImageView(image);
-		imageView.setFitWidth(30);
-		imageView.setFitHeight(30);
+		ImageView imageViewLogout = new ImageView(imageLogout);
+		imageViewLogout.setFitWidth(30);
+		imageViewLogout.setFitHeight(30);
+
+		Image imageSetting = null;
+		try {
+			imageSetting = new Image(new FileInputStream("obrazky/setting.png"));
+		} catch (FileNotFoundException e1) {
+		}
+
+		ImageView imageViewSetting = new ImageView(imageSetting);
+		imageViewSetting.setFitWidth(30);
+		imageViewSetting.setFitHeight(30);
+
+		MenuItem zmenEmail = new MenuItem();
+		TextField zmenEmailField = new TextField("");
+		zmenEmailField.setPromptText("Nov˝ email...");
+		zmenEmail.setGraphic(zmenEmailField);
+
+		zmenEmailField.setOnKeyPressed((event) -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				mojManazer.zmenEmail(aktualnyPouzivatel, zmenEmailField.getText());
+				zmenEmail.setText(Character.toString((char) 0x2714));
+			}
+		});
+
+		MenuItem stareHeslo = new MenuItem();
+		TextField stareHesloField = new TextField("");
+		stareHesloField.setPromptText("StarÈ heslo...");
+		stareHeslo.setGraphic(stareHesloField);
+
+		MenuItem noveHeslo = new MenuItem();
+		TextField noveHesloField = new TextField("");
+		noveHesloField.setPromptText("NovÈ heslo...");
+		noveHeslo.setGraphic(noveHesloField);
+
+		noveHesloField.setOnKeyPressed((event) -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				if (mojManazer.zmenHeslo(aktualnyPouzivatel, stareHesloField.getText(), noveHesloField.getText())) {
+					noveHeslo.setText(Character.toString((char) 0x2714));
+					stareHeslo.setText("");
+				} else {
+					stareHeslo.setText(Character.toString((char) 0x274C));
+					noveHeslo.setText("");
+				}
+			}
+		});
+
+		menuSetting.getItems().addAll(zmenEmail, stareHeslo, noveHeslo);
 
 		MenuItem dummy = new MenuItem("Dummy_menuItem");
 		dummy.setOnAction(e -> {
@@ -70,13 +117,13 @@ public abstract class DefaultHodnoty {
 			}
 		});
 
-		Label labelMenu;
+		Label labelPrihlaseny;
 		try {
-			labelMenu = new Label("Prihlasen˝: " + aktualnyPouzivatel.vratCeleMeno());
+			labelPrihlaseny = new Label("Prihlasen˝: " + aktualnyPouzivatel.vratCeleMeno());
 		} catch (Exception e) {
-			labelMenu = new Label("");
+			labelPrihlaseny = new Label("");
 		}
-		labelMenu.setFont(new Font(18));
+		labelPrihlaseny.setFont(new Font(18));
 
 		TextField vyhladaj = new TextField();
 		vyhladaj.setPromptText("Hæadaù...");
@@ -88,8 +135,9 @@ public abstract class DefaultHodnoty {
 		});
 
 		vyhladavanie.setGraphic(vyhladaj);
-		menuAktualnyPouzivatel.setGraphic(labelMenu);
-		menuLogout.setGraphic(imageView);
+		menuAktualnyPouzivatel.setGraphic(labelPrihlaseny);
+		menuLogout.setGraphic(imageViewLogout);
+		menuSetting.setGraphic(imageViewSetting);
 
 		MenuBar leftBar = new MenuBar();
 		leftBar.setMinHeight(40);
@@ -99,11 +147,15 @@ public abstract class DefaultHodnoty {
 		rightBar.getMenus().addAll(menuLogout);
 		rightBar.setMinHeight(40);
 		rightBar.setMaxHeight(40);
+		MenuBar rightBarSetting = new MenuBar();
+		rightBarSetting.getMenus().addAll(menuSetting);
+		rightBarSetting.setMinHeight(40);
+		rightBarSetting.setMaxHeight(40);
 		Region spacer = new Region();
 		spacer.getStyleClass().add("menu-bar");
 		rightBar.setMinHeight(40);
 		HBox.setHgrow(spacer, Priority.SOMETIMES);
-		menuBar = new HBox(leftBar, spacer, rightBar);
+		menuBar = new HBox(leftBar, spacer, rightBarSetting, rightBar);
 
 		vytvorInformaciu();
 	}

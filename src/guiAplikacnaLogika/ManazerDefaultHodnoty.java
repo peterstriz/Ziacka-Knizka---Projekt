@@ -7,14 +7,13 @@ import udaje.ZiackaKnizkaSingleton;
 public class ManazerDefaultHodnoty {
 	private HlavnyStage singleton = HlavnyStage.getInstance();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
-	
+
 	public void logout() {
 		Scena scena = new Scena(new ScenaLogin());
 		singleton.getStage().setScene(scena.nastavScene(null));
 		ziackaKnizka.serializuj();
 	}
 
-	
 	public Pouzivatel vratPouzivatelaPodlaMena(String menoInput) {
 		try {
 			String m = menoInput.split(" (?!.* )")[0];
@@ -26,4 +25,17 @@ public class ManazerDefaultHodnoty {
 		}
 		return null;
 	}
+
+	public void zmenEmail(Pouzivatel p, String e) {
+		p.setEmail(e);
+	}
+
+	public boolean zmenHeslo(Pouzivatel p, String stare, String nove) {
+		if (p.overPassword(stare) && nove.length() > 3) {
+			p.setPassword(nove);
+			return true;
+		} else
+			return false;
+	}
+
 }
