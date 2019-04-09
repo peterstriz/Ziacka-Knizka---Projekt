@@ -17,35 +17,54 @@ public class ManazerUcitel {
 	private Ziak ziak;
 	private Predmet predmet;
 
+	@SuppressWarnings("serial")
+	public class PrazdneSlovoException extends Exception {
+		public PrazdneSlovoException() {
+			super();
+		}
+	}
+
+	public void otestujDouble(String s) throws PrazdneSlovoException, NumberFormatException {
+		if (s.equals(""))
+			throw new PrazdneSlovoException();
+		else {
+			try {
+				Double.parseDouble(s);
+			} catch (NumberFormatException e) {
+				throw new NumberFormatException();
+			}
+		}
+	}
+
 	public Boolean novaZnamkaSubmit(String novaHodnotaS, String novaMaxHodnotaS, String novyDatumS) {
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 			LocalDate.parse(novyDatumS, formatter);
-			Double.parseDouble(novaMaxHodnotaS);
-			Double.parseDouble(novaHodnotaS);
+			otestujDouble(novaMaxHodnotaS);
+			otestujDouble(novaHodnotaS);
 			predmet.pridajNovuZnamku(novaHodnotaS, novaMaxHodnotaS, novyDatumS);
 			return false;
-		} catch (DateTimeParseException | NumberFormatException exc) {
+		} catch (DateTimeParseException | NumberFormatException | PrazdneSlovoException exc) {
 			return true;
 		}
 	}
 
 	public Boolean setMaxHodnota(Znamka znamka, String newMaxHodnotaS) {
 		try {
-			Double.parseDouble(newMaxHodnotaS);
+			otestujDouble(newMaxHodnotaS);
 			znamka.setMaxHodnotaS(newMaxHodnotaS);
 			return false;
-		} catch (NumberFormatException exc) {
+		} catch (NumberFormatException | PrazdneSlovoException exc) {
 			return true;
 		}
 	}
 
 	public Boolean setHodnota(Znamka znamka, String newHodnotaS) {
 		try {
-			Double.parseDouble(newHodnotaS);
+			otestujDouble(newHodnotaS);
 			znamka.setHodnotaS(newHodnotaS);
 			return false;
-		} catch (NumberFormatException exc) {
+		} catch (NumberFormatException | PrazdneSlovoException exc) {
 			return true;
 		}
 	}
