@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import gui.ScenaUcitelHlavna;
 import javafx.collections.ObservableList;
 import pouzivatelia.Pouzivatel;
 import pouzivatelia.Ucitel;
@@ -12,6 +13,12 @@ import udaje.Predmet;
 import udaje.Trieda;
 import udaje.Znamka;
 
+/**
+ * Aplikacna logika stojaca za scenou pre Ucitala.
+ * 
+ * @author Peter Striz
+ * @see ScenaUcitelHlavna
+ */
 public class ManazerUcitel {
 	private Trieda trieda;
 	private Ziak ziak;

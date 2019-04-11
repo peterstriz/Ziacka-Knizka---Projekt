@@ -117,7 +117,7 @@ public abstract class OsobneUdaje implements Serializable {
 	/**
 	 * Zisti ci sa pouzivatelske heslo zhoduje.
 	 * 
-	 * @param username Heslo, ktore bude overovane.
+	 * @param password Heslo, ktore bude overovane.
 	 * @return <b>true</b> Udaje sa zhoduju. <b>false</b> Udaje sa nezhoduju.
 	 */
 	public Boolean overPassword(String password) {

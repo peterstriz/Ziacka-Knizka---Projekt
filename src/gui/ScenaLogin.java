@@ -15,6 +15,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import pouzivatelia.Pouzivatel;
 
+/**
+ * Trieda na scenu pre hlavny login.
+ * 
+ * @author Peter Striz
+ * @see ScenaInterface
+ * @see DefaultHodnoty
+ * @see ManazerLogin
+ */
 public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 	private ManazerLogin mojManazer = new ManazerLogin();
 
@@ -27,6 +35,10 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 	private Scene mojaScena;
 	private GridPane mojPane = new GridPane();
 
+	/**
+	 * @param aktualnyPouzivatel Prihlaseny pouzivatel.
+	 * @return Vrati tuto scenu.
+	 */
 	public Scene nastavScene(Pouzivatel aktualnyPouzivatel) {
 		nastav();
 		funkcie();
@@ -35,6 +47,9 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 		return mojaScena;
 	}
 
+	/**
+	 * Nastavi pozicie elementov v pane.
+	 */
 	public void nastav() {
 		velkostPolickaX = velkostPolickaX * 3 / 2 + 5;
 
@@ -63,6 +78,9 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 		nazov.setText("Žiacka knižka");
 	}
 
+	/**
+	 * Nastavi funkcie jednotlivych elementov.
+	 */
 	public void funkcie() {
 		loginUsername.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
@@ -86,6 +104,9 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 		loginHlaska.setText("Nesprávne prihlasovacie meno alebo heslo, skúste to znova.\n");
 	}
 
+	/**
+	 * Prida elementy do pane-u.
+	 */
 	public void pridajPane() {
 		mojPane.add(nazov, 0, 0, 1, 1);
 		mojPane.add(loginUsername, 0, 1, 1, 1);
@@ -94,6 +115,9 @@ public class ScenaLogin extends DefaultHodnoty implements ScenaInterface {
 		mojPane.add(loginHlaska, 0, 4, 1, 1);
 	}
 
+	/**
+	 * Skusi prihlasit pouzivatela.
+	 */
 	public void loginSubmit() {
 		Boolean vipis = mojManazer.loginSubmit(loginUsername.getText(), loginPassword.getText());
 		loginHlaska.setVisible(vipis);

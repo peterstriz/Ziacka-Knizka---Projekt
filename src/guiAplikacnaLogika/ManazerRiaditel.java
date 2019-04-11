@@ -1,5 +1,6 @@
 package guiAplikacnaLogika;
 
+import gui.ScenaRiaditelHlavna;
 import gui.ScenaRiaditelPridaj;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,12 @@ import pouzivatelia.Ziak;
 import udaje.Trieda;
 import udaje.ZiackaKnizkaSingleton;
 
+/**
+ * Aplikacna logika stojaca za scenou pre Riaditela.
+ * 
+ * @author Peter Striz
+ * @see ScenaRiaditelHlavna
+ */
 public class ManazerRiaditel {
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
 	private ObservableList<String> typPouzivatela = FXCollections.observableArrayList(Ziak.class.getSimpleName(),
@@ -25,6 +32,7 @@ public class ManazerRiaditel {
 		}
 	}
 
+	/** Vytvory nove okno do v ktorom sa bude pridavat pouzivatel. */
 	public void pridajNovehoPouzivatela() {
 		new ScenaRiaditelPridaj();
 	}
@@ -37,8 +45,7 @@ public class ManazerRiaditel {
 		t.addPredmet(meno);
 	}
 
-	public Boolean pridajNovehoPouzivatela(String meno, String priezvisko, String username,
-			String password) {
+	public Boolean pridajNovehoPouzivatela(String meno, String priezvisko, String username, String password) {
 		// pouzitie RTTI
 		try {
 			Pouzivatel p;

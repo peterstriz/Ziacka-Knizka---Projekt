@@ -24,10 +24,18 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import pouzivatelia.Pouzivatel;
 
+/**
+ * Abstract class na ukladanie default hodnot pre kazdy jeden sscene.
+ * 
+ * @author Peter Striz
+ *
+ */
 public abstract class DefaultHodnoty {
 	private ManazerDefaultHodnoty mojManazer = new ManazerDefaultHodnoty();
 
+	/** Sirka okna. */
 	protected int width = 800;
+	/** Vyska okna. */
 	protected int height = 600;
 
 	protected int velkostTabulky = 150;
@@ -36,12 +44,14 @@ public abstract class DefaultHodnoty {
 	protected int velkostPolickaY = 30;
 	protected int medzera = 10;
 
+	/** Prihlaseny pouzivatel. */
 	protected Pouzivatel aktualnyPouzivatel = null;
 
 	private Menu menuLogout = new Menu();
 	private Menu menuAktualnyPouzivatel = new Menu();
 	private Menu vyhladavanie = new Menu();
 	private Menu menuSetting = new Menu();
+	/** Cely menubar. */
 	protected HBox menuBar;
 
 	protected VBox informacia = new VBox();
@@ -49,6 +59,7 @@ public abstract class DefaultHodnoty {
 	private Text meno = new Text("");
 	private Text email = new Text("");
 
+	/** Vygeneruje cele menu. */
 	protected void menu() {
 		Image imageLogout = null;
 		try {
@@ -160,10 +171,15 @@ public abstract class DefaultHodnoty {
 		vytvorInformaciu();
 	}
 
+	/** Logout-ne pouzivatela. */
 	protected void logout() {
 		mojManazer.logout();
 	}
 
+	/**
+	 * Vygeneruje informaciu ktora bude mozna zobrazit po zadanie vyhladavaneho
+	 * pouzivatela.
+	 */
 	private void vytvorInformaciu() {
 		informacia.setVisible(false);
 		informacia.setMaxSize(200, 100);
@@ -186,10 +202,16 @@ public abstract class DefaultHodnoty {
 				"-fx-background-color: rgba(70, 70, 70, 0.7); -fx-background-radius: 6; -fx-border-color: black; -fx-border-radius: 6;");
 	}
 
+	/** Zavrie okno s informaciou. */
 	private void zavriInformaciu() {
 		informacia.setVisible(false);
 	}
 
+	/**
+	 * Otvori okno s informaciou o pouzivatelovi.
+	 * 
+	 * @param menoInput Meno zobrazovaneho pouzivatela.
+	 */
 	private void otvorInformaciu(String menoInput) {
 		Pouzivatel pouzivatel = mojManazer.vratPouzivatelaPodlaMena(menoInput);
 

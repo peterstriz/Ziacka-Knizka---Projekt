@@ -1,9 +1,16 @@
 package guiAplikacnaLogika;
 
+import gui.DefaultHodnoty;
 import gui.ScenaLogin;
 import pouzivatelia.Pouzivatel;
 import udaje.ZiackaKnizkaSingleton;
 
+/**
+ * Aplikacna logika stojaca za classov DefaultHodnoty.
+ * 
+ * @author Peter Striz
+ * @see DefaultHodnoty
+ */
 public class ManazerDefaultHodnoty {
 	private HlavnyStage singleton = HlavnyStage.getInstance();
 	private ZiackaKnizkaSingleton ziackaKnizka = ZiackaKnizkaSingleton.getInstance();
