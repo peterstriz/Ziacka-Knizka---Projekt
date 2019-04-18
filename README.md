@@ -8,7 +8,7 @@
 * **Riaditel:** pistek heslo
 
 ## Hlavné kritéria:
-* **Dedenie:** V Pouzivatel -> Ziak, Ucitel, Riaditel ([tu](../master/src/Pouzivatelia/Ziak.java#L20))
+* **Dedenie:** V Pouzivatel -> Ziak, Ucitel, Riaditel ([tu](../master/src/pouzivatelia/Ziak.java#L20))
 
 * **Polymorfizmus:** ScenaInterface -> nastav() - Každá jedna Scena si nastaví úplne iné hodnoty ([tu](../master/src/guiAplikacnaLogika/Scena.java#L26))
 
@@ -25,7 +25,7 @@
 ## Ďalšie kritériá:
 * **Použitie návrhových vzorov:** 
   * Strategy: Na prepínanie medzi jednotlivými scénami ([tu](../master/src/guiAplikacnaLogika/ManazerLogin.java#L38-L40), [tu](../master/src/guiAplikacnaLogika/Scena.java#L13-L29) a [tu](../master/src/gui/ScenaUcitelHlavna.java#L49-L60))
-  * Visitor: Pri login aby som vedel že na akú scénu sa mám prepnúť podľa typu používateľa ([tu](../master/src/guiAplikacnaLogika/ManazerLogin.java#L27-L54) a [tu](../master/src/Pouzivatelia/Ziak.java#L103-L105))
+  * Visitor: Pri login aby som vedel že na akú scénu sa mám prepnúť podľa typu používateľa ([tu](../master/src/guiAplikacnaLogika/ManazerLogin.java#L27-L54) a [tu](../master/src/pouzivatelia/Ziak.java#L103-L105))
 
 * **Multithreading:** Pri serializácii údajov ([tu](../master/src/udaje/ZiackaKnizkaSingleton.java#L50-L61))
 
