@@ -1,11 +1,21 @@
 # Žiacka Knižka <img src="../master/obrazky/logo.png" alt="logo" width="40"/>
+# Peter Stríž
 
-## Ukážkové prihlásenie
-* **Ziak:** striz98 heslo
+## Ako program používať?
+Po spustení programu zadá daný používateľ svoje prihlasovacie údaje a bude presmerovaný na jemu prislúchajúce okno. Všetci používatelia budú mať rovnaké menu v ktorom budú vidieť svoje meno a rôzne nastavenia. ![hlavne_menu](../master/obrazky/Hlavne_menu.png)
 
-* **Ucitel:** simova heslo
+Žiak si môže prezerať svoje známky z ním vybraného predmetu.
 
-* **Riaditel:** pistek heslo
+Učiteľ môže sledovať, upravovať a pridávať známky, žiakom ktorých vyučuje.
+
+Riaditeľ môže vytvárať nových používateľov a nové triedy do ktorých môže priradiť žiakov a učiteľa.
+
+## Ukážkové prihlasovacie údaje
+* **žiak:** striz98 heslo
+
+* **Učiteľ:** simova heslo
+
+* **Riaditeľ:** pistek heslo
 
 ## Hlavné kritéria:
 * **Dedenie:** V Pouzivatel -> Ziak, Ucitel, Riaditel ([tu](../master/src/Pouzivatelia/Ziak.java#L20))
@@ -19,8 +29,6 @@
 * **Zapuzdrenie:** Všetky premenné sú private
 
 * **Serializácia:** Pri prihlasovaní a odhlasovaní používateľov ([tu](../master/src/udaje/ZiackaKnizkaSingleton.java#L49-L89))
-
-* **Použitie aspektovo-orientovaného programovania:** Pri počítaní priemeru žiakov ([tu](../master/src/aspekt/PocitaniePriemeru.java))
 
 ## Ďalšie kritériá:
 * **Použitie návrhových vzorov:** 
@@ -39,6 +47,8 @@
 
 * **Použitie vlastnej výnimky:** V Manazer pre Ucitel na otestovanie či slovo nieje v neplatnom formáte ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L28-#L44))
 
+* **Použitie aspektovo-orientovaného programovania:** Pri počítaní priemeru žiakov ([tu](../master/src/aspekt/PocitaniePriemeru.java))
+ 
 ## Dokumentácia:
 * [**Zámer projektu**](../master/Zamer%20PeterStriz%20Projekt%20ZiackaKnizka.pdf)
 

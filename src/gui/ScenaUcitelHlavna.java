@@ -181,7 +181,7 @@ public class ScenaUcitelHlavna extends DefaultHodnoty implements ScenaInterface 
 	 * Prida elementy do pane-u.
 	 */
 	public void pridajPane() {
-		mojPane.getChildren().addAll(informacia, vyberPredmetov, vyberTriedu, vyberZiaka, tabulka, novaHodnota,
+		mojPane.getChildren().addAll(informacia, vyberTriedu, vyberPredmetov, vyberZiaka, tabulka, novaHodnota,
 				novaMaxHodnota, novyDatum, novaZnamkaSubmit, novaHlaska);
 	}
 
