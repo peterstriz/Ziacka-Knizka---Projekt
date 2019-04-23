@@ -1,17 +1,16 @@
-# Žiacka Knižka <img src="../master/obrazky/logo.png" alt="logo" width="40"/>
-# Peter Stríž
+# Žiacka Knižka <img src="../master/obrazky/logo.png" alt="logo" width="40"/> - Peter Stríž
 
 ## Ako program používať?
-Po spustení programu zadá daný používateľ svoje prihlasovacie údaje a bude presmerovaný na jemu prislúchajúce okno. Všetci používatelia budú mať rovnaké menu v ktorom budú vidieť svoje meno a rôzne nastavenia. ![hlavne_menu](../master/obrazky/Hlavne_menu.png)
+- Po spustení programu zadá daný používateľ svoje prihlasovacie údaje a bude presmerovaný na jemu prislúchajúce okno. Všetci používatelia budú mať rovnaké menu v ktorom budú vidieť svoje meno a rôzne nastavenia. ![hlavne_menu](../master/obrazky/Hlavne_menu.png)
 
-Žiak si môže prezerať svoje známky z ním vybraného predmetu.
+- Žiak si môže prezerať svoje známky v predmete ktorý si vyberie. ![ziak_okno](../master/obrazky/ziak_okno.png)
 
-Učiteľ môže sledovať, upravovať a pridávať známky, žiakom ktorých vyučuje.
+- Učiteľ môže sledovať, upravovať a pridávať známky, len žiakom ktorých vyučuje. ![ucitel_okno](../master/obrazky/ucitel_okno.PNG)
 
-Riaditeľ môže vytvárať nových používateľov a nové triedy do ktorých môže priradiť žiakov a učiteľa.
+- Riaditeľ môže vytvárať nových používateľov a nové triedy, ktorým môže neskôr priradiť žiakov a učiteľa. ![riaditel_okno](../master/obrazky/riaditel_okno.PNG)
 
 ## Ukážkové prihlasovacie údaje
-* **žiak:** striz98 heslo
+* **Žiak:** striz98 heslo
 
 * **Učiteľ:** simova heslo
 
@@ -54,4 +53,4 @@ Riaditeľ môže vytvárať nových používateľov a nové triedy do ktorých m
 
 * [**Javadoc**](../master/doc/index.html)
 
-* [**Diagram tried**](../master/Schema.uxf)
+* [**Diagram tried**](../master/Schema.uxf) <details> <summary>Klik!</summary> <img src="../master/obrazky/schema.png" alt="schema"/> </details>
