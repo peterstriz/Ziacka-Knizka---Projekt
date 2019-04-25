@@ -21,7 +21,7 @@
 
 * **Polymorfizmus:** 
 	* ScenaInterface -> nastav() - Každá jedna Scena si nastaví úplne iné hodnoty ([tu](../master/src/guiAplikacnaLogika/Scena.java#L26))
-	* Pri vypisovani typu pouzivatela pri vyhladavani informacii ([tu](..master/src/gui/DefaultHodnoty.java#L221))
+	* Pri vypisovani typu pouzivatela pri vyhladavani informacii ([tu](../master/src/gui/DefaultHodnoty.java#L221))
 	
 * **Agregácia:** Trieda obsahuje pole Ziak-ov ([tu](../master/src/udaje/Trieda.java#L21))
 
