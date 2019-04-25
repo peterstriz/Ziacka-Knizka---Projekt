@@ -36,4 +36,6 @@ public interface Pouzivatel {
 	public void setEmail(String email);
 
 	public void login(ManazerLogin m);
+	
+	public String vratMojTyp();
 }

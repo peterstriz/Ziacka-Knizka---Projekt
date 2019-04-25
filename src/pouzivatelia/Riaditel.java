@@ -27,4 +27,7 @@ public class Riaditel extends OsobneUdaje implements Serializable, Pouzivatel {
 		m.login(this);
 	}
 
+	public String vratMojTyp() {
+		return "Riaditel";
+	}
 }

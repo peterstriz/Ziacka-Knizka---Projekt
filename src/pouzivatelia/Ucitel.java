@@ -62,5 +62,9 @@ public class Ucitel extends OsobneUdaje implements Serializable, Pouzivatel {
 	public void login(ManazerLogin m) {
 		m.login(this);
 	}
+	
+	public String vratMojTyp() {
+		return "Ucitel";
+	}
 
 }

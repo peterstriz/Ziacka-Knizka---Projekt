@@ -218,7 +218,7 @@ public abstract class DefaultHodnoty {
 		if (pouzivatel == null)
 			;
 		else {
-			meno.setText(pouzivatel.vratCeleMeno());
+			meno.setText(pouzivatel.vratCeleMeno() + ", " + pouzivatel.vratMojTyp());
 			email.setText(pouzivatel.getEmail());
 
 			informacia.setVisible(true);
