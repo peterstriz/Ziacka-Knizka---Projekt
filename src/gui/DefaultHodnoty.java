@@ -25,7 +25,7 @@ import javafx.scene.text.TextAlignment;
 import pouzivatelia.Pouzivatel;
 
 /**
- * Abstract class na ukladanie default hodnot pre kazdy jeden sscene.
+ * Abstract class na ukladanie default hodnot pre kazdy jeden scene.
  * 
  * @author Peter Striz
  *

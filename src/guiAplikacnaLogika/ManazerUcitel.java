@@ -14,7 +14,7 @@ import udaje.Trieda;
 import udaje.Znamka;
 
 /**
- * Aplikacna logika stojaca za scenou pre Ucitala.
+ * Aplikacna logika stojaca za scenou pre Ucitela.
  * 
  * @author Peter Striz
  * @see ScenaUcitelHlavna
@@ -24,10 +24,17 @@ public class ManazerUcitel {
 	private Ziak ziak;
 	private Predmet predmet;
 
+	public interface Chyba {
+		default void vypisSpravu(int x) {
+			System.out.println("Nasiel som chybu c." + x + " v programe");
+		};
+	}
+
 	@SuppressWarnings("serial")
-	public class PrazdneSlovoException extends Exception {
+	public class PrazdneSlovoException extends Exception implements Chyba {
 		public PrazdneSlovoException() {
 			super();
+			vypisSpravu(1);
 		}
 	}
 

@@ -3,6 +3,12 @@ package aspekt;
 import javafx.collections.ObservableList;
 import udaje.*;
 
+/**
+ * Pocitanie priemeru vsetkych znamok daneho ziaka.
+ * 
+ * @author Peter Striz
+ *
+ */
 public aspect PocitaniePriemeru {
 	transient private ObservableList<Znamka> aktZnamky;
 
