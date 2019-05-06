@@ -38,7 +38,9 @@
 
 * **Multithreading:** Pri serializácii údajov ([tu](../master/src/udaje/ZiackaKnizkaSingleton.java#L50-L61))
 
-* **Vhniezdená trieda:** Pri vlastnej výnimke ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L28-L32))
+* **Vhniezdená trieda:** Pri vlastnej výnimke ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L34-L39))
+
+* **Vhniezdený interface:** Pri vypise typu vynimky ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L27-L31))
 
 * **Explicitné použitie RTTI:** V RiaditelManazer pri vytváraní nových používateľov ([tu](../master/src/guiAplikacnaLogika/ManazerRiaditel.java#L48-L62))
 
@@ -46,9 +48,9 @@
   * V gui pri ActionListeneroch v Button 
   * Pri vytváraní novej Nite pri serializacií  ([tu](../master/src/udaje/ZiackaKnizkaSingleton.java#L50-L61))
 
-* **Použitie vlastnej výnimky:** V Manazer pre Ucitel na otestovanie či slovo nieje v neplatnom formáte ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L28-#L44))
+* **Použitie vlastnej výnimky:** V Manazer pre Ucitel na otestovanie či slovo nieje v neplatnom formáte ([tu](../master/src/guiAplikacnaLogika/ManazerUcitel.java#L34-#L51))
 
-* **Použitie aspektovo-orientovaného programovania:** Pri počítaní priemeru žiakov ([tu](../master/src/aspekt/PocitaniePriemeru.java))
+* **Použitie aspektovo-orientovaného programovania:** Pri počítaní priemeru žiakov ([tu](../master/src/aspekt/PocitaniePriemeru.aj))
  
 ## Dokumentácia:
 * [**Zámer projektu**](../master/Zamer%20PeterStriz%20Projekt%20ZiackaKnizka.pdf) <details> <summary>Klik!</summary><p> &emsp; Cieľom môjho projektu je vytvoriť žiacku knižku, v ktorej bude mať možnosť žiak pozerať si svoje výsledky v prehľadnej tabuľke. Počas svojho štúdia bude vedieť sledovať výsledky z písomiek a rôznych testov, a zároveň akú známku môže približne očakávať na konci roka. <br> 
@@ -118,3 +120,9 @@ aveny diagram tried pre lepsiu prehladnost
 34. opraveny nespravny nazov priecinka s pouzivatelmi
 35. pridane obrazky na dokumentaciu
 36. updatovane Readme
+37. pridany obrazok na schemu
+38. pridany subor na spustanie celeho programu
+39. fixnute meno priecinku, lebo git je nie velmi inteligentny co sa tyka premenovavania suborov
+40. pridany vypis typu pouzivatela pri vyhladavani informacii
+41. pridany vnoreny interface pri vlastnej vynimke; updatovany javadoc
+42. updatovane Readme
