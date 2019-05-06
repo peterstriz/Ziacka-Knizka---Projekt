@@ -21,7 +21,7 @@
 
 * **Polymorfizmus:** 
 	* ScenaInterface -> nastav() - Každá jedna Scena si nastaví úplne iné hodnoty ([tu](../master/src/guiAplikacnaLogika/Scena.java#L26))
-	* Pri vypisovani typu pouzivatela pri vyhladavani informacii ([tu](..master/src/gui/DefaultHodnoty.java#L221))
+	* Pri vypisovani typu pouzivatela pri vyhladavani informacii ([tu](../master/src/gui/DefaultHodnoty.java#L221))
 	
 * **Agregácia:** Trieda obsahuje pole Ziak-ov ([tu](../master/src/udaje/Trieda.java#L21))
 
@@ -51,7 +51,13 @@
 * **Použitie aspektovo-orientovaného programovania:** Pri počítaní priemeru žiakov ([tu](../master/src/aspekt/PocitaniePriemeru.java))
  
 ## Dokumentácia:
-* [**Zámer projektu**](../master/Zamer%20PeterStriz%20Projekt%20ZiackaKnizka.pdf)
+* [**Zámer projektu**](../master/Zamer%20PeterStriz%20Projekt%20ZiackaKnizka.pdf) <details> <summary>Klik!</summary><p> &emsp; Cieľom môjho projektu je vytvoriť žiacku knižku, v ktorej bude mať možnosť žiak pozerať si svoje výsledky v prehľadnej tabuľke. Počas svojho štúdia bude vedieť sledovať výsledky z písomiek a rôznych testov, a zároveň akú známku môže približne očakávať na konci roka. <br> 
+&emsp; Učiteľ bude môcť pridávať a meniť známky jednotlivých žiakov. Taktiež by mal vedieť pridávať absencie žiakov z vyučovania. Upravovať hodnoty bude vedieť iba tým žiakom, ktorých vyučuje. <br>
+&emsp; Riaditeľ by vedel upravovať, ktorý učiteľ bude vyučovať ktorú triedu a ktorí žiaci patria do jednotlivých tried. 
+Celá žiacka knižka by mala mať jednoduchý user interface. Bude tam login podľa údajov ktoré používatelia dostanú vopred vygenerované. Heslo by si mali neskôr možnosť zmeniť sami. <br>
+&emsp; V neskorších verziách by si mohli používatelia vyhľadať iného používateľa, a boli by presmerovaný na ich profil, kde by boli ich kontaktné údaje. 
+ </p> </details>
+
 
 * [**Javadoc**](../master/doc/index.html)
 
